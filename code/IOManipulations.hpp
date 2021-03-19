@@ -17,7 +17,6 @@ private:
 
 public:
     void openTemporaryDataWithWriteMode(ofstream& outFile);
-    void writeFunctional(ofstream& outFile, char* data);
     void writeTemporaryDataWithWriteMode(char* data, ofstream& outFile);
     void closeTemporaryDataWithWriteMode(ofstream& outFile);
     void openTemporaryDataWithReadMode(ifstream& inFile);

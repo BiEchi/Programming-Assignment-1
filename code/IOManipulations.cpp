@@ -5,19 +5,13 @@
 #include <sstream>
 #include "./IOManipulations.hpp"
 #include "./Person.hpp"
+#include "WriteFunctions.hpp"
 
 using namespace std;
 
 void IOManipulations::openTemporaryDataWithWriteMode(ofstream& outFile)
 {
    outFile.open("temporaryData.dat", ios::app); // open in APPEND mode
-   return;
-}
-
-void IOManipulations::writeFunctionalID(ofstream& outFile, char* data)
-{
-   cin.getline(data, 100);
-   outFile << data << endl;
    return;
 }
 
@@ -29,41 +23,42 @@ void IOManipulations::writeTemporaryDataWithWriteMode(char* data, ofstream& outF
 
    // TODO buggy, this line will NOT show.
    Person person;
+   WriteFunctions writefunction;
    
-   writeFunctional(outFile, data);
+   writefunction.writeFunctionTrivial(outFile, data);
 
    cout << endl << "Enter your ID number." << endl;
    cout << "Example. 330382200002280763" << endl;
    cout << "Sign here. ";
-   writeFunctionalID(outFile, data);
+   writefunction.writeFunctionID(outFile, data, person);
 
    cout << endl << "Enter your name." << endl; 
    cout << "Example. Jack BAI" << endl;
    cout << "Sign here. ";
-   writeFunctional(outFile, data);
+   writefunction.writeFunctionName(outFile, data);
 
    cout << endl << "Enter your Contact Details from A to G." << endl;
    cout << "Example. D" << endl;
    cout << "Sign here. ";
-   writeFunctional(outFile, data);
+   writefunction.writeFunctionContactDetails(outFile, data);
 
    cout << endl << "Enter your Profession from I to VIII." << endl;
    cout << "Example. VI" << endl;
    cout << "Sign here. ";
-   writeFunctional(outFile, data);
+   writefunction.writeFunctionProfession(outFile, data);
 
    cout << endl << "Enter your DOB (Date of Birth) using format YYYY-MM-DD" << endl;
    cout << "Example. 2002-02-28" << endl;
    cout << "Sign here. ";
-   writeFunctional(outFile, data);
+   writefunction.writeFunctionDateOfBirth(outFile, data);
 
    cout << endl << "Enter your MRS (Medical Risk Status) within {no, low, middle, high}: " << endl;
    cout << "Example. low" << endl;
    cout << "Sign here. ";
-   writeFunctional(outFile, data);
+   writefunction.writeFunctionMedicalRiskStatus(outFile, data);
 
    cout << "Your register is recorded." << endl << endl;
-   
+   // TODO add person into people (local queue)
    return;
 }
 
