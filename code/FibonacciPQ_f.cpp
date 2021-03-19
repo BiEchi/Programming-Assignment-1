@@ -1,6 +1,5 @@
-#include "Person.hpp"
+#include "FibonacciPQ.h"
 // 相应函数
-
 // Add a new Person in the forest
 // 用双链表实现根列表
 void FibonacciPQ::newPerson(Person *newroot)
@@ -10,7 +9,7 @@ void FibonacciPQ::newPerson(Person *newroot)
     newroot->CutMark = false;
     // add the newroot Person in the root set
     Rootlist.push_back(newroot);
-    // judge whether there is a requirement to change thegi min_ptr
+    // judge whether there is a requirement to change the min_ptr
     if (Minptr == NULL)
         Minptr = newroot;
     else if (newroot->Key < Minptr->Key)

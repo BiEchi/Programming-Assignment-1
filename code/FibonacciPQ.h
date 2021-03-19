@@ -1,4 +1,4 @@
-#include "database.hpp"
+#include "Person.hpp"
 using namespace std;
 
 class FibonacciPQ
@@ -14,20 +14,20 @@ public:
         Degreebucket = vector<Person *>(10, NULL);
         Rootsize = 0;
     }
-    int  ReturnLength();
-    bool Isempty();
-    bool Insert(Person *handle);
-    Person *Remove(Person *handle);
-    Person *Popmin();
-    Person *DecreaseKey(Person *handle, int k);
+    int  returnLength();
+    bool isEmpty();
+    bool inSert(Person *handle);
+    Person *remove(Person *handle);
+    Person *popMin();
+    Person *decreaseKey(Person *handle, int k);
 
 private:
-    Person *Link(Person *a_prt, Person *b_ptr);
-    void Rebalance();
-    void AddSonPerson(Person *sonPerson, Person *parentPerson);
-    void Cut(Person *sonPerson, Person *parentPerson);
-    void NewPerson(Person *newroot);
-    bool Cascadingcut(Person *parent);
+    Person *link(Person *a_prt, Person *b_ptr);
+    void rebalance();
+    void addSonPerson(Person *sonPerson, Person *parentPerson);
+    void cut(Person *sonPerson, Person *parentPerson);
+    void newPerson(Person *newroot);
+    bool cascadingCut(Person *parent);
 
     int PQlength;
     int BucketLength;
