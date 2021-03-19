@@ -35,27 +35,27 @@ void IOManipulations::writeTemporaryDataWithWriteMode(char* data, ofstream& outF
    cout << endl << "Enter your name." << endl; 
    cout << "Example. Jack BAI" << endl;
    cout << "Sign here. ";
-   writefunction.writeFunctionName(outFile, data);
+   writefunction.writeFunctionName(outFile, data, person);
 
    cout << endl << "Enter your Contact Details from A to G." << endl;
    cout << "Example. D" << endl;
    cout << "Sign here. ";
-   writefunction.writeFunctionContactDetails(outFile, data);
+   writefunction.writeFunctionContactDetails(outFile, data, person);
 
    cout << endl << "Enter your Profession from I to VIII." << endl;
    cout << "Example. VI" << endl;
    cout << "Sign here. ";
-   writefunction.writeFunctionProfession(outFile, data);
+   writefunction.writeFunctionProfession(outFile, data, person);
 
    cout << endl << "Enter your DOB (Date of Birth) using format YYYY-MM-DD" << endl;
    cout << "Example. 2002-02-28" << endl;
    cout << "Sign here. ";
-   writefunction.writeFunctionDateOfBirth(outFile, data);
+   writefunction.writeFunctionDateOfBirth(outFile, data, person);
 
    cout << endl << "Enter your MRS (Medical Risk Status) within {no, low, middle, high}: " << endl;
    cout << "Example. low" << endl;
    cout << "Sign here. ";
-   writefunction.writeFunctionMedicalRiskStatus(outFile, data);
+   writefunction.writeFunctionMedicalRiskStatus(outFile, data, person);
 
    cout << "Your register is recorded." << endl << endl;
    // TODO add person into people (local queue)

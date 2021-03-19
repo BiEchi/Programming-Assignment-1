@@ -17,4 +17,4 @@ public:
     void writeFunctionProfession(ofstream& outFile, char* data, Person person);
     void writeFunctionDateOfBirth(ofstream& outFile, char* data, Person person);
     void writeFunctionMedicalRiskStatus(ofstream& outFile, char* data, Person person);
-}
+};
