@@ -1,5 +1,6 @@
-#ifndef database_h
-#define database_h
+#ifndef person_hpp
+#define person_hpp
+
 #include <cstring>
 #include <ctime>
 #include <iostream>
@@ -12,7 +13,7 @@ enum riskStatusSet { no, low, middle, high };
 enum locationSet {A, B, C, D, E, F, G};
 
 class Person {
- public:
+public:
   string getname(void) {return name;}
   string getcontactDetails(void) {return contactDetails;}
   tm getbirthDate(void) {return birthDate;}
@@ -27,9 +28,9 @@ class Person {
   bool withdraw(vector<Person> *blacklist_ptr);
   //baihao
   bool init();
- private:
-  string name = "";
-  string contactDetails = "";
+private:
+  string name;
+  string contactDetails;
   tm birthDate;
   tm timeStamp;
   professionSet profession;
