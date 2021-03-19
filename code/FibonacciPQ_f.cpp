@@ -192,3 +192,12 @@ int FibonacciPQ::returnLength()
 {
     return PQlength;
 }
+
+bool FibonacciPQ::eatPeople(people *local_queue)
+{
+    while (local_queue->getLength()!=0)
+    {
+        inSert(local_queue->popFront());
+    }
+    return true;
+}
