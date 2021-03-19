@@ -10,9 +10,9 @@ class localNode {
 
 // class for each queue
 class localQueue {
-    localNode* front;
-    localNode* back;
-    int32_t length;
+    localNode* front = NULL;
+    localNode* back = NULL;
+    int32_t length = 0;
 public:
     int32_t getLength(void) {
         return length;
@@ -64,4 +64,3 @@ Person* localQueue::popFront(void) {
     length--;
     return ptr;
 }
-
