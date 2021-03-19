@@ -14,13 +14,21 @@ enum locationSet {A, B, C, D, E, F, G};
 
 class Person {
 public:
-  string getname(void) {return name;}
-  string getcontactDetails(void) {return contactDetails;}
-  tm getbirthDate(void) {return birthDate;}
-  tm gettimeStamp(void) {return timeStamp;}
-  professionSet getprofession(void) {return profession;}
-  riskStatusSet getriskStatus(void) {return riskStatus;}
-  locationSet getlocation(void) {return location;}
+  string getName(void) {return name;}
+  string getContactDetails(void) {return contactDetails;}
+  tm getBirthdate(void) {return birthDate;}
+  tm getTimestamp(void) {return timeStamp;}
+  professionSet getProfession(void) {return profession;}
+  riskStatusSet getRiskStatus(void) {return riskStatus;}
+  locationSet getLocation(void) {return location;}
+
+  void setName(char* data);
+  void setContactDetails(char* data);
+  void setBirthdate(char* data);
+  void setTimestamp(char* data);
+  void setProfession(char* data);
+  void setRiskStatus(char* data);
+  void setLocation(char* data);
 
   //Jiahao
   bool assignTime(void);

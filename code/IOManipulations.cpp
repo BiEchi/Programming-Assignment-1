@@ -14,7 +14,7 @@ void IOManipulations::openTemporaryDataWithWriteMode(ofstream& outFile)
    return;
 }
 
-void IOManipulations::writeFunctional(ofstream& outFile, char* data)
+void IOManipulations::writeFunctionalID(ofstream& outFile, char* data)
 {
    cin.getline(data, 100);
    outFile << data << endl;
@@ -28,6 +28,8 @@ void IOManipulations::writeTemporaryDataWithWriteMode(char* data, ofstream& outF
    cout << endl << endl << endl << endl;
 
    // TODO buggy, this line will NOT show.
+   Person person;
+   
    writeFunctional(outFile, data);
 
    cout << endl << "Enter your ID number." << endl;
