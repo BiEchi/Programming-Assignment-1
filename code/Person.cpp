@@ -33,8 +33,9 @@ void Person::setBirthdate(char* data)
 
 void Person::setProfession(char* data)
 {
+    string stringData;
     bool flag = false;
-    switch (data)
+    switch (stringData)
     {
     case "I":
         profession = professionSet(I);
