@@ -18,6 +18,7 @@ public:
   friend class FibonacciPQ;
 
   string getName(void) {return name;}
+  string getID(void) {return ID;}
   string getContactDetails(void) {return contactDetails;}
   tm getBirthdate(void) {return birthDate;}
   tm getTimestamp(void) {return timeStamp;}
@@ -25,6 +26,7 @@ public:
   riskStatusSet getRiskStatus(void) {return riskStatus;}
   locationSet getLocation(void) {return location;}
 
+  void setID(char* data);
   void setName(char* data);
   void setContactDetails(char* data);
   void setBirthdate(char* data);
@@ -39,9 +41,10 @@ public:
   bool withdraw(vector<Person> *blacklist_ptr);
   //baihao
   bool init();
- private:
-  string name = "";
-  string contactDetails = "";
+private:
+  string ID;
+  string name;
+  string contactDetails;
   tm birthDate;
   tm timeStamp;
   professionSet profession;

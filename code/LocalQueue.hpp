@@ -1,6 +1,13 @@
+#ifndef localqueue_hpp
+#define localqueue_hpp
+
+#include <iostream>
 #include <stdint.h>
 #include "Person.hpp"
+#include "LocalQueue.hpp"
 
+<<<<<<< HEAD
+<<<<<<<< HEAD:code/LocalQueue.hpp
 // class for each node
 class localNode
 {
@@ -44,6 +51,18 @@ void people::pushBack(Person *const ptr)
     localNode *temp = new localNode;
     if (0 == length)
     {
+========
+void localQueue::init(void) {
+    front = NULL; back = NULL; 
+    length = 0;
+    return;
+}
+
+void localQueue::pushBack(Person* const ptr) {
+    if (NULL == ptr) {return;}
+    localNode* temp = new localNode;
+    if (0 == length) {
+>>>>>>>> main:code/LocalQueue.cpp
         temp->next = NULL;
         temp->person_ptr = ptr;
         front = temp;
@@ -62,6 +81,7 @@ void people::pushBack(Person *const ptr)
     }
 }
 
+<<<<<<<< HEAD:code/LocalQueue.hpp
 Person *people::popFront(void)
 {
     //if the queue is empty, function will return NULL
@@ -73,6 +93,13 @@ Person *people::popFront(void)
     Person *ptr = temp->person_ptr;
     if (NULL == temp->next)
     {
+========
+Person* localQueue::popFront(void) {
+    if (0 == length) {return NULL;}
+    localNode* temp = front;
+    Person* ptr = temp->person_ptr;
+    if (NULL == temp->next) {
+>>>>>>>> main:code/LocalQueue.cpp
         front = NULL;
         back = NULL;
     }
@@ -84,3 +111,30 @@ Person *people::popFront(void)
     length--;
     return ptr;
 }
+=======
+class localNode 
+{
+private:
+    friend class localQueue;
+    localNode* next;
+    Person* person_ptr;
+};
+
+class localQueue 
+{
+private:
+    localNode* front;
+    localNode* back;
+    int32_t length;
+public:
+    int32_t getLength(void) {
+        return length;
+    }
+    void init(void);
+    void pushBack(Person* const ptr);
+    Person* popFront(void);
+};
+
+
+#endif
+// >>>>>>> main
