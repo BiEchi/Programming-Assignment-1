@@ -2,20 +2,22 @@
 #include "Person.hpp"
 #include <stdint.h>
 #include <cstdlib>
+#include <time.h>
 
 class assignmentQueue {
     friend class queueManger;
 private:
+    locationSet theHospital;
     Person** timeSlot;
     int32_t hourCapacity;
     int32_t occupied;
     int32_t workingHour;
 public:
-    void init(int hc, int wh);
+    void init(int hc, int wh, locationSet thePlace);
     void clear(void);
     int isFull(void) {return (occupied == workingHour*hourCapacity ? 1 : 0);}
     int addPerson(Person* thePerson);
-    int assignTime(void);
+    void assignTime(void);
 };
 
 class queueManger {
@@ -30,7 +32,8 @@ public:
 };
 
 //--------------------------------------------------------------------------------------------
-void assignmentQueue::init(int hc, int wh) {
+void assignmentQueue::init(int hc, int wh, locationSet thePlace) {
+    theHospital = thePlace;
     hourCapacity = hc;
     occupied = 0;
     workingHour = wh;
@@ -57,7 +60,32 @@ int assignmentQueue::addPerson(Person* thePerson) {
     if(isFull()) {return 0;}
     timeSlot[this->occupied];
     this->occupied++;
+    thePerson->assignLocation(this->theHospital);
     return 1;
+}
+
+void assignmentQueue::assignTime(void) {
+    time_t currentTime;
+    struct tm *baseTime;
+    struct tm aTime;
+    int addHour, addMin;
+    int increment = 60/hourCapacity;
+
+    time(&currentTime);
+    baseTime = localtime(&currentTime);
+    baseTime->tm_sec = 0;
+    baseTime->tm_min = 0;
+    baseTime->tm_hour = 8;
+    baseTime->tm_mday++;
+    for (int i = 0; i < workingHour*hourCapacity; i++) {
+        addHour = i/hourCapacity;
+        addMin = (i%hourCapacity)*increment;
+        aTime = *baseTime;
+        aTime.tm_hour += addHour;
+        aTime.tm_min += addMin;
+        if(addHour > 3) {aTime.tm_hour++;}
+        timeSlot[i]->assignTime(&aTime);
+    }
 }
 
 //--------------------------------------------------------------------------------------------
@@ -68,9 +96,10 @@ void queueManger::init(
 {
     int hourCapacityArray[7] = {a, b, c, d, e, f, g};
     int workingHourArray[7] = {ah, bh, ch, dh, eh, fh, gh};
+    locationSet hospitals[7] = {A, B, C, D, E, F, G};
     locations = new assignmentQueue[7];
     for (int i = 0; i < 7; i++) {
-        locations[i].init(hourCapacityArray[i], workingHourArray[i]); 
+        locations[i].init(hourCapacityArray[i], workingHourArray[i], hospitals[i]); 
     }
     return;
 }
@@ -81,6 +110,7 @@ int queueManger::reassign(FibonacciPQ* PQ) {
         locations[i].clear();
     }
     int noSpace;
+    // Distribute Person into each assignment list.
     while (!PQ->Isempty()) {
         noSpace = 1;
         for (int i = 0; i < 7; i++) {
@@ -106,22 +136,31 @@ int queueManger::reassign(FibonacciPQ* PQ) {
             if(!locations[C].addPerson(thePerson)) {
                 while(!locations[std::rand()%7].addPerson(thePerson));
             };
+            break;
         case D:
             if(!locations[D].addPerson(thePerson)) {
                 while(!locations[std::rand()%7].addPerson(thePerson));
             };
+            break;
         case E:
             if(!locations[E].addPerson(thePerson)) {
                 while(!locations[std::rand()%7].addPerson(thePerson));
             };
+            break;
         case F:
             if(!locations[F].addPerson(thePerson)) {
                 while(!locations[std::rand()%7].addPerson(thePerson));
             };
+            break;
         case G:
             if(!locations[G].addPerson(thePerson)) {
                 while(!locations[std::rand()%7].addPerson(thePerson));
             };
+            break;
+        }
+    }
+    for (int i = 0; i < 7; i++) {
+        locations[i].assignTime();
     }
     return 1;
 }

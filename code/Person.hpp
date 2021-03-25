@@ -34,12 +34,14 @@ public:
   void setLocation(char* data);
 
   //Jiahao
-  bool assignTime(void);
+  bool assignTime(tm* atime) {appointmentTime = *atime; return 1;}
+  //!!!
+  bool assignLocation(locationSet thePlace) {appointmentLocation = thePlace; return 1;}
   //liyang
   bool withdraw(vector<Person> *blacklist_ptr);
   //baihao
   bool init();
- private:
+private:
   string name = "";
   string contactDetails = "";
   tm birthDate;
@@ -49,6 +51,8 @@ public:
   locationSet location;
   //Jiahao
   tm appointmentTime;
+  // Newly added!!!
+  locationSet appointmentLocation;
   // added by Liyang in 3.19
   bool Store = true;
   int Degree = 0;
