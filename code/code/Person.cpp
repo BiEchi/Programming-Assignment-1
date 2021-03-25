@@ -33,56 +33,7 @@ void Person::setBirthdate(char* data)
 
 void Person::setProfession(char* data)
 {
-    string stringData;
-    bool flag = false;
-    switch (stringData)
-    {
-    case "I":
-        profession = professionSet(I);
-        flag = true;
-        break;
-
-    case "II":
-        profession = professionSet(II);
-        flag = true;
-        break;
-
-    case "III":
-        profession = professionSet(III);
-        flag = true;
-        break;
-
-    case "IV":
-        profession = professionSet(IV);
-        flag = true;
-        break;
-
-    case "V":
-        profession = professionSet(V);
-        flag = true;
-        break;
-
-    case "VI":
-        profession = professionSet(VI);
-        flag = true;
-        break;
-
-    case "VII":
-        profession = professionSet(VII);
-        flag = true;
-        break;
-
-    case "VIII":
-        profession = professionSet(VIII);
-        flag = true;
-        break;
-    
-    default:
-        cout << "Please enter a number ranging from I to VIII." << endl;
-        cout << "Do the sheet again." << endl;
-        break;
-    }
-    
+    profession = (int) *data;
     return;
 }
 

@@ -42,8 +42,8 @@ void IOManipulations::writeTemporaryDataWithWriteMode(char* data, ofstream& outF
    cout << "Sign here. ";
    writefunction.writeFunctionContactDetails(outFile, data, person);
 
-   cout << endl << "Enter your Profession from I to VIII." << endl;
-   cout << "Example. VI" << endl;
+   cout << endl << "Enter your Profession from 1 to 8." << endl;
+   cout << "Example. 1" << endl;
    cout << "Sign here. ";
    writefunction.writeFunctionProfession(outFile, data, person);
 

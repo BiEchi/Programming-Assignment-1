@@ -9,7 +9,6 @@
 #include <math.h>
 using namespace std;
 
-enum professionSet { I, II, III, IV, V, VI, VII, VIII };
 enum riskStatusSet { no, low, middle, high };
 enum locationSet {A, B, C, D, E, F, G};
 
@@ -22,7 +21,7 @@ public:
   string getContactDetails(void) {return contactDetails;}
   tm getBirthdate(void) {return birthDate;}
   tm getTimestamp(void) {return timeStamp;}
-  professionSet getProfession(void) {return profession;}
+  int getProfession(void) {return profession;}
   riskStatusSet getRiskStatus(void) {return riskStatus;}
   locationSet getLocation(void) {return location;}
 
@@ -47,7 +46,7 @@ private:
   string contactDetails;
   tm birthDate;
   tm timeStamp;
-  professionSet profession;
+  int profession;
   riskStatusSet riskStatus;
   locationSet location;
   //Jiahao

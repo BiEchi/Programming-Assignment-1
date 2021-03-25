@@ -14,6 +14,7 @@
 		046DD55D260C7189007BE313 /* Makefile in Sources */ = {isa = PBXBuildFile; fileRef = 046DD555260C7189007BE313 /* Makefile */; };
 		046DD55E260C7189007BE313 /* Notifications.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 046DD556260C7189007BE313 /* Notifications.cpp */; };
 		046DD55F260C7189007BE313 /* Person.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 046DD558260C7189007BE313 /* Person.cpp */; };
+		046DD562260C734F007BE313 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 046DD561260C734F007BE313 /* main.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -45,6 +46,7 @@
 		046DD556260C7189007BE313 /* Notifications.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Notifications.cpp; sourceTree = "<group>"; };
 		046DD557260C7189007BE313 /* Person.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Person.hpp; sourceTree = "<group>"; };
 		046DD558260C7189007BE313 /* Person.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Person.cpp; sourceTree = "<group>"; };
+		046DD561260C734F007BE313 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +80,7 @@
 			isa = PBXGroup;
 			children = (
 				046DD54A260C7188007BE313 /* FibonacciPQ_f.h */,
+				046DD561260C734F007BE313 /* main.cpp */,
 				046DD54B260C7188007BE313 /* FibonacciPQ.h */,
 				046DD552260C7189007BE313 /* IOManipulations.cpp */,
 				046DD554260C7189007BE313 /* IOManipulations.hpp */,
@@ -158,6 +161,7 @@
 				046DD55C260C7189007BE313 /* IOManipulations.cpp in Sources */,
 				046DD559260C7189007BE313 /* LocalQueue.cpp in Sources */,
 				046DD55A260C7189007BE313 /* TemporaryRegisterRecord.cpp in Sources */,
+				046DD562260C734F007BE313 /* main.cpp in Sources */,
 				046DD55B260C7189007BE313 /* Writefunctions.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
