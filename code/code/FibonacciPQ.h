@@ -1,5 +1,5 @@
 #include "Person.hpp"
-#include "LocalQueue.hpp"
+#include "PeopleLocalQueue.cpp"
 using namespace std;
 
 class FibonacciPQ
@@ -18,7 +18,7 @@ public:
     int  returnLength();
     bool isEmpty();
     bool inSert(Person *handle);
-    bool eatPeople(people* local_queue);
+    bool eatPeople(PeopleLocalQueue* local_queue);
     Person *remove(Person *handle);
     Person *popMin();
     Person *decreaseKey(Person *handle, int k);

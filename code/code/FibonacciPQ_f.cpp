@@ -200,7 +200,7 @@ int FibonacciPQ::returnLength()
     return PQlength;
 }
 
-bool FibonacciPQ::eatPeople(people *local_queue)
+bool FibonacciPQ::eatPeople(PeopleLocalQueue *local_queue)
 {
     int length = local_queue->getLength();
     while (length > 0)
