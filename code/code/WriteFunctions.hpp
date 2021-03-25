@@ -15,6 +15,8 @@ public:
     void writeFunctionName(ofstream& outFile, char* data, Person person);
     void writeFunctionContactDetails(ofstream& outFile, char* data, Person person);
     void writeFunctionProfession(ofstream& outFile, char* data, Person person);
-    void writeFunctionDateOfBirth(ofstream& outFile, char* data, Person person);
+    void writeFunctionYearOfBirth(ofstream& outFile, char* data, Person person);
+    void writeFunctionMonthOfBirth(ofstream& outFile, char* data, Person person);
+    void writeFunctionDayOfBirth(ofstream& outFile, char* data, Person person);
     void writeFunctionMedicalRiskStatus(ofstream& outFile, char* data, Person person);
 };

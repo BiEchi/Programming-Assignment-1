@@ -48,11 +48,27 @@ void WriteFunctions::writeFunctionProfession(ofstream& outFile, char* data, Pers
     return;
 }
 
-void WriteFunctions::writeFunctionDateOfBirth(ofstream& outFile, char* data, Person person)
+void WriteFunctions::writeFunctionYearOfBirth(ofstream& outFile, char* data, Person person)
 {
     cin.getline(data, 100);
     outFile << data << endl;
-    person.setBirthdate(data);
+    person.setBirthYear(data);
+    return;
+}
+
+void WriteFunctions::writeFunctionMonthOfBirth(ofstream& outFile, char* data, Person person)
+{
+    cin.getline(data, 100);
+    outFile << data << endl;
+    person.setBirthMonth(data);
+    return;
+}
+
+void WriteFunctions::writeFunctionDayOfBirth(ofstream& outFile, char* data, Person person)
+{
+    cin.getline(data, 100);
+    outFile << data << endl;
+    person.setBirthDay(data);
     return;
 }
 

@@ -9,10 +9,7 @@
 #include <math.h>
 using namespace std;
 
-enum riskStatusSet { no, low, middle, high };
-enum locationSet {A, B, C, D, E, F, G};
 enum personStage{buffer, treatment, appointment};
-
 class Person {
 public:
   friend class FibonacciPQ;
@@ -23,13 +20,15 @@ public:
   tm getBirthdate(void) {return birthDate;}
   tm getTimestamp(void) {return timeStamp;}
   int getProfession(void) {return profession;}
-  riskStatusSet getRiskStatus(void) {return riskStatus;}
-  locationSet getLocation(void) {return location;}
+  int getRiskStatus(void) {return riskStatus;}
+  int getLocation(void) {return location;}
 
   void setID(char* data);
   void setName(char* data);
   void setContactDetails(char* data);
-  void setBirthdate(char* data);
+  void setBirthYear(char* data);
+  void setBirthMonth(char* data);
+  void setBirthDay(char* data);
   void setTimestamp(char* data);
   void setProfession(char* data);
   void setRiskStatus(char* data);
@@ -47,9 +46,8 @@ private:
   string contactDetails;
   tm birthDate;
   tm timeStamp;
-  int profession;
-  riskStatusSet riskStatus;
-  locationSet location;
+  int profession, riskStatus;
+  int location;
   personStage arrangeStage;
   //Jiahao
   tm appointmentTime;

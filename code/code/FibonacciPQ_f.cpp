@@ -110,6 +110,9 @@ Person *FibonacciPQ::popMin()
     Minptr = NULL;
     rebalance();
     PQlength--;
+    cout << "the popped person's id is " << return_obj->ID << endl;
+    if(PQlength > 0)
+        cout << "now the top priority is " << Minptr->ID << endl;
     return return_obj;
 }
 
@@ -144,6 +147,9 @@ bool FibonacciPQ::cascadingCut(Person *parent)
 // operation list
 bool FibonacciPQ::inSert(Person *handle)
 {
+    cout << "add new person " << handle->ID << endl;
+    handle->arrangeStage = treatment;
+    cout << "the person's current Stage is " << treatment;
     newPerson(handle);
     PQlength++;
     return true;
@@ -192,4 +198,17 @@ bool FibonacciPQ::isEmpty()
 int FibonacciPQ::returnLength()
 {
     return PQlength;
+}
+
+bool FibonacciPQ::eatPeople(people *local_queue)
+{
+    int length = local_queue->getLength();
+    while (length > 0)
+    {
+        Person *pop_person = local_queue->popFront();
+        cout << "there is " << length << "people needed to be eaten" << endl;
+        cout << "the person's id is " << pop_person->ID << endl;
+        inSert(pop_person);
+        length--;
+    }
 }
