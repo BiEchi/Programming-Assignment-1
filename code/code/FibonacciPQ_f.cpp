@@ -1,5 +1,6 @@
 #include "FibonacciPQ.h"
 // 相应函数
+
 // Add a new Person in the forest
 // 用双链表实现根列表
 void FibonacciPQ::newPerson(Person *newroot)
@@ -191,13 +192,4 @@ bool FibonacciPQ::isEmpty()
 int FibonacciPQ::returnLength()
 {
     return PQlength;
-}
-
-bool FibonacciPQ::eatPeople(people *local_queue)
-{
-    while (local_queue->getLength()!=0)
-    {
-        inSert(local_queue->popFront());
-    }
-    return true;
 }
