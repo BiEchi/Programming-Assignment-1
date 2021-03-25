@@ -49,7 +49,7 @@ void people::pushBack(Person *const ptr)
     localNode *temp = new localNode;
     if (0 == length)
     {
-    
+
         void localQueue::init(void)
         {
             front = NULL;
