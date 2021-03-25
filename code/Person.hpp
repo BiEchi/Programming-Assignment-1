@@ -12,6 +12,7 @@ using namespace std;
 enum professionSet { I, II, III, IV, V, VI, VII, VIII };
 enum riskStatusSet { no, low, middle, high };
 enum locationSet {A, B, C, D, E, F, G};
+enum personStage{buffer, treatment, appointment}
 
 class Person {
 public:
@@ -50,6 +51,7 @@ private:
   professionSet profession;
   riskStatusSet riskStatus;
   locationSet location;
+  personStage arrangeStage;
   //Jiahao
   tm appointmentTime;
   // added by Liyang in 3.19

@@ -33,7 +33,7 @@ void Person::setBirthdate(char* data)
 
 void Person::setProfession(char* data)
 {
-    string stringData;
+    string stringData = data;
     bool flag = false;
     switch (stringData)
     {
@@ -84,6 +84,12 @@ void Person::setProfession(char* data)
     }
     
     return;
+}
+
+// 如何判断person处于哪个阶段？
+bool Person::withdraw(vector<Person> *blacklist_ptr)
+{
+    
 }
 
 void Person::setRiskStatus(char* data)
