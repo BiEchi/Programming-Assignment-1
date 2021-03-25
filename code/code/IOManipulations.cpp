@@ -37,8 +37,8 @@ void IOManipulations::writeTemporaryDataWithWriteMode(char* data, ofstream& outF
    cout << "Sign here. ";
    writefunction.writeFunctionName(outFile, data, person);
 
-   cout << endl << "Enter your Contact Details from A to G." << endl;
-   cout << "Example. D" << endl;
+   cout << endl << "Enter your Contact Details (Address) from 1 to 7." << endl;
+   cout << "Example. 7" << endl;
    cout << "Sign here. ";
    writefunction.writeFunctionContactDetails(outFile, data, person);
 
@@ -47,13 +47,23 @@ void IOManipulations::writeTemporaryDataWithWriteMode(char* data, ofstream& outF
    cout << "Sign here. ";
    writefunction.writeFunctionProfession(outFile, data, person);
 
-   cout << endl << "Enter your DOB (Date of Birth) using format YYYY-MM-DD" << endl;
-   cout << "Example. 2002-02-28" << endl;
+   cout << endl << "Enter your YOB (Year of Birth) using format YYYY" << endl;
+   cout << "Example. 2002" << endl;
    cout << "Sign here. ";
-   writefunction.writeFunctionDateOfBirth(outFile, data, person);
+   writefunction.writeFunctionYearOfBirth(outFile, data, person);
+    
+    cout << endl << "Enter your MOB (Month of Birth) using format MM" << endl;
+    cout << "Example. 02" << endl;
+    cout << "Sign here. ";
+    writefunction.writeFunctionMonthOfBirth(outFile, data, person);
+    
+    cout << endl << "Enter your DOB (Day of Birth) using format YYYY" << endl;
+    cout << "Example. 2002" << endl;
+    cout << "Sign here. ";
+    writefunction.writeFunctionDayOfBirth(outFile, data, person);
 
-   cout << endl << "Enter your MRS (Medical Risk Status) within {no, low, middle, high}: " << endl;
-   cout << "Example. low" << endl;
+   cout << endl << "Enter your MRS (Medical Risk Status) within {0 (no), 1(low), 2(medium), 3(high)}: " << endl;
+   cout << "Example. 1" << endl;
    cout << "Sign here. ";
    writefunction.writeFunctionMedicalRiskStatus(outFile, data, person);
 

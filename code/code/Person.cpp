@@ -25,9 +25,28 @@ void Person::setContactDetails(char* data)
     return;
 }
 
-void Person::setBirthdate(char* data)
-{
 
+/// set the year of birth
+/// @param data char* YYYY
+void Person::setBirthYear(char* data)
+{
+    birthDate.tm_year = (int) *data;
+    return;
+}
+
+/// set the month of birth
+/// @param data char* MM
+void Person::setBirthMonth(char* data)
+{
+    birthDate.tm_mon = (int) *data;
+    return;
+}
+
+/// set the day of birth
+/// @param data char* DD
+void Person::setBirthDay(char* data)
+{
+    birthDate.tm_mday = (int) *data;
     return;
 }
 
@@ -39,11 +58,13 @@ void Person::setProfession(char* data)
 
 void Person::setRiskStatus(char* data)
 {
+    profession = (int) *data;
     return;
 }
 
 void Person::setLocation(char* data)
 {
+    location = (int) *data;
     return;
 }
 
