@@ -14,9 +14,11 @@ void TemporaryRegisterRecord::buildTemporaryRegisterRecord(int userCommandType, 
    bool exitFlag = false;
    while (exitFlag == false)
    {
+      // IO界面无影响
       Notifications notification;
       notification.notifyUser();
       getCommandTypeFromUser(userCommandType);
+      // 处理指令
       chooseTheCorrectCommand(userCommandType, data, exitFlag);
    }
    return;
@@ -37,6 +39,7 @@ void TemporaryRegisterRecord::chooseTheCorrectCommand(int userCommandType, char*
    switch (userCommandType)
    {
    case REGISTER:
+
       cout << "You choose to write in data" << endl;
       writeRoutine(outFile, data);
       break;
@@ -62,6 +65,7 @@ void TemporaryRegisterRecord::writeRoutine(ofstream& outFile, char* data)
 {
    IOManipulations writeManipulation;
    writeManipulation.openTemporaryDataWithWriteMode(outFile);
+   // 写入数据
    writeManipulation.writeTemporaryDataWithWriteMode(data, outFile);
    writeManipulation.closeTemporaryDataWithWriteMode(outFile);
 

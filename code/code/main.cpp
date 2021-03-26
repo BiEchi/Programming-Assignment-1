@@ -10,22 +10,21 @@
 #include "./TemporaryRegisterRecord.hpp"
 #include "./Notifications.hpp"
 
-
 using namespace std;
 
 #include <fstream>
 #include <iostream>
 using namespace std;
 
-void appendPermanentRegisterRecord(char* data)
+void appendPermanentRegisterRecord(char *data)
 {
-   system(" cat 'temporaryData.dat' >> 'permanentData.dat' ");	
+   system(" cat 'temporaryData.dat' >> 'permanentData.dat' ");
    return;
 }
 
 int getTime()
 {
-   return clock()/ (CLOCKS_PER_SEC);
+   return clock() / (CLOCKS_PER_SEC);
 }
 
 // take 1 minute as half a day
@@ -34,16 +33,15 @@ bool halfDayIsGone(int realTimeBegin, int realTimeEnd)
    /* // TODO
    if (realTimeBegin - realTimeEnd) return true;
    else return false;
-   */ 
-  return true;
+   */
+   return true;
 }
 
-void forwardToCentralQueue(char* data)
-{ 
-
+void forwardToCentralQueue(char *data)
+{
 }
 
-void forwardToCentralQueueAtNoon(int realTimeBegin, int realTimeEnd, char* data)
+void forwardToCentralQueueAtNoon(int realTimeBegin, int realTimeEnd, char *data)
 {
    if (halfDayIsGone(realTimeBegin, realTimeEnd))
    {
@@ -53,15 +51,16 @@ void forwardToCentralQueueAtNoon(int realTimeBegin, int realTimeEnd, char* data)
    }
 }
 
-void appendTemporaryToPermanent(char* data)
-{ 
-   cout << endl << endl;
+void appendTemporaryToPermanent(char *data)
+{
+   cout << endl
+        << endl;
    appendPermanentRegisterRecord(data);
    cout << "Successfully put your information into the Permanent Database." << endl;
    return;
 }
 
-void localizeAndDeleteTemporaryRegisterRecord(char* data)
+void localizeAndDeleteTemporaryRegisterRecord(char *data)
 {
    IOManipulations vectorIOManipulation;
    vectorIOManipulation.buildTheVectorOfPersonInformationWithIO(data);
@@ -78,14 +77,15 @@ int main()
    int userCommandType;
 
    notification.notifyUserAboutIntroduction();
+   // 声明变量data
    char data[100]; // buffer
    int realTimeBegin = getTime();
+   // 代入data
    temporaryRegisterRecordMethods.buildTemporaryRegisterRecord(userCommandType, data);
    appendTemporaryToPermanent(data);
    localizeAndDeleteTemporaryRegisterRecord(data);
    int realTimeEnd = getTime();
    forwardToCentralQueueAtNoon(realTimeBegin, realTimeEnd, data);
-   
 
    return 0;
 }

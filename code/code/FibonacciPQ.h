@@ -1,5 +1,5 @@
 #include "Person.hpp"
-#include "LocalQueue.hpp"
+#include "PeopleLocalQueue.cpp"
 using namespace std;
 
 class FibonacciPQ
@@ -8,20 +8,21 @@ class FibonacciPQ
 public:
     FibonacciPQ()
     {
-        PQlength = 0;
+        PQ_length = 0;
         BucketLength = 10;
         Minptr = NULL;
         Rootlist = list<Person *>();
         Degreebucket = vector<Person *>(10, NULL);
         Rootsize = 0;
     }
-    int  returnLength();
+    int returnLength();
     bool isEmpty();
     bool inSert(Person *handle);
-    bool eatPeople(people* local_queue);
+    bool eatPeople(PeopleLocalQueue *local_queue);
     Person *remove(Person *handle);
     Person *popMin();
-    Person *decreaseKey(Person *handle, int k);
+    Person *decreaseKey(Person *changeStatusPerson, int profession_status, int riskStatus_status);
+    Person *changeStatus(Person *changingPatient, int profession_status, int riskStatus_status);
 
 private:
     Person *link(Person *a_prt, Person *b_ptr);
@@ -30,8 +31,9 @@ private:
     void cut(Person *sonPerson, Person *parentPerson);
     void newPerson(Person *newroot);
     bool cascadingCut(Person *parent);
+    Person *stand_in(Person *copy_person_ptr);
 
-    int PQlength;
+    int PQ_length;
     int BucketLength;
     int Rootsize;
     Person *Minptr; // the ptr pointing to the root having min Key in the list.
@@ -39,4 +41,3 @@ private:
     list<Person *> Rootlist; //creating a Rootlist to store the root
     vector<Person *> Degreebucket;
 };
-
