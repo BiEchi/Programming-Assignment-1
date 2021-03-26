@@ -111,14 +111,14 @@ int queueManger::reassign(FibonacciPQ* PQ) {
     }
     int noSpace;
     // Distribute Person into each assignment list.
-    while (!PQ->Isempty()) {
+    while (!PQ->isEmpty()) {
         noSpace = 1;
         for (int i = 0; i < 7; i++) {
             noSpace = noSpace && locations[i].isFull(); 
         }
         if (noSpace) {break;}
 
-        thePerson = PQ->Popmin();
+        thePerson = PQ->popMin();
         int otherLocation = std::rand()%7;
         switch (thePerson->getLocation())
         {

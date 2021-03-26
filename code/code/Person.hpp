@@ -13,6 +13,7 @@ enum personStage{buffer, treatment, appointment};
 class Person {
 public:
   friend class FibonacciPQ;
+  friend class blackList;
 
   string getName(void) {return name;}
   string getID(void) {return ID;}
@@ -57,6 +58,8 @@ private:
   bool CutMark = false;
   list<Person*> Son = list<Person*>();
   Person *Parent = nullptr;
+  // added by liyang in 3.25
+  int Key = 0;
 };
 
 

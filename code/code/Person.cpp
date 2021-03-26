@@ -74,6 +74,8 @@ void Person::setTimestamp(char *data)
 
 bool Person::withdraw(vector<Person> *blacklist_ptr)
 {
+    if(nullptr == blacklist_ptr)
+        blacklist_ptr = &vector<Person>();
     switch (arrangeStage)
     {
     case buffer:
@@ -82,6 +84,7 @@ bool Person::withdraw(vector<Person> *blacklist_ptr)
     }
     case treatment:
     {
+        
         break;
     }
     case appointment:

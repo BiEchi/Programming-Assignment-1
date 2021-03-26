@@ -23,13 +23,17 @@ void IOManipulations::writeTemporaryDataWithWriteMode(char* data, ofstream& outF
 
    // TODO buggy, this line will NOT show.
    Person person;
+   // 第一个数据有关
    WriteFunctions writefunction;
    
+   // 到这里为止没有看到给data赋值的语句
    writefunction.writeFunctionTrivial(outFile, data);
 
    cout << endl << "Enter your ID number." << endl;
    cout << "Example. 330382200002280763" << endl;
    cout << "Sign here. ";
+   // 尝试给data赋值
+   data = "330382200002280763";
    writefunction.writeFunctionID(outFile, data, person);
 
    cout << endl << "Enter your name." << endl; 
