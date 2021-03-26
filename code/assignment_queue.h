@@ -16,8 +16,9 @@ public:
     int init(int hc, int wh, int thePlace);
     void clear(void);
     int isFull(void) {return (occupied == workingHour*hourCapacity ? 1 : 0);}
-    int addPerson(Person* thePerson);
-    void assignTime(void);
+    int addPerson(Person* const thePerson); 
+    int deletePerson(Person* const thePerons);
+    void assignTimeAndLocation(void);
 };
 
 class queueManger {
@@ -32,5 +33,5 @@ public:
     // Handle assignment
     int reassign(FibonacciPQ* PQ);
     // Handle withdraw
-    int withdraw(Person* );
+    int doWithdraw(Person* thePerson);
 };

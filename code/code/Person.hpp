@@ -36,8 +36,9 @@ class Person {
   void setLocation(char *data);
 
   // Jiahao
-  bool assignTime(tm* atime);
-  bool assignLocation(int thePlace);
+  bool assignTime(tm* atime) {appointmentTime = *atime; return true;}
+  bool assignLocation(int thePlace) {appointmentLocation = thePlace; return true;}
+  int getAssignedLocation(void) {return appointmentLocation;}
   // liyang
   bool withdraw(vector<Person> *blacklist_ptr);
   // baihao
