@@ -1,47 +1,52 @@
 #ifndef database_h
 #define database_h
+#include <math.h>
+#include <stdio.h>
+
 #include <cstring>
 #include <ctime>
 #include <iostream>
-#include <stdio.h>
-#include <vector>
 #include <list>
-#include <math.h>
+#include <vector>
+
 using namespace std;
 
 enum personStage{buffer, treatment, appointment};
 class Person {
-public:
+ public:
   friend class FibonacciPQ;
   friend class blackList;
 
-  string getName(void) {return name;}
-  string getID(void) {return ID;}
-  string getContactDetails(void) {return contactDetails;}
-  tm getBirthdate(void) {return birthDate;}
-  tm getTimestamp(void) {return timeStamp;}
-  int getProfession(void) {return profession;}
-  int getRiskStatus(void) {return riskStatus;}
-  int getLocation(void) {return location;}
+  string getName(void) { return name; }
+  string getID(void) { return ID; }
+  string getContactDetails(void) { return contactDetails; }
+  tm getBirthdate(void) { return birthDate; }
+  tm getTimestamp(void) { return timeStamp; }
+  int getProfession(void) { return profession; }
+  int getRiskStatus(void) { return riskStatus; }
+  int getLocation(void) { return location; }
 
-  void setID(char* data);
-  void setName(char* data);
-  void setContactDetails(char* data);
-  void setBirthYear(char* data);
-  void setBirthMonth(char* data);
-  void setBirthDay(char* data);
-  void setTimestamp(char* data);
-  void setProfession(char* data);
-  void setRiskStatus(char* data);
-  void setLocation(char* data);
+  void setID(char *data);
+  void setName(char *data);
+  void setContactDetails(char *data);
+  void setBirthYear(char *data);
+  void setBirthMonth(char *data);
+  void setBirthDay(char *data);
+  void setTimestamp(char *data);
+  void setProfession(char *data);
+  void setRiskStatus(char *data);
+  void setLocation(char *data);
 
-  //Jiahao
+  // Jiahao
   bool assignTime(void);
-  //liyang
+  // liyang
   bool withdraw(vector<Person> *blacklist_ptr);
-  //baihao
+  // baihao
   bool init();
-private:
+  // yihong
+  bool isLargerThan(Person person);
+
+ private:
   string ID;
   string name;
   string contactDetails;
@@ -49,14 +54,15 @@ private:
   tm timeStamp;
   int profession, riskStatus;
   int location;
+  int ageGroup;
   personStage arrangeStage;
-  //Jiahao
+  // Jiahao
   tm appointmentTime;
   // added by Liyang in 3.19
   bool Store = true;
   int Degree = 0;
   bool CutMark = false;
-  list<Person*> Son = list<Person*>();
+  list<Person *> Son = list<Person *>();
   Person *Parent = nullptr;
   // added by liyang in 3.25
   int Key = 0;
