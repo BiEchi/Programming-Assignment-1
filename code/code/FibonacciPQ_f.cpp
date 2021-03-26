@@ -158,37 +158,71 @@ bool FibonacciPQ::inSert(Person *handle)
 }
 
 // 更改handle的key值，返回更改的句柄
-Person *FibonacciPQ::decreaseKey(Person *changeStatusPerson, int profession_status, int riskStatus_status)
+Person *FibonacciPQ::decreaseKey(Person *changeStatusPerson, char *profession_status, char *riskStatus_status)
 {
-    // 造个提升进行假想比较
-    Person *imaginary_handle = stand_in(changeStatusPerson);
-    changeStatusPerson->profession = profession_status;
-    changeStatusPerson->riskStatus = riskStatus_status;
-    if ((changeStatusPerson->Parent != NULL) && (Is_smaller(changeStatusPerson, changeStatusPerson->Parent)))
+    // 造个替身进行假想比较
+    Person *origin_person = stand_in(changeStatusPerson);
+    cout << "decrease the statues" << endl;
+    changeStatusPerson->setProfession(profession_status);
+    changeStatusPerson->setRiskStatus(riskStatus_status);
+    if ((changeStatusPerson->Parent != NULL) && (origin_person->isLargerThan(*changeStatusPerson)))
     {
+        cout << "the priority has been changed" << endl;
         cut(changeStatusPerson, changeStatusPerson->Parent);
         newPerson(changeStatusPerson);
         cascadingCut(changeStatusPerson->Parent);
     }
-    if (Is_smaller(changeStatusPerson, Minptr))
+    if (changeStatusPerson->isLargerThan(*Minptr))
     {
+        cout << "the decrease operation has change the minptr" << endl;
         Minptr = changeStatusPerson;
     }
-    delete imaginary_handle;
-    cout << "successfully decrease the priority of the patient " << changeStatusPerson->name << endl;
-    delete imaginary_handle;
+    delete origin_person;
+    cout << "successfully increase the priority of the patient " << changeStatusPerson->name << endl;
     return changeStatusPerson;
 }
 
 // change_status
-Person *FibonacciPQ::changeStatus(Person* changingPatient, int profession_status, int riskStatus_status)
+Person *FibonacciPQ::changeStatus(Person *changingPatient, char *profession_status, char *riskStatus_status)
 {
+    Person *origin_person = stand_in(changingPatient);
+    cout << "now change the status " << endl;
+    if (origin_person->isLargerThan(*changingPatient))
+    {
+        changingPatient->setProfession(profession_status);
+        changingPatient->setRiskStatus(riskStatus_status);
+        if (changingPatient->Parent != nullptr)
+        {
+            cut(changingPatient, changingPatient->Parent);
+            newPerson(changingPatient);
+            cascadingCut(changingPatient->Parent);
+        }
+        freeSon(changingPatient);
+        return changingPatient;
+    }
+    else
+    {
+        decreaseKey(changingPatient, profession_status, riskStatus_status);
+        return changingPatient;
+    }
     return nullptr;
 }
 
+bool FibonacciPQ::freeSon(Person *parent_node)
+{
+    Person *first_son = (*parent_node->Son.begin());
+    while (first_son != nullptr)
+    {
+        cut(first_son, first_son->Parent);
+        newPerson(first_son);
+        first_son = (*parent_node->Son.begin());
+    }
+    return true;
+}
 Person *FibonacciPQ::remove(Person *handle)
 {
-    decreaseKey(handle, Minptr->Key - 1);
+    // 强制类型转换
+    decreaseKey(handle, (char *)handle->profession - 1, (char *)handle->riskStatus - 1);
     popMin();
     return handle;
 }
@@ -222,8 +256,14 @@ bool FibonacciPQ::eatPeople(PeopleLocalQueue *local_queue)
 
 Person *FibonacciPQ::stand_in(Person *copy_person_ptr)
 {
+    // copy the info of input person node and return it
     Person *stand = new Person;
     stand->profession = copy_person_ptr->getProfession();
     stand->profession = copy_person_ptr->getRiskStatus();
+    stand->ageGroup = copy_person_ptr->ageGroup;
+    stand->timeStamp.tm_year = copy_person_ptr->timeStamp.tm_year;
+    stand->timeStamp.tm_mon = copy_person_ptr->timeStamp.tm_mon;
+    stand->timeStamp.tm_min = copy_person_ptr->timeStamp.tm_min;
+    stand->timeStamp.tm_sec = copy_person_ptr->timeStamp.tm_sec;
     return stand;
 }
