@@ -7,13 +7,13 @@
 class assignmentQueue {
     friend class queueManger;
 private:
-    locationSet theHospital;
+    int theHospital;
     Person** timeSlot;
     int32_t hourCapacity;
     int32_t occupied;
     int32_t workingHour;
 public:
-    void init(int hc, int wh, locationSet thePlace);
+    void init(int hc, int wh, int thePlace);
     void clear(void);
     int isFull(void) {return (occupied == workingHour*hourCapacity ? 1 : 0);}
     int addPerson(Person* thePerson);
@@ -32,7 +32,7 @@ public:
 };
 
 //--------------------------------------------------------------------------------------------
-void assignmentQueue::init(int hc, int wh, locationSet thePlace) {
+void assignmentQueue::init(int hc, int wh, int thePlace) {
     theHospital = thePlace;
     hourCapacity = hc;
     occupied = 0;
@@ -96,7 +96,7 @@ void queueManger::init(
 {
     int hourCapacityArray[7] = {a, b, c, d, e, f, g};
     int workingHourArray[7] = {ah, bh, ch, dh, eh, fh, gh};
-    locationSet hospitals[7] = {A, B, C, D, E, F, G};
+    int hospitals[7] = {A, B, C, D, E, F, G};
     locations = new assignmentQueue[7];
     for (int i = 0; i < 7; i++) {
         locations[i].init(hourCapacityArray[i], workingHourArray[i], hospitals[i]); 
