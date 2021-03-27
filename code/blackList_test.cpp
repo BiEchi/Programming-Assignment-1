@@ -12,6 +12,7 @@ int main()
     string ID2("2385571823875");
     string ID3("23857172384857");
     black1.setID(ID1);
+    black2.setID(ID2);
     blackList_test.appendPerson(&black1);
     blackList_test.appendPerson(&black2);
     blackList_test.appendPerson(&black3);
