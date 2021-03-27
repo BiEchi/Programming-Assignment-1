@@ -37,13 +37,13 @@ class Person {
   void setRiskStatus(char *data);
   void setLocation(char *data);
 
-  // Jiahao
+  // Jia_hao
   bool assignTime(void);
-  // liyang
+  // li_yang
   bool withdraw(vector<Person> *blacklist_ptr);
-  // baihao
+  // bai_hao
   bool init();
-  // yihong
+  // yi_hong
   bool isLargerThan(Person person);
 
  private:
@@ -56,15 +56,15 @@ class Person {
   int location;
   int ageGroup;
   personStage arrangeStage;
-  // Jiahao
+  // Jia_hao
   tm appointmentTime;
-  // added by Liyang in 3.19
+  // added by Li_yang in 3.19
   bool Store = true;
   int Degree = 0;
   bool CutMark = false;
   list<Person *> Son = list<Person *>();
   Person *Parent = nullptr;
-  // added by liyang in 3.25
+  // added by Li_yang in 3.25
   int Key = 0;
 };
 
