@@ -4,12 +4,12 @@
 #include <stdio.h>
 
 // Please call init function when creating new local queue.
-void PeopleLocalQueue::init(void)
+int PeopleLocalQueue::init(void)
 {
     front = NULL;
     back = NULL;
     length = 0;
-    return;
+    return 1;
 }
 // When the input pointer is NULL, the function will do nothing.
 int PeopleLocalQueue::pushBack(Person *const ptr)
@@ -115,4 +115,16 @@ int PeopleLocalQueue::deleteNode(const Person *thePerson)
         }
     }
     return 0;
+}
+
+// Print the ID of the last person in the queue.
+int PeopleLocalQueue::display(void) 
+{
+    if (0 == length) 
+    {
+        printf("The queue is empty. \n");
+        return 1;
+    }
+    printf("The ID of the last person in the queue is %s. \n", back->person_ptr->getID());
+    return 1;
 }

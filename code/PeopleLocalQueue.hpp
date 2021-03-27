@@ -25,10 +25,11 @@ public:
     {
         return length;
     }
-    void init(void);
+    int init(void);
     int pushBack(Person *const ptr);
     Person *popFront(void);
     int deleteNode(const Person *thePerson);
+    int display(void);
 };
 
 #endif
