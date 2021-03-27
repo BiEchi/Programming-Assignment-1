@@ -77,3 +77,77 @@ void Person::display()
     cout << "The person's Profession is " << getProfession() << endl;
     cout << "The person's Risk Status is " << getRiskStatus() << endl;
 }
+
+// 优先级更高
+bool Person::isLargerThan(Person person)
+{
+  if (this->riskStatus = 3 && person.riskStatus != 3)
+  {
+    return false;
+  }
+
+  if (this->profession < person.profession)
+  {
+    return false;
+  }
+  else if (this->profession > person.profession)
+  {
+    return true;
+  }
+
+  if (this->ageGroup < person.ageGroup)
+  {
+    return false;
+  }
+  else if (this->ageGroup > person.ageGroup)
+  {
+    return true;
+  }
+
+  if (this->timeStamp.tm_year < person.timeStamp.tm_year)
+  {
+    return false;
+  }
+  else if (this->timeStamp.tm_year > person.timeStamp.tm_year)
+  {
+    return true;
+  }
+
+  if (this->timeStamp.tm_mon < person.timeStamp.tm_mon)
+  {
+    return false;
+  }
+  else if (this->timeStamp.tm_mon > person.timeStamp.tm_mon)
+  {
+    return true;
+  }
+
+  if (this->timeStamp.tm_mday < person.timeStamp.tm_mday)
+  {
+    return false;
+  }
+  else if (this->timeStamp.tm_mday > person.timeStamp.tm_mday)
+  {
+    return true;
+  }
+
+  if (this->timeStamp.tm_min < person.timeStamp.tm_min)
+  {
+    return false;
+  }
+  else if (this->timeStamp.tm_min > person.timeStamp.tm_min)
+  {
+    return true;
+  }
+
+  if (this->timeStamp.tm_sec < person.timeStamp.tm_sec)
+  {
+    return false;
+  }
+  else if (this->timeStamp.tm_sec > person.timeStamp.tm_sec)
+  {
+    return true;
+  }
+
+  return true;
+}

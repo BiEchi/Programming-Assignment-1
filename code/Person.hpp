@@ -13,6 +13,15 @@ class Person
 {
 public:
   friend class FibonacciPQ;
+  Person()
+  {
+    name = string();
+    contactDetails = string();
+    location = 0;
+    profession = 0;
+    ageGroup = 0;
+    riskStatus = 0;
+  }
 
   string getName(void) { return name; }
   string getID(void) { return ID; }
@@ -49,8 +58,9 @@ private:
   string contactDetails;
   tm birthDate;
   tm timeStamp;
-  int profession, riskStatus;
   int location;
+  int ageGroup;
+  int profession, riskStatus;
   //Jiahao
   tm appointmentTime;
   // added by Liyang in 3.19
