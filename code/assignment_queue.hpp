@@ -1,5 +1,5 @@
-#ifndef assigment_queue_hpp
-#define assignmet_queue_hpp
+#ifndef assignment_queue_hpp
+#define assignment_queue_hpp
 
 #include "FibonacciPQ.hpp"
 #include "Person.hpp"
@@ -47,4 +47,4 @@ public:
     int displayAll(void);
 };
 
-#end
+#endif
