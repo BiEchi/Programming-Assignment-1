@@ -6,18 +6,14 @@ int main()
     vector<Person> test_list = vector<Person>();
     blackList blackList_test = blackList();
     // load list
-    for (int i = 0; i < 10; i++)
-    {
-        Person test;
-        char ID = (char)random();
-        char *IDptr = &ID;
-        test.setID(IDptr);
-        test_list.push_back(test);
-    }
-    for (auto pos = test_list.begin(); pos != test_list.end(); pos++)
-    {
-        blackList_test.appendPerson(&(*pos));
-        cout << "the id is " << (*pos).getID() << endl;
-    }
-    return 0;
+    Person black1, black2, black3;
+    string ID1 = string("172756172364");
+    string ID2 = string("2385571823875");
+    string ID3 = string("23857172384857");
+    black1.setID(ID1);
+    black2.setID(ID2);
+    black3.setID(ID3);
+    blackList_test.appendPerson(&black1);
+    blackList_test.appendPerson(&black2);
+    blackList_test.appendPerson(&black3);
 }

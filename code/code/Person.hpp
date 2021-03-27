@@ -26,7 +26,7 @@ class Person {
   int getRiskStatus(void) { return riskStatus; }
   int getLocation(void) { return location; }
 
-  void setID(char *data);
+  void setID(string data);
   void setName(char *data);
   void setContactDetails(char *data);
   void setBirthYear(char *data);

@@ -9,7 +9,7 @@
 
 using namespace std;
 
-void Person::setID(char *data)
+void Person::setID(string data)
 {
   ID = data; // automatically convert char* to string
   return;
@@ -45,32 +45,32 @@ void Person::setBirthMonth(char *data)
 
 /// set the day of birth
 /// @param data char* DD
-bool Person::withdraw(vector<Person> *blacklist_ptr)
-{
-  if (nullptr == blacklist_ptr)
-    blacklist_ptr = &vector<Person>();
-  switch (arrangeStage)
-  {
-  case buffer:
-  {
-    break;
-  }
-  case treatment:
-  {
-    break;
-  }
-  case appointment:
-  {
-    break;
-  }
-  default:
-  {
-    cout << "the patient is in wrong stage" << endl;
-    return false;
-  }
-  }
-  return true;
-}
+// bool Person::withdraw(vector<Person> *blacklist_ptr)
+// {
+//   if (nullptr == blacklist_ptr)
+//     blacklist_ptr = &vector<Person>();
+//   switch (arrangeStage)
+//   {
+//   case buffer:
+//   {
+//     break;
+//   }
+//   case treatment:
+//   {
+//     break;
+//   }
+//   case appointment:
+//   {
+//     break;
+//   }
+//   default:
+//   {
+//     cout << "the patient is in wrong stage" << endl;
+//     return false;
+//   }
+//   }
+//   return true;
+// }
 void Person::setBirthDay(char *data)
 {
   birthDate.tm_mday = (int)*data;
