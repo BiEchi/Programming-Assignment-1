@@ -44,7 +44,7 @@ public:
   void display();
 
   //Jiahao
-  bool assignTime(void);
+  bool assignTime(tm* atime) {appointmentTime = *atime; return true;}
   bool assignLocation(int thePlace) {appointmentLocation = thePlace; return true;}
   int getAssignedLocation(void) {return appointmentLocation;}
   //liyang
