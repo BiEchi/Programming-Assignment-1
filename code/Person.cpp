@@ -64,6 +64,7 @@ void Person::setRiskStatus(string data)
 
 void Person::setTimestamp(string data)
 {
+    
     return;
 }
 

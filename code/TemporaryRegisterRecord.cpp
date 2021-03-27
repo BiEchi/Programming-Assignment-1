@@ -5,6 +5,7 @@
 #include <sstream>
 #include "./TemporaryRegisterRecord.hpp"
 #include "./Notifications.hpp"
+#include "PeopleLocalQueue.hpp"
 
 using namespace std;
 
@@ -38,7 +39,7 @@ void TemporaryRegisterRecord::chooseTheCorrectCommand(int userCommandType, strin
    {
    case REGISTER:
       cout << "You choose to write in data" << endl;
-      writeRoutine(outFile, data);
+      writeRoutine(outFile, data, people);
       break;
    case READ:
       cout << "You choose to read from the summary" << endl;
@@ -57,11 +58,11 @@ void TemporaryRegisterRecord::chooseTheCorrectCommand(int userCommandType, strin
    return;
 }
 
-void TemporaryRegisterRecord::writeRoutine(ofstream& outFile, string data)
+void TemporaryRegisterRecord::writeRoutine(ofstream& outFile, string data, PeopleLocalQueue people)
 {
    IOManipulations writeManipulation;
    writeManipulation.openTemporaryDataWithWriteMode(outFile);
-   writeManipulation.writeTemporaryDataWithWriteMode(data, outFile);
+   writeManipulation.writeTemporaryDataWithWriteMode(data, outFile, people);
    writeManipulation.closeTemporaryDataWithWriteMode(outFile);
 
    return;
