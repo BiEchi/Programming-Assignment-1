@@ -60,7 +60,7 @@ Person *PeopleLocalQueue::popFront(void)
     {
         front = temp->next;
     }
-    delete temp->person_ptr;
+    cout << "The popped (removed) person has ID " << ptr->getID() << "." << endl;
     delete temp;
     length--;
     return ptr;
@@ -75,16 +75,19 @@ int PeopleLocalQueue::deleteNode(const Person *thePerson)
 {
     if (0 == length)
     {
+        cout << "The queue is empty when trying to delete a person." << endl;
         return 0;
     }
     PeopleLocalNode *itor;
     PeopleLocalNode *temp;
     int i;
+    Person* aPerson;
     itor = front;
 
     if (itor->person_ptr == thePerson)
     {
         popFront();
+        return 1;
     }
     for (i = 1, itor = front; i < length; i++, itor = itor->next)
     {
@@ -100,7 +103,8 @@ int PeopleLocalQueue::deleteNode(const Person *thePerson)
                 temp = back;
                 back = itor;
                 back->next = NULL;
-                delete temp->person_ptr;
+                aPerson = temp->person_ptr;
+                cout << "The removed person has ID " << aPerson->getID() << "." << endl;
                 delete temp;
                 return 1;
             }
@@ -108,7 +112,8 @@ int PeopleLocalQueue::deleteNode(const Person *thePerson)
             {
                 temp = itor->next;
                 itor->next = temp->next;
-                delete temp->person_ptr;
+                aPerson = temp->person_ptr;
+                cout << "The removed person has ID " << aPerson->getID() << "." << endl;
                 delete temp;
                 return 1;
             }
@@ -120,12 +125,12 @@ int PeopleLocalQueue::deleteNode(const Person *thePerson)
 // Print the ID of the last person in the queue.
 bool PeopleLocalQueue::display(void)
 {
-    if (0 == length) 
+    if (0 == length)
     {
         cout << "The queue is empty." << endl;
         return false;
     }
     cout << "The length of the people local queue is " << length << "." << endl;
-    
+
     return true;
 }
