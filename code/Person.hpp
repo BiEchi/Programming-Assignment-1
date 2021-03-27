@@ -45,6 +45,8 @@ public:
 
   //Jiahao
   bool assignTime(void);
+  bool assignLocation(int thePlace) {appointmentLocation = thePlace; return true;}
+  int getAssignedLocation(void) {return appointmentLocation;}
   //liyang
   bool withdraw(vector<Person> *blacklist_ptr);
   //baihao
@@ -63,6 +65,7 @@ private:
   int profession, riskStatus;
   //Jiahao
   tm appointmentTime;
+  int appointmentLocation;
   // added by Liyang in 3.19
   bool Store = true;
   int Degree = 0;
