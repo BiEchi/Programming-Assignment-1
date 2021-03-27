@@ -10,13 +10,12 @@ using namespace std;
 class WriteFunctions
 {
 public:
-    void writeFunctionTrivial(ofstream& outFile, char* data);
-    void writeFunctionID(ofstream& outFile, char* data, Person person);
-    void writeFunctionName(ofstream& outFile, char* data, Person person);
-    void writeFunctionContactDetails(ofstream& outFile, char* data, Person person);
-    void writeFunctionProfession(ofstream& outFile, char* data, Person person);
-    void writeFunctionYearOfBirth(ofstream& outFile, char* data, Person person);
-    void writeFunctionMonthOfBirth(ofstream& outFile, char* data, Person person);
-    void writeFunctionDayOfBirth(ofstream& outFile, char* data, Person person);
-    void writeFunctionMedicalRiskStatus(ofstream& outFile, char* data, Person person);
+    void writeFunctionID(ofstream& outFile, string data, Person& person);
+    void writeFunctionName(ofstream& outFile, string data, Person& person);
+    void writeFunctionContactDetails(ofstream& outFile, string data, Person& person);
+    void writeFunctionProfession(ofstream& outFile, string data, Person& person);
+    void writeFunctionYearOfBirth(ofstream& outFile, string data, Person& person);
+    void writeFunctionMonthOfBirth(ofstream& outFile, string data, Person& person);
+    void writeFunctionDayOfBirth(ofstream& outFile, string data, Person& person);
+    void writeFunctionMedicalRiskStatus(ofstream& outFile, string data, Person& person);
 };
