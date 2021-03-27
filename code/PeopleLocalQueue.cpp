@@ -1,27 +1,34 @@
-#include <iostream>
 #include <stdint.h>
 #include "Person.hpp"
 #include "PeopleLocalQueue.hpp"
 
+// Please call init function when creating new local queue.
 void PeopleLocalQueue::init(void)
 {
-    front = NULL; back = NULL; 
+    front = NULL;
+    back = NULL;
     length = 0;
     return;
 }
-
-void PeopleLocalQueue::pushBack(Person* const ptr)
+// When the input pointer is NULL, the function will do nothing.
+void PeopleLocalQueue::pushBack(Person *const ptr)
 {
-    if (NULL == ptr) {return;}
-    PeopleLocalNode* temp = new PeopleLocalNode;
-    if (0 == length) {
+    if (NULL == ptr)
+    {
+        return;
+    }
+    PeopleLocalNode *temp = new PeopleLocalNode;
+    if (0 == length)
+    {
         temp->next = NULL;
         temp->person_ptr = ptr;
         front = temp;
         back = temp;
         length++;
         return;
-    } else {
+    }
+    else
+    {
         temp->next = NULL;
         temp->person_ptr = ptr;
         back->next = temp;
@@ -31,15 +38,22 @@ void PeopleLocalQueue::pushBack(Person* const ptr)
     }
 }
 
-Person* PeopleLocalQueue::popFront(void)
+Person *PeopleLocalQueue::popFront(void)
 {
-    if (0 == length) {return NULL;}
-    PeopleLocalNode* temp = front;
-    Person* ptr = temp->person_ptr;
-    if (NULL == temp->next) {
+    //if the queue is empty, function will return NULL
+    if (0 == length)
+    {
+        return NULL;
+    }
+    PeopleLocalNode *temp = front;
+    Person *ptr = temp->person_ptr;
+    if (NULL == temp->next)
+    {
         front = NULL;
         back = NULL;
-    } else {
+    }
+    else
+    {
         front = temp->next;
     }
     delete temp;
@@ -47,3 +61,51 @@ Person* PeopleLocalQueue::popFront(void)
     return ptr;
 }
 
+/*
+ * OUTPUT:
+ * 1    the person has been removed from the queue successfully
+ * 0    the person is not in the queue
+ */
+int PeopleLocalQueue::deleteNode(const Person *thePerson)
+{
+    if (0 == length)
+    {
+        return 0;
+    }
+    PeopleLocalNode *itor;
+    PeopleLocalNode *temp;
+    int i;
+    itor = front;
+
+    if (itor->person_ptr == thePerson)
+    {
+        popFront();
+    }
+    for (i = 1, itor = front; i < length; i++, itor = itor->next)
+    {
+        if (itor->next->person_ptr != thePerson)
+        {
+            continue;
+        }
+        else
+        {
+            // the person is in the the queue
+            if ((length - 1) == i)
+            {
+                temp = back;
+                back = itor;
+                back->next = NULL;
+                delete temp;
+                return 1;
+            }
+            else
+            {
+                temp = itor->next;
+                itor->next = temp->next;
+                delete temp;
+                return 1;
+            }
+        }
+    }
+    return 0;
+}
