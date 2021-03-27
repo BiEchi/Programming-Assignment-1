@@ -3,9 +3,10 @@
 #include <ctime>
 #include <cstdio>
 #include <sstream>
-#include "./IOManipulations.hpp"
-#include "./Person.hpp"
+#include "IOManipulations.hpp"
+#include "Person.hpp"
 #include "WriteFunctions.hpp"
+#include "PeopleLocalQueue.hpp"
 
 using namespace std;
 
@@ -15,39 +16,39 @@ void IOManipulations::openTemporaryDataWithWriteMode(ofstream& outFile)
    return;
 }
 
-void IOManipulations::writeTemporaryDataWithWriteMode(string data, ofstream& outFile)
+void IOManipulations::writeTemporaryDataWithWriteMode(string data, ofstream& outFile, PeopleLocalQueue people)
 {
-   cout << endl << endl << endl << endl << endl << endl;
-   cout << "### Register Sheet ###" << endl;
-   cout << endl << endl << endl << endl;
+    cout << endl << endl << endl << endl << endl << endl;
+    cout << "### Register Sheet ###" << endl;
+    cout << endl << endl << endl << endl;
 
-   Person person;
-   WriteFunctions writefunction;
+    Person person;
+    WriteFunctions writefunction;
 
-   cout << endl << "Enter your ID number." << endl;
-   cout << "Example. 330382200002280763" << endl;
-   cout << "Sign here. ";
-   writefunction.writeFunctionID(outFile, data, person);
+    cout << endl << "Enter your ID number." << endl;
+    cout << "Example. 330382200002280763" << endl;
+    cout << "Sign here. ";
+    writefunction.writeFunctionID(outFile, data, person);
 
-   cout << endl << "Enter your name with underline instead of space." << endl;
-   cout << "Example. Jack_BAI" << endl;
-   cout << "Sign here. ";
-   writefunction.writeFunctionName(outFile, data, person);
+    cout << endl << "Enter your name with underline instead of space." << endl;
+    cout << "Example. Jack_BAI" << endl;
+    cout << "Sign here. ";
+    writefunction.writeFunctionName(outFile, data, person);
 
-   cout << endl << "Enter your Contact Details (Address) from 1 to 7." << endl;
-   cout << "Example. 7" << endl;
-   cout << "Sign here. ";
-   writefunction.writeFunctionContactDetails(outFile, data, person);
+    cout << endl << "Enter your Contact Details (Address) from 1 to 7." << endl;
+    cout << "Example. 7" << endl;
+    cout << "Sign here. ";
+    writefunction.writeFunctionContactDetails(outFile, data, person);
 
-   cout << endl << "Enter your Profession from 1 to 8." << endl;
-   cout << "Example. 1" << endl;
-   cout << "Sign here. ";
-   writefunction.writeFunctionProfession(outFile, data, person);
+    cout << endl << "Enter your Profession from 1 to 8." << endl;
+    cout << "Example. 1" << endl;
+    cout << "Sign here. ";
+    writefunction.writeFunctionProfession(outFile, data, person);
 
-   cout << endl << "Enter your YOB (Year of Birth) using format YYYY" << endl;
-   cout << "Example. 2002" << endl;
-   cout << "Sign here. ";
-   writefunction.writeFunctionYearOfBirth(outFile, data, person);
+    cout << endl << "Enter your YOB (Year of Birth) using format YYYY" << endl;
+    cout << "Example. 2002" << endl;
+    cout << "Sign here. ";
+    writefunction.writeFunctionYearOfBirth(outFile, data, person);
     
     cout << endl << "Enter your MOB (Month of Birth) using format MM" << endl;
     cout << "Example. 02" << endl;
@@ -70,9 +71,9 @@ void IOManipulations::writeTemporaryDataWithWriteMode(string data, ofstream& out
     cout << "PERSON DISPLAY CHECK" << endl << endl;
     person.display();
     
-
-   // TODO add person into people (local queue)
-   return;
+    people.pushBack(person);
+    
+    return;
 }
 
 void IOManipulations::closeTemporaryDataWithWriteMode(ofstream& outFile)

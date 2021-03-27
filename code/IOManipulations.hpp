@@ -7,6 +7,8 @@
 #include <cstdio>
 #include <sstream>
 
+#include "PeopleLocalQueue.hpp"
+
 using namespace std;
 
 class IOManipulations
@@ -17,7 +19,7 @@ private:
 
 public:
     void openTemporaryDataWithWriteMode(ofstream& outFile);
-    void writeTemporaryDataWithWriteMode(string data, ofstream& outFile);
+    void writeTemporaryDataWithWriteMode(string data, ofstream& outFile, PeopleLocalQueue people);
     void closeTemporaryDataWithWriteMode(ofstream& outFile);
     void openTemporaryDataWithReadMode(ifstream& inFile);
     void readFunctional(ifstream& inFile, string data);

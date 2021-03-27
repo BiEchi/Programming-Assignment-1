@@ -9,7 +9,7 @@
 #include "./Person.hpp"
 #include "./TemporaryRegisterRecord.hpp"
 #include "./Notifications.hpp"
-
+#include "./PeopleLocalQueue.hpp"
 
 using namespace std;
 
@@ -69,7 +69,9 @@ int main()
     TemporaryRegisterRecord temporaryRegisterRecordMethods;
     notification.notifyUserAboutIntroduction();
     string data; // buffer
-    temporaryRegisterRecordMethods.buildTemporaryRegisterRecord(data);
+    PeopleLocalQueue people;
+    people.init();
+    temporaryRegisterRecordMethods.buildTemporaryRegisterRecord(data, people);
     appendTemporaryToPermanent(data);
     localizeAndDeleteTemporaryRegisterRecord(data);
     forwardToCentralQueueAtNoon(data);
