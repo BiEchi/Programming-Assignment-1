@@ -42,8 +42,8 @@ public:
   // yi_hong
   bool isLargerThan(Person person);
 
-  string ID;
  private:
+  string ID;
   string name;
   string contactDetails;
   tm birthDate;
