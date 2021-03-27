@@ -68,7 +68,7 @@ void FibonacciPQ::rebalance()
     {
         if (NULL == Minptr)
             Minptr = (*i);
-        else if ((*i)->Key < Minptr->Key)
+        else if ((
             Minptr = (*i);
     }
     Rootsize = Rootlist.size();
