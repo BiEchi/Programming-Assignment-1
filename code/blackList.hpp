@@ -1,3 +1,6 @@
+#ifndef blackList_hpp
+#define blackList_hpp
+
 #include "Person.hpp"
 #include <cstdlib>
 
@@ -46,3 +49,5 @@ Person* blackList::appendPerson(Person *Withdraw_person)
     cout << "successfully add a person" << endl;
     return Withdraw_person;
 }
+
+#endif

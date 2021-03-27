@@ -1,3 +1,6 @@
+#ifndef WriteFunctions_hpp
+#define WriteFunctions_hpp
+
 #include <iostream>
 #include <fstream>
 #include <ctime>
@@ -19,3 +22,6 @@ public:
     void writeFunctionDayOfBirth(ofstream& outFile, string data, Person& person);
     void writeFunctionMedicalRiskStatus(ofstream& outFile, string data, Person& person);
 };
+
+
+#endif
