@@ -1,5 +1,4 @@
 #include "Person.hpp"
-#include "PeopleLocalQueue.cpp"
 using namespace std;
 
 class FibonacciPQ
@@ -8,32 +7,29 @@ class FibonacciPQ
 public:
     FibonacciPQ()
     {
-        PQ_length = 0;
+        PQlength = 0;
         BucketLength = 10;
         Minptr = NULL;
         Rootlist = list<Person *>();
         Degreebucket = vector<Person *>(10, NULL);
         Rootsize = 0;
     }
-    int returnLength();
-    bool isEmpty();
-    bool inSert(Person *handle);
-    bool eatPeople(PeopleLocalQueue *local_queue);
-    Person *remove(Person *handle);
-    Person *popMin();
-    Person *changeStatus(Person *changingPatient, char * profession_status, char* riskStatus_status);
+    int  ReturnLength();
+    bool Isempty();
+    bool Insert(Person *handle);
+    Person *Remove(Person *handle);
+    Person *Popmin();
+    Person *DecreaseKey(Person *handle, int k);
 
 private:
-    Person *link(Person *a_prt, Person *b_ptr);
-    Person *decreaseKey(Person *changeStatusPerson, char *profession_status, char* riskStatus_status);
-    void rebalance();
-    void addSonPerson(Person *sonPerson, Person *parentPerson);
-    void cut(Person *sonPerson, Person *parentPerson);
-    void newPerson(Person *newroot);
-    bool cascadingCut(Person *parent);
-    Person *stand_in(Person *copy_person_ptr);
-    bool freeSon(Person *parent_node);
-    int PQ_length;
+    Person *Link(Person *a_prt, Person *b_ptr);
+    void Rebalance();
+    void AddSonPerson(Person *sonPerson, Person *parentPerson);
+    void Cut(Person *sonPerson, Person *parentPerson);
+    void NewPerson(Person *newroot);
+    bool Cascadingcut(Person *parent);
+
+    int PQlength;
     int BucketLength;
     int Rootsize;
     Person *Minptr; // the ptr pointing to the root having min Key in the list.
@@ -41,3 +37,4 @@ private:
     list<Person *> Rootlist; //creating a Rootlist to store the root
     vector<Person *> Degreebucket;
 };
+

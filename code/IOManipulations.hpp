@@ -17,15 +17,15 @@ private:
 
 public:
     void openTemporaryDataWithWriteMode(ofstream& outFile);
-    void writeTemporaryDataWithWriteMode(char* data, ofstream& outFile);
+    void writeTemporaryDataWithWriteMode(string data, ofstream& outFile);
     void closeTemporaryDataWithWriteMode(ofstream& outFile);
     void openTemporaryDataWithReadMode(ifstream& inFile);
-    void readFunctional(ifstream& inFile, char* data);
-    void readTemporaryDataWithReadMode(char* data, ifstream& inFile);
+    void readFunctional(ifstream& inFile, string data);
+    void readTemporaryDataWithReadMode(string data, ifstream& inFile);
     void closeTemporaryDataWithReadMode(ifstream& inFile);
-    void readContentAsVariables(ifstream& inFile, char* data);
-    void buildTheVectorOfPersonInformationWithIO(char* data);
-    void dumpTemporaryRegisterRecord(char* data);
+    void readContentAsVariables(ifstream& inFile, string data);
+    void buildTheVectorOfPersonInformationWithIO(string data);
+    void dumpTemporaryRegisterRecord(string data);
 };
 
 #endif
