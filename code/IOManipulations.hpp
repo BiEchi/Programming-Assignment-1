@@ -19,7 +19,7 @@ private:
 
 public:
     void openTemporaryDataWithWriteMode(ofstream& outFile);
-    void writeTemporaryDataWithWriteMode(string data, ofstream& outFile, PeopleLocalQueue people);
+    void writeTemporaryDataWithWriteMode(string data, ofstream& outFile, PeopleLocalQueue& people);
     void closeTemporaryDataWithWriteMode(ofstream& outFile);
     void openTemporaryDataWithReadMode(ifstream& inFile);
     void readFunctional(ifstream& inFile, string data);

@@ -10,7 +10,7 @@
 using namespace std;
 
 
-void TemporaryRegisterRecord::buildTemporaryRegisterRecord(string data)
+void TemporaryRegisterRecord::buildTemporaryRegisterRecord(string data, PeopleLocalQueue& people)
 {
     int userCommandType;
     bool exitFlag = false;
@@ -19,7 +19,7 @@ void TemporaryRegisterRecord::buildTemporaryRegisterRecord(string data)
        Notifications notification;
        notification.notifyUser();
        getCommandTypeFromUser(userCommandType);
-       chooseTheCorrectCommand(userCommandType, data, exitFlag);
+       chooseTheCorrectCommand(userCommandType, data, exitFlag, people);
     }
     return;
 }
@@ -32,7 +32,7 @@ void TemporaryRegisterRecord::getCommandTypeFromUser(int& userCommandType)
    return;
 }
 
-void TemporaryRegisterRecord::chooseTheCorrectCommand(int userCommandType, string data, bool& exitFlag)
+void TemporaryRegisterRecord::chooseTheCorrectCommand(int userCommandType, string data, bool& exitFlag, PeopleLocalQueue& people)
 {
    enum choices {REGISTER=1, READ, FINISH};
    switch (userCommandType)
@@ -58,7 +58,7 @@ void TemporaryRegisterRecord::chooseTheCorrectCommand(int userCommandType, strin
    return;
 }
 
-void TemporaryRegisterRecord::writeRoutine(ofstream& outFile, string data, PeopleLocalQueue people)
+void TemporaryRegisterRecord::writeRoutine(ofstream& outFile, string data, PeopleLocalQueue& people)
 {
    IOManipulations writeManipulation;
    writeManipulation.openTemporaryDataWithWriteMode(outFile);

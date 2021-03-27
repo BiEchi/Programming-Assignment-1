@@ -17,10 +17,10 @@ private:
    ifstream inFile;
 
 public:
-   void buildTemporaryRegisterRecord(string data, PeopleLocalQueue people);
+   void buildTemporaryRegisterRecord(string data, PeopleLocalQueue& people);
    void getCommandTypeFromUser(int& userCommandType);
-   void chooseTheCorrectCommand(int userCommandType, string data, bool& exitFlag);
-   void writeRoutine(ofstream& outFile, string data, PeopleLocalQueue people);
+   void chooseTheCorrectCommand(int userCommandType, string data, bool& exitFlag, PeopleLocalQueue& people);
+   void writeRoutine(ofstream& outFile, string data, PeopleLocalQueue& people);
    void readRoutine(ifstream& inFile, string data);
 };
 

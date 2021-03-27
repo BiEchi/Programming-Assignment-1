@@ -16,7 +16,7 @@ void IOManipulations::openTemporaryDataWithWriteMode(ofstream& outFile)
    return;
 }
 
-void IOManipulations::writeTemporaryDataWithWriteMode(string data, ofstream& outFile, PeopleLocalQueue people)
+void IOManipulations::writeTemporaryDataWithWriteMode(string data, ofstream& outFile, PeopleLocalQueue& people)
 {
     cout << endl << endl << endl << endl << endl << endl;
     cout << "### Register Sheet ###" << endl;
@@ -68,10 +68,17 @@ void IOManipulations::writeTemporaryDataWithWriteMode(string data, ofstream& out
     
     cout << "Your register is recorded." << endl;
     cout << "Below is the display of all the information of this person." << endl << endl;
-    cout << "PERSON DISPLAY CHECK" << endl << endl;
+    cout << endl << "PERSON DISPLAY CHECK" << endl;
     person.display();
     
-    people.pushBack(person);
+    cout << endl << "PEOPLE DISPLAY CHECK" << endl;
+    people.display();
+    
+    cout << endl << "PEOPLE PUSHBACK" << endl;
+    people.pushBack(&person);
+    
+    cout << endl << "PEOPLE DISPLAY CHECK" << endl;
+    people.display();
     
     return;
 }

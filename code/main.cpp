@@ -71,6 +71,7 @@ int main()
     string data; // buffer
     PeopleLocalQueue people;
     people.init();
+    
     temporaryRegisterRecordMethods.buildTemporaryRegisterRecord(data, people);
     appendTemporaryToPermanent(data);
     localizeAndDeleteTemporaryRegisterRecord(data);
