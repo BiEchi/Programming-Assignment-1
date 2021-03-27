@@ -14,8 +14,10 @@ int main()
     black1.ID = ID1;
     black2.ID = ID2;
     black3.ID = ID3;
+    black1.setID(ID1);
     blackList_test.appendPerson(&black1);
     blackList_test.appendPerson(&black2);
     blackList_test.appendPerson(&black3);
+    blackList_test.popPersonWithID(&black2);
     return 0;
 }

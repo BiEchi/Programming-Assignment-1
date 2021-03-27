@@ -7,7 +7,7 @@ class blackList
 public:
     blackList()
     {
-        length = 100;
+        length = 5;
         blackList_Hashing_table = vector<list<Person *>>(length, list<Person *>());
     }
     Person *popPersonWithID(Person *popped_person);
