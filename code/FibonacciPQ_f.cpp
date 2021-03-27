@@ -1,4 +1,4 @@
-#include "Person.hpp"
+#include "FibonacciPQ.hpp"
 // 相应函数
 
 // Add a new Person in the forest
@@ -37,6 +37,8 @@ Person *FibonacciPQ::link(Person *a_ptr, Person *b_ptr)
         Rootlist.remove(b_ptr);
         return a_ptr;
     }
+    // error
+    return nullptr;
 }
 
 // rebalance the forest after one min_ptr has been popped.
@@ -68,7 +70,7 @@ void FibonacciPQ::rebalance()
     {
         if (NULL == Minptr)
             Minptr = (*i);
-        else if ((
+        else if ((*i)->Key < Minptr->Key)
             Minptr = (*i);
     }
     Rootsize = Rootlist.size();
@@ -109,7 +111,10 @@ Person *FibonacciPQ::popMin()
     Rootlist.remove(Minptr);
     Minptr = NULL;
     rebalance();
-    PQlength--;
+    PQ_length--;
+    cout << "the popped person's id is " << return_obj->ID << endl;
+    if (PQ_length > 0)
+        cout << "now the top priority is " << Minptr->ID << endl;
     return return_obj;
 }
 
@@ -144,46 +149,87 @@ bool FibonacciPQ::cascadingCut(Person *parent)
 // operation list
 bool FibonacciPQ::inSert(Person *handle)
 {
+    cout << "add new person " << handle->ID << endl;
+    // handle->arrangeStage = treatment;
+    // cout << "the person's current Stage is " << treatment;
     newPerson(handle);
-    PQlength++;
+    PQ_length++;
     return true;
 }
 
 // 更改handle的key值，返回更改的句柄
-Person *FibonacciPQ::decreaseKey(Person *handle, int k)
+Person *FibonacciPQ::decreaseKey(Person *changeStatusPerson, char *profession_status, char *riskStatus_status)
 {
-    if (handle->Key < k)
+    // 造个替身进行假想比较
+    Person *origin_person = stand_in(changeStatusPerson);
+    cout << "decrease the statues" << endl;
+    changeStatusPerson->setProfession(profession_status);
+    changeStatusPerson->setRiskStatus(riskStatus_status);
+    if ((changeStatusPerson->Parent != NULL) && (origin_person->isLargerThan(*changeStatusPerson)))
     {
-        cout << "the Key shouldn't be bigger or equal\n";
-        return NULL;
+        cout << "the priority has been changed" << endl;
+        cut(changeStatusPerson, changeStatusPerson->Parent);
+        newPerson(changeStatusPerson);
+        cascadingCut(changeStatusPerson->Parent);
+    }
+    if (changeStatusPerson->isLargerThan(*Minptr))
+    {
+        cout << "the decrease operation has change the minptr" << endl;
+        Minptr = changeStatusPerson;
+    }
+    delete origin_person;
+    cout << "successfully increase the priority of the patient " << changeStatusPerson->name << endl;
+    return changeStatusPerson;
+}
+
+// change_status
+Person *FibonacciPQ::changeStatus(Person *changingPatient, char *profession_status, char *riskStatus_status)
+{
+    Person *origin_person = stand_in(changingPatient);
+    cout << "now change the status " << endl;
+    if (origin_person->isLargerThan(*changingPatient))
+    {
+        changingPatient->setProfession(profession_status);
+        changingPatient->setRiskStatus(riskStatus_status);
+        if (changingPatient->Parent != nullptr)
+        {
+            cut(changingPatient, changingPatient->Parent);
+            newPerson(changingPatient);
+            cascadingCut(changingPatient->Parent);
+        }
+        freeSon(changingPatient);
+        return changingPatient;
     }
     else
     {
-        handle->Key = k;
-        if ((handle->Parent != NULL) && (k < handle->Parent->Key))
-        {
-            cut(handle, handle->Parent);
-            newPerson(handle);
-            cascadingCut(handle->Parent);
-        }
-        if (k < Minptr->Key)
-        {
-            Minptr = handle;
-        }
-        return handle;
+        decreaseKey(changingPatient, profession_status, riskStatus_status);
+        return changingPatient;
     }
+    return nullptr;
 }
 
+bool FibonacciPQ::freeSon(Person *parent_node)
+{
+    Person *first_son = (*parent_node->Son.begin());
+    while (first_son != nullptr)
+    {
+        cut(first_son, first_son->Parent);
+        newPerson(first_son);
+        first_son = (*parent_node->Son.begin());
+    }
+    return true;
+}
 Person *FibonacciPQ::remove(Person *handle)
 {
-    decreaseKey(handle, Minptr->Key - 1);
+    // 强制类型转换
+    decreaseKey(handle, (char *)handle->profession - 1, (char *)handle->riskStatus - 1);
     popMin();
     return handle;
 }
 
 bool FibonacciPQ::isEmpty()
 {
-    if (PQlength == 0)
+    if (PQ_length == 0)
         return true;
     else
         return false;
@@ -191,5 +237,32 @@ bool FibonacciPQ::isEmpty()
 
 int FibonacciPQ::returnLength()
 {
-    return PQlength;
+    return PQ_length;
+}
+
+bool FibonacciPQ::eatPeople(PeopleLocalQueue *local_queue)
+{
+    int length = local_queue->getLength();
+    while (length > 0)
+    {
+        Person *pop_person = local_queue->popFront();
+        cout << "there is " << length << "people needed to be eaten" << endl;
+        cout << "the person's id is " << pop_person->ID << endl;
+        inSert(pop_person);
+        length--;
+    }
+    return true;
+}
+
+Person *FibonacciPQ::stand_in(Person *copy_person_ptr)
+{
+    // copy the info of input person node and return it
+    Person *stand = new Person;
+    stand->profession = copy_person_ptr->getProfession();
+    stand->profession = copy_person_ptr->getRiskStatus();
+    stand->timeStamp.tm_year = copy_person_ptr->timeStamp.tm_year;
+    stand->timeStamp.tm_mon = copy_person_ptr->timeStamp.tm_mon;
+    stand->timeStamp.tm_min = copy_person_ptr->timeStamp.tm_min;
+    stand->timeStamp.tm_sec = copy_person_ptr->timeStamp.tm_sec;
+    return stand;
 }
