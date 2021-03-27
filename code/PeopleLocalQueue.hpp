@@ -29,7 +29,7 @@ public:
     int pushBack(Person *const ptr);
     Person *popFront(void);
     int deleteNode(const Person *thePerson);
-    int display(void);
+    bool display(void);
 };
 
 #endif

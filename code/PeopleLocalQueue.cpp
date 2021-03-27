@@ -118,13 +118,14 @@ int PeopleLocalQueue::deleteNode(const Person *thePerson)
 }
 
 // Print the ID of the last person in the queue.
-int PeopleLocalQueue::display(void) 
+bool PeopleLocalQueue::display(void)
 {
     if (0 == length) 
     {
-        printf("The queue is empty. \n");
-        return 1;
+        cout << "The queue is empty." << endl;
+        return false;
     }
-    printf("The ID of the last person in the queue is %s. \n", back->person_ptr->getID());
-    return 1;
+    cout << "The length of the people local queue is " << length << "." << endl;
+    
+    return true;
 }
