@@ -11,7 +11,7 @@ using namespace std;
 
 void Person::setID(string data)
 {
-  ID = data; // automatically convert char* to string
+  ID = data;
   return;
 }
 

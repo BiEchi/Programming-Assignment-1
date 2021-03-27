@@ -46,8 +46,8 @@ class Person {
   // yi_hong
   bool isLargerThan(Person person);
 
- private:
   string ID;
+ private:
   string name;
   string contactDetails;
   tm birthDate;
