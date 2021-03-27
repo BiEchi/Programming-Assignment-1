@@ -10,6 +10,7 @@
 #include "./TemporaryRegisterRecord.hpp"
 #include "./Notifications.hpp"
 #include "./PeopleLocalQueue.hpp"
+#include "./FibonacciPQ.hpp"
 
 using namespace std;
 
@@ -19,7 +20,7 @@ using namespace std;
 
 void appendPermanentRegisterRecord(string data)
 {
-   system(" cat 'temporaryData.dat' >> 'permanentData.dat' ");	
+   system(" cat 'temporaryData.dat' >> 'permanentData.dat' ");
    return;
 }
 
@@ -29,12 +30,12 @@ bool halfDayIsGone(int realTimeBegin, int realTimeEnd)
    /* // TODO
    if (realTimeBegin - realTimeEnd) return true;
    else return false;
-   */ 
-  return true;
+   */
+   return true;
 }
 
 void appendTemporaryToPermanent(string data)
-{ 
+{
    cout << endl << endl;
    appendPermanentRegisterRecord(data);
    cout << "Successfully put your information into the Permanent Database." << endl;
@@ -51,31 +52,36 @@ void localizeAndDeleteTemporaryRegisterRecord(string data)
    cout << "Successfully dumped your information in the Temporary Database." << endl;
 }
 
-void forwardToCentralQueue(string data)
+// FibonacciPQ for 治疗队列
+void forwardToCentralQueue(string data, PeopleLocalQueue people, FibonacciPQ centralQueue)
 {
-
+   centralQueue.eatPeople(&people);
+   delete &people;
+   cout << "finish load people into central queue "<< endl;
+   return;
 }
 
-void forwardToCentralQueueAtNoon(string data)
+void forwardToCentralQueueAtNoon(string data, PeopleLocalQueue people, FibonacciPQ centralQueue)
 {
-    cout << "Half a day (w.l.o.g. 1 sec) is gone." << endl;
-    forwardToCentralQueue(data);
-    cout << "Successfully forwarded your information to the Central Queue." << endl;
+   cout << "Half a day (w.l.o.g. 1 sec) is gone." << endl;
+   forwardToCentralQueue(data, people, centralQueue);
+   cout << "Successfully forwarded your information to the Central Queue." << endl;
 }
 
 int main()
 {
-    Notifications notification;
-    TemporaryRegisterRecord temporaryRegisterRecordMethods;
-    notification.notifyUserAboutIntroduction();
-    string data; // buffer
-    PeopleLocalQueue people;
-    people.init();
-    
-    temporaryRegisterRecordMethods.buildTemporaryRegisterRecord(data, people);
-    appendTemporaryToPermanent(data);
-    localizeAndDeleteTemporaryRegisterRecord(data);
-    forwardToCentralQueueAtNoon(data);
-   
-    return 0;
+   FibonacciPQ central_Queue = FibonacciPQ();
+   Notifications notification;
+   TemporaryRegisterRecord temporaryRegisterRecordMethods;
+   notification.notifyUserAboutIntroduction();
+   string data; // buffer
+   PeopleLocalQueue people;
+   people.init();
+
+   temporaryRegisterRecordMethods.buildTemporaryRegisterRecord(data, people);
+   appendTemporaryToPermanent(data);
+   localizeAndDeleteTemporaryRegisterRecord(data);
+   forwardToCentralQueueAtNoon(data, people, central_Queue);
+
+   return 0;
 }

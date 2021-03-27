@@ -1,7 +1,7 @@
 #ifndef _FibonacciPQ_H
 #define _FibonacciPQ_H
 #include "Person.hpp"
-#include "PeopleLocalQueue.cpp"
+#include "PeopleLocalQueue.hpp"
 using namespace std;
 
 class FibonacciPQ
@@ -35,6 +35,8 @@ private:
     bool cascadingCut(Person *parent);
     Person *stand_in(Person *copy_person_ptr);
     bool freeSon(Person *parent_node);
+
+
     int PQ_length;
     int BucketLength;
     int Rootsize;
