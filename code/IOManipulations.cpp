@@ -15,29 +15,22 @@ void IOManipulations::openTemporaryDataWithWriteMode(ofstream& outFile)
    return;
 }
 
-void IOManipulations::writeTemporaryDataWithWriteMode(char* data, ofstream& outFile)
+void IOManipulations::writeTemporaryDataWithWriteMode(string data, ofstream& outFile)
 {
    cout << endl << endl << endl << endl << endl << endl;
    cout << "### Register Sheet ###" << endl;
    cout << endl << endl << endl << endl;
 
-   // TODO buggy, this line will NOT show.
    Person person;
-   // 第一个数据有关
    WriteFunctions writefunction;
-   
-   // 到这里为止没有看到给data赋值的语句
-   writefunction.writeFunctionTrivial(outFile, data);
 
    cout << endl << "Enter your ID number." << endl;
    cout << "Example. 330382200002280763" << endl;
    cout << "Sign here. ";
-   // 尝试给data赋值
-   data = "330382200002280763";
    writefunction.writeFunctionID(outFile, data, person);
 
-   cout << endl << "Enter your name." << endl; 
-   cout << "Example. Jack BAI" << endl;
+   cout << endl << "Enter your name with underline instead of space." << endl;
+   cout << "Example. Jack_BAI" << endl;
    cout << "Sign here. ";
    writefunction.writeFunctionName(outFile, data, person);
 
@@ -61,17 +54,23 @@ void IOManipulations::writeTemporaryDataWithWriteMode(char* data, ofstream& outF
     cout << "Sign here. ";
     writefunction.writeFunctionMonthOfBirth(outFile, data, person);
     
-    cout << endl << "Enter your DOB (Day of Birth) using format YYYY" << endl;
-    cout << "Example. 2002" << endl;
+    cout << endl << "Enter your DOB (Day of Birth) using format DD" << endl;
+    cout << "Example. 17" << endl;
     cout << "Sign here. ";
     writefunction.writeFunctionDayOfBirth(outFile, data, person);
 
-   cout << endl << "Enter your MRS (Medical Risk Status) within {0 (no), 1(low), 2(medium), 3(high)}: " << endl;
-   cout << "Example. 1" << endl;
-   cout << "Sign here. ";
-   writefunction.writeFunctionMedicalRiskStatus(outFile, data, person);
+    cout << endl << "Enter your MRS (Medical Risk Status) within {0(no), 1(low), 2(medium), 3(high)}: " << endl;
+    cout << "Example. 1" << endl;
+    cout << "Sign here. ";
+    writefunction.writeFunctionMedicalRiskStatus(outFile, data, person);
 
-   cout << "Your register is recorded." << endl << endl;
+    
+    cout << "Your register is recorded." << endl;
+    cout << "Below is the display of all the information of this person." << endl << endl;
+    cout << "PERSON DISPLAY CHECK" << endl << endl;
+    person.display();
+    
+
    // TODO add person into people (local queue)
    return;
 }
@@ -88,14 +87,14 @@ void IOManipulations::openTemporaryDataWithReadMode(ifstream& inFile)
    return;
 }
 
-void IOManipulations::readFunctional(ifstream& inFile, char* data)
+void IOManipulations::readFunctional(ifstream& inFile, string data)
 {
-   inFile.getline(data, 100);
+    cin >> data;
    cout << data << endl;
    return;
 }
 
-void IOManipulations::readTemporaryDataWithReadMode(char* data, ifstream& inFile)
+void IOManipulations::readTemporaryDataWithReadMode(string data, ifstream& inFile)
 {
    cout << endl << endl;
    cout << "### Summary of Records ###" << endl; 
@@ -112,19 +111,19 @@ void IOManipulations::closeTemporaryDataWithReadMode(ifstream& inFile)
    return;
 }
 
-void IOManipulations::readContentAsVariables(ifstream& inFile, char* data)
+void IOManipulations::readContentAsVariables(ifstream& inFile, string data)
 {
    return;
 }
 
-void IOManipulations::buildTheVectorOfPersonInformationWithIO(char* data)
+void IOManipulations::buildTheVectorOfPersonInformationWithIO(string data)
 {
    openTemporaryDataWithReadMode(inFile);
    readContentAsVariables(inFile, data);
    closeTemporaryDataWithReadMode(inFile);
 }
 
-void IOManipulations::dumpTemporaryRegisterRecord(char* data)
+void IOManipulations::dumpTemporaryRegisterRecord(string data)
 {
    system(" echo "" > 'temporaryData.dat' ");
    return;

@@ -14,8 +14,12 @@ $(TARGET): $(OBJECTIVES)
 	$(CC) -c $^
 
 # Definition of phony targets
-.PHONY: all clear
+.PHONY: all clear clean directory
 all: $(TARGET)
 clear:
 	rm -f $(OBJECTIVES) $(TARGET)
 	rm -f *.dat
+clean:
+	rm -f $(TARGET)
+
+	

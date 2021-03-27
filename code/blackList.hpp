@@ -1,3 +1,6 @@
+#ifndef blackList_hpp
+#define blackList_hpp
+
 #include "Person.hpp"
 #include <cstdlib>
 
@@ -7,7 +10,7 @@ class blackList
 public:
     blackList()
     {
-        length = 100;
+        length = 5;
         blackList_Hashing_table = vector<list<Person *>>(length, list<Person *>());
     }
     Person *popPersonWithID(Person *popped_person);
@@ -46,3 +49,5 @@ Person* blackList::appendPerson(Person *Withdraw_person)
     cout << "successfully add a person" << endl;
     return Withdraw_person;
 }
+
+#endif
