@@ -7,8 +7,9 @@ int assignmentQueue::init(int hc, int wh, int thePlace)
 {
     theHospital = thePlace;
     hourCapacity = hc;
-    occupied = 0;
     workingHour = wh;
+    length = hc*wh;
+    occupied = 0;
     timeSlot = new Person *[workingHour * hourCapacity];
     this->clear();
     return 1;
@@ -86,6 +87,23 @@ void assignmentQueue::assignTimeAndLocation(void)
             timeSlot[i]->assignLocation(this->theHospital);
         }
     }
+}
+
+int assignmentQueue::display(void) 
+{
+    tm aTime;
+    for (int i = 0; i < this->length; i++)
+    {
+        if (timeSlot[i])
+        {
+            aTime = timeSlot[i]->getAssignedTime();
+            mktime(&aTime);
+            cout << "The appointment information of person with ID " << timeSlot[i]->getID() << " :" << endl;
+            cout << "   location:   " << timeSlot[i]->getAssignedLocation() << endl;
+            cout << "   time:       " << asctime(&aTime) << endl;
+        }
+    }
+    return 1;
 }
 
 // queueManger class functions
@@ -202,6 +220,18 @@ int queueManger::doWithdraw(Person *thePerson)
     {
         fprintf(stderr, "The person has not been assigned to %d hospital. \n", theLocation);
         return 0;
+    }
+    return 1;
+}
+
+int queueManger::displayAll(void)
+{
+    for (int i = 0; i < capacity; i++)
+    {
+        if (locations[i])
+        {
+            locations[i]->display();
+        }
     }
     return 1;
 }

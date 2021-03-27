@@ -11,8 +11,9 @@ private:
     int theHospital;
     Person **timeSlot;
     int32_t hourCapacity;
-    int32_t occupied;
     int32_t workingHour;
+    int32_t length;
+    int32_t occupied;
 
 public:
     int init(int hc, int wh, int thePlace);
@@ -21,6 +22,7 @@ public:
     int addPerson(Person *const thePerson);
     int deletePerson(Person *const thePerons);
     void assignTimeAndLocation(void);
+    int display(void);
 };
 
 class queueManger
@@ -39,4 +41,5 @@ public:
     int reassign(FibonacciPQ *PQ);
     // Handle withdraw
     int doWithdraw(Person *thePerson);
+    int displayAll(void);
 };

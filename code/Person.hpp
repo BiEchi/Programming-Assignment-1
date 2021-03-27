@@ -47,6 +47,7 @@ public:
   bool assignTime(tm* atime) {appointmentTime = *atime; return true;}
   bool assignLocation(int thePlace) {appointmentLocation = thePlace; return true;}
   int getAssignedLocation(void) {return appointmentLocation;}
+  tm getAssignedTime(void) {return appointmentTime;}
   //liyang
   bool withdraw(vector<Person> *blacklist_ptr);
   //baihao
