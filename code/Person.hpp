@@ -64,8 +64,6 @@ class Person {
   bool CutMark = false;
   list<Person *> Son = list<Person *>();
   Person *Parent = nullptr;
-  // added by Li_yang in 3.25
-  int Key = 0;
 };
 
 
