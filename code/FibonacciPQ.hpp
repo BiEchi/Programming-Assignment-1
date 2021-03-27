@@ -23,11 +23,11 @@ public:
     bool eatPeople(PeopleLocalQueue *local_queue);
     Person *remove(Person *handle);
     Person *popMin();
-    Person *changeStatus(Person *changingPatient, char *profession_status, char *riskStatus_status);
+    Person *changeStatus(Person *changingPatient, string profession_status, string riskStatus_status);
 
 private:
     Person *link(Person *a_prt, Person *b_ptr);
-    Person *decreaseKey(Person *changeStatusPerson, char *profession_status, char *riskStatus_status);
+    Person *decreaseKey(Person *changeStatusPerson, string profession_status, string riskStatus_status);
     void rebalance();
     void addSonPerson(Person *sonPerson, Person *parentPerson);
     void cut(Person *sonPerson, Person *parentPerson);

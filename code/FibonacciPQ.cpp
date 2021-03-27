@@ -158,7 +158,7 @@ bool FibonacciPQ::inSert(Person *handle)
 }
 
 // 更改handle的key值，返回更改的句柄
-Person *FibonacciPQ::decreaseKey(Person *changeStatusPerson, char *profession_status, char *riskStatus_status)
+Person *FibonacciPQ::decreaseKey(Person *changeStatusPerson, string profession_status, string riskStatus_status)
 {
     // 造个替身进行假想比较
     Person *origin_person = stand_in(changeStatusPerson);
@@ -183,7 +183,7 @@ Person *FibonacciPQ::decreaseKey(Person *changeStatusPerson, char *profession_st
 }
 
 // change_status
-Person *FibonacciPQ::changeStatus(Person *changingPatient, char *profession_status, char *riskStatus_status)
+Person *FibonacciPQ::changeStatus(Person *changingPatient, string profession_status, string riskStatus_status)
 {
     Person *origin_person = stand_in(changingPatient);
     cout << "now change the status " << endl;
@@ -222,7 +222,8 @@ bool FibonacciPQ::freeSon(Person *parent_node)
 Person *FibonacciPQ::remove(Person *handle)
 {
     // 强制类型转换
-    decreaseKey(handle, (char *)handle->profession - 1, (char *)handle->riskStatus - 1);
+    
+    decreaseKey(handle, to_string(handle->getProfession()-1), to_string(handle->getRiskStatus() - 1));
     popMin();
     return handle;
 }
