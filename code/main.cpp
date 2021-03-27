@@ -55,12 +55,15 @@ void localizeAndDeleteTemporaryRegisterRecord(string data)
 // FibonacciPQ for 治疗队列
 void forwardToCentralQueue(string data, PeopleLocalQueue people, FibonacciPQ centralQueue)
 {
+   // readPeopleIntoCentralQueue();
+   // withdraw?
    centralQueue.eatPeople(&people);
    delete &people;
    cout << "finish load people into central queue "<< endl;
    return;
 }
 
+// appointmentQueue()
 void forwardToCentralQueueAtNoon(string data, PeopleLocalQueue people, FibonacciPQ centralQueue)
 {
    cout << "Half a day (w.l.o.g. 1 sec) is gone." << endl;
@@ -82,6 +85,7 @@ int main()
    appendTemporaryToPermanent(data);
    localizeAndDeleteTemporaryRegisterRecord(data);
    forwardToCentralQueueAtNoon(data, people, central_Queue);
+   // appointmentQueue(assignqueue, &FIbonaqi)
 
    return 0;
 }
