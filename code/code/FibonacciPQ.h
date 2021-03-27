@@ -21,18 +21,18 @@ public:
     bool eatPeople(PeopleLocalQueue *local_queue);
     Person *remove(Person *handle);
     Person *popMin();
-    Person *decreaseKey(Person *changeStatusPerson, int profession_status, int riskStatus_status);
-    Person *changeStatus(Person *changingPatient, int profession_status, int riskStatus_status);
+    Person *changeStatus(Person *changingPatient, char * profession_status, char* riskStatus_status);
 
 private:
     Person *link(Person *a_prt, Person *b_ptr);
+    Person *decreaseKey(Person *changeStatusPerson, char *profession_status, char* riskStatus_status);
     void rebalance();
     void addSonPerson(Person *sonPerson, Person *parentPerson);
     void cut(Person *sonPerson, Person *parentPerson);
     void newPerson(Person *newroot);
     bool cascadingCut(Person *parent);
     Person *stand_in(Person *copy_person_ptr);
-
+    bool freeSon(Person *parent_node);
     int PQ_length;
     int BucketLength;
     int Rootsize;
