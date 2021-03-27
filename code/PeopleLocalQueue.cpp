@@ -1,6 +1,7 @@
 #include <stdint.h>
 #include "Person.hpp"
 #include "PeopleLocalQueue.hpp"
+#include <stdio.h>
 
 // Please call init function when creating new local queue.
 void PeopleLocalQueue::init(void)
@@ -11,30 +12,33 @@ void PeopleLocalQueue::init(void)
     return;
 }
 // When the input pointer is NULL, the function will do nothing.
-void PeopleLocalQueue::pushBack(Person *const ptr)
+int PeopleLocalQueue::pushBack(Person *const ptr)
 {
     if (NULL == ptr)
     {
-        return;
+        fprintf(stderr, "A NULL pointer is passed to function pushBack in PeopleLocalQueue. \n");
+        return 0;
     }
     PeopleLocalNode *temp = new PeopleLocalNode;
     if (0 == length)
     {
         temp->next = NULL;
-        temp->person_ptr = ptr;
+        temp->person_ptr = new Person;
+        *temp->person_ptr = *ptr; // Use = to assign value!
         front = temp;
         back = temp;
         length++;
-        return;
+        return 1;
     }
     else
     {
         temp->next = NULL;
-        temp->person_ptr = ptr;
+        temp->person_ptr = new Person;
+        *temp->person_ptr = *ptr; // Use = to assign value!
         back->next = temp;
         back = temp;
         length++;
-        return;
+        return 1;
     }
 }
 
@@ -56,6 +60,7 @@ Person *PeopleLocalQueue::popFront(void)
     {
         front = temp->next;
     }
+    delete temp->person_ptr;
     delete temp;
     length--;
     return ptr;
@@ -95,6 +100,7 @@ int PeopleLocalQueue::deleteNode(const Person *thePerson)
                 temp = back;
                 back = itor;
                 back->next = NULL;
+                delete temp->person_ptr;
                 delete temp;
                 return 1;
             }
@@ -102,6 +108,7 @@ int PeopleLocalQueue::deleteNode(const Person *thePerson)
             {
                 temp = itor->next;
                 itor->next = temp->next;
+                delete temp->person_ptr;
                 delete temp;
                 return 1;
             }

@@ -5,7 +5,6 @@
 #include <stdint.h>
 #include "Person.hpp"
 
-
 // class for each node
 class PeopleLocalNode
 {
@@ -27,7 +26,7 @@ public:
         return length;
     }
     void init(void);
-    void pushBack(Person *const ptr);
+    int pushBack(Person *const ptr);
     Person *popFront(void);
     int deleteNode(const Person *thePerson);
 };
