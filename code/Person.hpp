@@ -17,10 +17,11 @@ public:
   {
     name = string();
     contactDetails = string();
-    location = 0;
+    // location = 0;
     profession = 0;
     ageGroup = 0;
     riskStatus = 0;
+    reassigned = 0;
   }
 
   string getName(void) { return name; }
@@ -46,6 +47,9 @@ public:
   //Jiahao
   bool assignTime(tm* atime) {appointmentTime = *atime; return true;}
   bool assignLocation(int thePlace) {appointmentLocation = thePlace; return true;}
+  // int getLocation(void) {return location;}
+  int markReassigned(void) {reassigned = 1; return 1;}
+  int getReassigned(void) {return reassigned;}
   int getAssignedLocation(void) {return appointmentLocation;}
   tm getAssignedTime(void) {return appointmentTime;}
   //liyang
@@ -61,12 +65,13 @@ private:
   string contactDetails;
   tm birthDate;
   tm timeStamp;
-  int location;
+  // int location;
   int ageGroup;
   int profession, riskStatus;
   //Jiahao
   tm appointmentTime;
   int appointmentLocation;
+  int reassigned; // Indicate that whether a person has been assigned to another hospital different from his/her contact detail.
   // added by Liyang in 3.19
   bool Store = true;
   int Degree = 0;
