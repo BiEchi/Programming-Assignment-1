@@ -81,14 +81,11 @@ void forwardToCentralQueueAtNoon(PeopleLocalQueue &people, FibonacciPQ &centralQ
 // appointment queues functions
 int appointmentQueuesInit(queueManger *localHospital)
 {
-   int32_t hourCapacity = 1;
-   int32_t workingHour = 2;
-
    // initialize
-   localHospital->init(8); // The number ranges from 1 to 7 (need index 7).
-   for (int i = 0; i < 8; i++)
+   localHospital->init();
+   for (int i = 0; i < 8; i++) 
    {
-      localHospital->addHospital(i, hourCapacity, workingHour);
+      localHospital->addHospital(i);
    }
    return 1;
 }
