@@ -8,6 +8,7 @@ string withdrawProcess::askForID()
     return ID;
 }
 
+
 // 从perment文件中读取数据并存储到内存中
 Person *withdrawProcess::findAndReturnPersonPointer(string ID)
 {
@@ -30,7 +31,7 @@ bool withdrawProcess::decideAndOperateWithdraw(Person *person, blackList &blackL
         break;
     case appointment:
         cout << "hello appointment!" << endl;
-        hospitals.doWithdraw(person); // Withdraw the person in assignment queues.
+        hospitals.doWithdraw(person); // Withdraw the person in assignment queues. 
     case Finish:
         cout << "hello Finish!" << endl;
         break;
