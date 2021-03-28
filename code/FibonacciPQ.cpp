@@ -244,7 +244,7 @@ int FibonacciPQ::returnLength()
 bool FibonacciPQ::eatPeople(PeopleLocalQueue &local_queue)
 {
     int length = local_queue.getLength();
-    cout << "there is " << length << "people needed to be eaten" << endl;
+    cout << "there is " << length << " people needed to be eaten" << endl;
     while (length > 0)
     {
         Person *pop_person = local_queue.popFront();
