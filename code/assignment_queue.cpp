@@ -102,7 +102,7 @@ int assignmentQueue::display(void)
                  << "The appointment information of person with ID " << timeSlot[i]->getID() << " : \n";
             if (timeSlot[i]->getReassigned())
             {
-                cout << "       " << "Since the desired hospital is full, this person has been assigned to another hospital. \n";
+                cout << "       " << "Since the desired hospital is full, this person has been randomly assigned to another hospital other than the desired hospital " << stoi(timeSlot[i]->getContactDetails()) << ". \n";
             }
             cout << "       " << "location:   Hospital " << timeSlot[i]->getAssignedLocation() << "\n";
             cout << "       " << "time:       " << asctime(&aTime) << "\n";
@@ -180,7 +180,7 @@ int queueManger::reassign(FibonacciPQ *PQ)
         thePerson = PQ->popMin();
         cout << "Assigning the person with ID " << thePerson->getID() << " ...... \n";
         int theLocation = stoi(thePerson->getContactDetails());
-        // int otherLocation = std::rand() % 7;
+        int otherLocation = std::rand() % capacity;
         if (theLocation >= capacity || NULL == locations[theLocation])
         {
             addHospital(theLocation);
@@ -191,21 +191,11 @@ int queueManger::reassign(FibonacciPQ *PQ)
         if (!locations[theLocation]->addPerson(thePerson))
         {
             thePerson->markReassigned();
-
-            for (int i = 0; i < capacity; i++)
+            while (NULL == locations[otherLocation] || locations[otherLocation]->isFull())
             {
-                if(locations[i] && !locations[i]->isFull())
-                {
-                    locations[i]->addPerson(thePerson);
-                }
+                otherLocation = std::rand() % capacity;
             }
-            // do
-            // {
-            //     while (NULL == locations[otherLocation])
-            //     {
-            //         otherLocation = std::rand() % capacity;
-            //     }
-            // } while (!locations[otherLocation]->addPerson(thePerson));
+            locations[otherLocation]->addPerson(thePerson);
         }
 
         // Checkout whether there is empty space.
@@ -217,10 +207,10 @@ int queueManger::reassign(FibonacciPQ *PQ)
                 noSpace = noSpace & locations[i]->isFull();
             }
         }
-        if (!noSpace)
-        {
-            cout << "There is empty space." << endl;
-        }
+        // if (!noSpace)
+        // {
+        //     cout << "There is empty space." << endl;
+        // }
     }
     for (int i = 0; i < capacity; i++)
     {
