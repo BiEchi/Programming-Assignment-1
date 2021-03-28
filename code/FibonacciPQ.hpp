@@ -2,7 +2,9 @@
 #define _FibonacciPQ_H
 #include "Person.hpp"
 #include "PeopleLocalQueue.hpp"
+#include "blackList.hpp"
 using namespace std;
+
 
 class FibonacciPQ
 {
@@ -21,11 +23,12 @@ public:
     bool isEmpty();
     bool inSert(Person *handle);
     bool eatPeople(PeopleLocalQueue &local_queue);
-    Person *remove(Person *handle);
+    Person *withdrawInCentral(Person* withdrawingPerson, blackList& blacklistObjective);
     Person *popMin();
     Person *changeStatus(Person *changingPatient, string profession_status, string riskStatus_status);
 
 private:
+    void remove(Person *handle);
     Person *link(Person *a_prt, Person *b_ptr);
     Person *decreaseKey(Person *changeStatusPerson, string profession_status, string riskStatus_status);
     void rebalance();

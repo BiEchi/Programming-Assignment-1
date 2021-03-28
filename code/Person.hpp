@@ -8,7 +8,7 @@
 #include <list>
 #include <math.h>
 using namespace std;
-
+enum processStage{nonebuffer, buffer, centralQueue, appointment,Finish};
 class Person
 {
 public:
@@ -22,6 +22,7 @@ public:
     ageGroup = 0;
     riskStatus = 0;
     reassigned = 0;
+    currentStage = nonebuffer;
   }
 
   string getName(void) { return name; }
@@ -31,6 +32,7 @@ public:
   tm getTimestamp(void) { return timeStamp; }
   int getProfession(void) { return profession; }
   int getRiskStatus(void) { return riskStatus; }
+  processStage getcurrentStage(void){return currentStage;}
 
   void setID(string data);
   void setName(string data);
@@ -41,6 +43,7 @@ public:
   void setTimestamp(string data);
   void setProfession(string data);
   void setRiskStatus(string data);
+  void setCurrentStage(processStage data);
 
   void display();
 
@@ -52,8 +55,6 @@ public:
   int getReassigned(void) {return reassigned;}
   int getAssignedLocation(void) {return appointmentLocation;}
   tm getAssignedTime(void) {return appointmentTime;}
-  //liyang
-  bool withdraw(vector<Person> *blacklist_ptr);
   //baihao
   bool init();
   // yi_hong
@@ -78,5 +79,7 @@ private:
   bool CutMark = false;
   list<Person *> Son = list<Person *>();
   Person *Parent = nullptr;
+  // added by Liyang
+  processStage currentStage;
 };
 #endif

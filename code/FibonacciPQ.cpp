@@ -78,7 +78,7 @@ void FibonacciPQ::rebalance()
 }
 
 // sonPerson:   the node to be son node in the function
-// parentPerson:    the node to be parent node 
+// parentPerson:    the node to be parent node
 // 假设加入的子节点是没有younger的且链表的最后一个子节点也是没有younger
 void FibonacciPQ::addSonPerson(Person *sonPerson, Person *parentPerson)
 {
@@ -116,6 +116,7 @@ Person *FibonacciPQ::popMin()
     cout << "the popped person's id is " << return_obj->ID << endl;
     if (PQ_length > 0)
         cout << "now the top priority is " << Minptr->ID << endl;
+    return_obj->setCurrentStage(nonebuffer);
     return return_obj;
 }
 
@@ -154,6 +155,7 @@ bool FibonacciPQ::inSert(Person *handle)
     // handle->arrangeStage = treatment;
     // cout << "the person's current Stage is " << treatment;
     newPerson(handle);
+    handle->setCurrentStage(centralQueue);
     PQ_length++;
     return true;
 }
@@ -220,13 +222,11 @@ bool FibonacciPQ::freeSon(Person *parent_node)
     }
     return true;
 }
-Person *FibonacciPQ::remove(Person *handle)
+void FibonacciPQ::remove(Person *handle)
 {
-    // 强制类型转换
-
     decreaseKey(handle, to_string(handle->getProfession() - 1), to_string(handle->getRiskStatus() - 1));
     popMin();
-    return handle;
+    return;
 }
 
 bool FibonacciPQ::isEmpty()
@@ -267,4 +267,24 @@ Person *FibonacciPQ::stand_in(Person *copy_person_ptr)
     stand->timeStamp.tm_min = copy_person_ptr->timeStamp.tm_min;
     stand->timeStamp.tm_sec = copy_person_ptr->timeStamp.tm_sec;
     return stand;
+}
+
+// withdraw operatioon for person in central queue
+// __withdrawingPerson: the person who wants withdraw
+// __blackList: the black where the person will be added
+// success:return the pointer to the withdrawing person, else return nullptr
+Person *FibonacciPQ::withdrawInCentral(Person *withdrawingPerson, blackList &blacklistObjective)
+{
+    if (withdrawingPerson->currentStage == centralQueue)
+    {
+        blacklistObjective.appendPerson(withdrawingPerson);
+        remove(withdrawingPerson);
+        cout << "Person " << withdrawingPerson->getName() << "withdraw successfully, but will be added into the blacklist" << endl;
+        return withdrawingPerson;
+    }
+    else
+    {
+        cout << "this patient hasn't been in the central list" << endl;
+        return nullptr;
+    }
 }

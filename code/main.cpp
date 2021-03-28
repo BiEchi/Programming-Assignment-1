@@ -12,7 +12,7 @@
 #include "./PeopleLocalQueue.hpp"
 #include "./FibonacciPQ.hpp"
 #include "./assignment_queue.hpp"
-
+#include "./blackList.hpp"
 using namespace std;
 
 #include <fstream>
@@ -62,15 +62,20 @@ void forwardToCentralQueue(PeopleLocalQueue &people, FibonacciPQ &centralQueue)
    centralQueue.eatPeople(people);
    // delete &people;
    cout << "now there is " << centralQueue.returnLength() << " people in the central queue" << endl;
-   cout << "finish load people into central queue " << endl;
    return;
 }
 
-void forwardToCentralQueueAtNoon(PeopleLocalQueue& people, FibonacciPQ &centralQueue)
+void forwardToCentralQueueAtNoon(PeopleLocalQueue &people, FibonacciPQ &centralQueue)
 {
+   cout << endl;
+   cout << "------------------CentralQueue-------------------" << endl
+        << endl;
    cout << "Half a day (w.l.o.g. 1 sec) is gone." << endl;
    forwardToCentralQueue(people, centralQueue);
    cout << "Successfully forwarded your information to the Central Queue." << endl;
+   cout << endl
+        << "-------------CentralQueueFinish--------------" << endl
+        << endl;
 }
 
 // appointment queues functions
@@ -98,6 +103,7 @@ int assignToLocalHospital(queueManger *localHospital, FibonacciPQ *centralQueue)
 
 int main()
 {
+   blackList blackListRegister = blackList();
    FibonacciPQ central_Queue = FibonacciPQ();
    Notifications notification;
    TemporaryRegisterRecord temporaryRegisterRecordMethods;
