@@ -6,17 +6,14 @@
 #include <cstdlib>
 #include <cstring>
 
-#include "./Person.hpp"
-#include "./TemporaryRegisterRecord.hpp"
-#include "./Notifications.hpp"
-#include "./PeopleLocalQueue.hpp"
-#include "./FibonacciPQ.hpp"
-#include "./assignment_queue.hpp"
-#include "./blackList.hpp"
-using namespace std;
+#include "Person.hpp"
+#include "TemporaryRegisterRecord.hpp"
+#include "Notifications.hpp"
+#include "PeopleLocalQueue.hpp"
+#include "FibonacciPQ.hpp"
+#include "assignment_queue.hpp"
+#include "blackList.hpp"
 
-#include <fstream>
-#include <iostream>
 using namespace std;
 
 void appendPermanentRegisterRecord(string data)
@@ -83,7 +80,7 @@ int appointmentQueuesInit(queueManger *localHospital)
 {
    // initialize
    localHospital->init();
-   for (int i = 0; i < 8; i++) 
+   for (int i = 0; i < 8; i++)
    {
       localHospital->addHospital(i);
    }
