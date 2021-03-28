@@ -25,6 +25,7 @@ public:
     int addPerson(Person *const thePerson);
     int deletePerson(Person *const thePerons);
     void assignTimeAndLocation(void);
+    int getTheHospital(void) {return theHospital;}
     int display(void);
 };
 

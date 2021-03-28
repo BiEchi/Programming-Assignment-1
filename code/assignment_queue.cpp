@@ -98,9 +98,9 @@ int assignmentQueue::display(void)
         {
             aTime = timeSlot[i]->getAssignedTime();
             mktime(&aTime);
-            cout << "The appointment information of person with ID " << timeSlot[i]->getID() << " :" << endl;
-            cout << "   location:   " << timeSlot[i]->getAssignedLocation() << endl;
-            cout << "   time:       " << asctime(&aTime) << endl;
+            cout << "The appointment information of person with ID " << timeSlot[i]->getID() << " : \n";
+            cout << "   location:   " << timeSlot[i]->getAssignedLocation() << "\n";
+            cout << "   time:       " << asctime(&aTime) << "\n";
         }
     }
     return 1;
@@ -108,6 +108,7 @@ int assignmentQueue::display(void)
 
 // queueManger class functions
 //--------------------------------------------------------------------------------------------
+
 // Default number of hospital array is 7.
 int queueManger::init(int num)
 {
@@ -167,6 +168,7 @@ int queueManger::reassign(FibonacciPQ *PQ)
     }
     int noSpace;
     // Distribute Person into each assignment list.
+    cout << "Show if PQ is empty before assignment (1 for true): " << PQ->isEmpty() << "\n";
     while (!PQ->isEmpty())
     {
         noSpace = 1;
@@ -184,6 +186,7 @@ int queueManger::reassign(FibonacciPQ *PQ)
         }
 
         thePerson = PQ->popMin();
+        cout << "Assigning the person with ID " << thePerson->getID() << " ...... \n";
         int theLocation = thePerson->getAssignedLocation();
         int otherLocation = std::rand() % 7;
         if (theLocation >= capacity || NULL == locations[theLocation])
@@ -230,7 +233,9 @@ int queueManger::displayAll(void)
     {
         if (locations[i])
         {
+            cout << "The hospital " << locations[i]->getTheHospital() << " have the following assigned people: \n";
             locations[i]->display();
+            cout << endl;
         }
     }
     return 1;

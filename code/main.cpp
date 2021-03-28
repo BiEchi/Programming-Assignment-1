@@ -11,6 +11,7 @@
 #include "./Notifications.hpp"
 #include "./PeopleLocalQueue.hpp"
 #include "./FibonacciPQ.hpp"
+#include "./assignment_queue.hpp"
 
 using namespace std;
 
@@ -58,17 +59,39 @@ void forwardToCentralQueue(string data, PeopleLocalQueue people, FibonacciPQ cen
    // readPeopleIntoCentralQueue();
    // withdraw?
    centralQueue.eatPeople(&people);
-   delete &people;
+   /* delete &people; */
    cout << "finish load people into central queue "<< endl;
    return;
 }
 
-// appointmentQueue()
 void forwardToCentralQueueAtNoon(string data, PeopleLocalQueue people, FibonacciPQ centralQueue)
 {
    cout << "Half a day (w.l.o.g. 1 sec) is gone." << endl;
    forwardToCentralQueue(data, people, centralQueue);
    cout << "Successfully forwarded your information to the Central Queue." << endl;
+}
+
+// appointment queues functions
+int appointmentQueuesInit(queueManger* localHospital)
+{
+   int32_t hourCapacity = 1;
+   int32_t workingHour = 8;
+
+   // initialize
+   localHospital->init(8); // The number ranges from 1 to 7 (need index 7).
+   for (int i = 0; i < 8; i++) 
+   {
+      localHospital->addHospital(i, hourCapacity, workingHour);
+   }
+   return 1;
+}
+
+// Assumption: The appointent queues have already been initialized.
+int assignToLocalHospital(queueManger* localHospital, FibonacciPQ* centralQueue)
+{
+   localHospital->reassign(centralQueue);
+   localHospital->displayAll();
+   return 1;
 }
 
 int main()
@@ -79,13 +102,16 @@ int main()
    notification.notifyUserAboutIntroduction();
    string data; // buffer
    PeopleLocalQueue people;
+   queueManger localHospitals; // appointment queues
    people.init();
 
    temporaryRegisterRecordMethods.buildTemporaryRegisterRecord(data, people);
    appendTemporaryToPermanent(data);
    localizeAndDeleteTemporaryRegisterRecord(data);
    forwardToCentralQueueAtNoon(data, people, central_Queue);
-   // appointmentQueue(assignqueue, &FIbonaqi)
+   cout << "The forward To Central Queue At Noon function has been run. \n";
+   appointmentQueuesInit(&localHospitals);
+   assignToLocalHospital(&localHospitals, &central_Queue);
 
    return 0;
 }
