@@ -8,7 +8,7 @@ int assignmentQueue::init(int hc, int wh, int thePlace)
     theHospital = thePlace;
     hourCapacity = hc;
     workingHour = wh;
-    length = hc*wh;
+    length = hc * wh;
     occupied = 0;
     timeSlot = new Person *[workingHour * hourCapacity];
     this->clear();
@@ -89,7 +89,7 @@ void assignmentQueue::assignTimeAndLocation(void)
     }
 }
 
-int assignmentQueue::display(void) 
+int assignmentQueue::display(void)
 {
     tm aTime;
     for (int i = 0; i < this->length; i++)
@@ -98,13 +98,14 @@ int assignmentQueue::display(void)
         {
             aTime = timeSlot[i]->getAssignedTime();
             mktime(&aTime);
-            cout << "       " << "The appointment information of person with ID " << timeSlot[i]->getID() << " : \n";
+            cout << "       "
+                 << "The appointment information of person with ID " << timeSlot[i]->getID() << " : \n";
             if (timeSlot[i]->getReassigned())
             {
-                cout << "       " << "Since the desired hospital is full, this person has been randomly assigned to another hospital.\n";
+                cout << "       " << "Since the desired hospital is full, this person has been assigned to another hospital. \n";
             }
-                cout << "       " << "location:   Hospital " << timeSlot[i]->getAssignedLocation() << "\n";
-                cout << "       " << "time:       " << asctime(&aTime) << "\n";
+            cout << "       " << "location:   Hospital " << timeSlot[i]->getAssignedLocation() << "\n";
+            cout << "       " << "time:       " << asctime(&aTime) << "\n";
         }
     }
     return 1;
@@ -113,10 +114,10 @@ int assignmentQueue::display(void)
 // queueManger class functions
 //--------------------------------------------------------------------------------------------
 
-// Default number of hospital array is 7.
+// Default length of hospital array is 8.
 int queueManger::init(int num)
 {
-    capacity = (num < 7 ? 7 : num);
+    capacity = (num < 8 ? 8 : num);
     length = 0;
     locations = new assignmentQueue *[capacity];
     for (int i = 0; i < capacity; i++)
@@ -170,43 +171,55 @@ int queueManger::reassign(FibonacciPQ *PQ)
             locations[i]->clear();
         }
     }
-    int noSpace;
-    // Distribute Person into each assignment list.
-    while (!PQ->isEmpty())
-    {
-        noSpace = 1;
-        for (int i = 0; i < capacity; i++)
-        {
-            if (NULL == locations[i])
-            {
-                continue;
-            }
-            noSpace = noSpace && locations[i]->isFull();
-        }
-        if (noSpace)
-        {
-            break;
-        }
 
+    int noSpace = 0;
+    // Distribute Person into each assignment list.
+    while (!PQ->isEmpty() && !noSpace)
+    {
+        // Add new hospital.
         thePerson = PQ->popMin();
         cout << "Assigning the person with ID " << thePerson->getID() << " ...... \n";
         int theLocation = stoi(thePerson->getContactDetails());
-        int otherLocation = std::rand() % 7;
+        // int otherLocation = std::rand() % 7;
         if (theLocation >= capacity || NULL == locations[theLocation])
         {
-            fprintf(stderr, "The hospital %d to which the person will be assigned has not been initialized. \n", theLocation);
-            continue;
+            addHospital(theLocation);
+            // fprintf(stderr, "The hospital %d to which the person will be assigned has not been initialized. \n", theLocation);
+            // continue;
         }
+
         if (!locations[theLocation]->addPerson(thePerson))
         {
             thePerson->markReassigned();
-            do
+
+            for (int i = 0; i < capacity; i++)
             {
-                while (NULL == locations[otherLocation])
+                if(locations[i] && !locations[i]->isFull())
                 {
-                    otherLocation = std::rand() % capacity;
+                    locations[i]->addPerson(thePerson);
                 }
-            } while (!locations[otherLocation]->addPerson(thePerson));
+            }
+            // do
+            // {
+            //     while (NULL == locations[otherLocation])
+            //     {
+            //         otherLocation = std::rand() % capacity;
+            //     }
+            // } while (!locations[otherLocation]->addPerson(thePerson));
+        }
+
+        // Checkout whether there is empty space.
+        noSpace = 1;
+        for (int i = 0; i < capacity; i++)
+        {
+            if (locations[i])
+            {
+                noSpace = noSpace & locations[i]->isFull();
+            }
+        }
+        if (!noSpace)
+        {
+            cout << "There is empty space." << endl;
         }
     }
     for (int i = 0; i < capacity; i++)
