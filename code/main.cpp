@@ -9,7 +9,8 @@
 #include "./Person.hpp"
 #include "./TemporaryRegisterRecord.hpp"
 #include "./Notifications.hpp"
-
+#include "./PeopleLocalQueue.hpp"
+#include "./FibonacciPQ.hpp"
 
 using namespace std;
 
@@ -17,15 +18,10 @@ using namespace std;
 #include <iostream>
 using namespace std;
 
-void appendPermanentRegisterRecord(char* data)
+void appendPermanentRegisterRecord(string data)
 {
-   system(" cat 'temporaryData.dat' >> 'permanentData.dat' ");	
+   system(" cat 'temporaryData.dat' >> 'permanentData.dat' ");
    return;
-}
-
-int getTime()
-{
-   return clock()/ (CLOCKS_PER_SEC);
 }
 
 // take 1 minute as half a day
@@ -34,34 +30,19 @@ bool halfDayIsGone(int realTimeBegin, int realTimeEnd)
    /* // TODO
    if (realTimeBegin - realTimeEnd) return true;
    else return false;
-   */ 
-  return true;
+   */
+   return true;
 }
 
-void forwardToCentralQueue(char* data)
-{ 
-
-}
-
-void forwardToCentralQueueAtNoon(int realTimeBegin, int realTimeEnd, char* data)
+void appendTemporaryToPermanent(string data)
 {
-   if (halfDayIsGone(realTimeBegin, realTimeEnd))
-   {
-      cout << "Half a day (w.l.o.g. 1 sec) is gone." << endl;
-      forwardToCentralQueue(data);
-      cout << "Successfully forwarded your information to the Central Queue." << endl;
-   }
-}
-
-void appendTemporaryToPermanent(char* data)
-{ 
    cout << endl << endl;
    appendPermanentRegisterRecord(data);
    cout << "Successfully put your information into the Permanent Database." << endl;
    return;
 }
 
-void localizeAndDeleteTemporaryRegisterRecord(char* data)
+void localizeAndDeleteTemporaryRegisterRecord(string data)
 {
    IOManipulations vectorIOManipulation;
    vectorIOManipulation.buildTheVectorOfPersonInformationWithIO(data);
@@ -71,21 +52,40 @@ void localizeAndDeleteTemporaryRegisterRecord(char* data)
    cout << "Successfully dumped your information in the Temporary Database." << endl;
 }
 
+// FibonacciPQ for 治疗队列
+void forwardToCentralQueue(string data, PeopleLocalQueue people, FibonacciPQ centralQueue)
+{
+   // readPeopleIntoCentralQueue();
+   // withdraw?
+   centralQueue.eatPeople(&people);
+   delete &people;
+   cout << "finish load people into central queue "<< endl;
+   return;
+}
+
+// appointmentQueue()
+void forwardToCentralQueueAtNoon(string data, PeopleLocalQueue people, FibonacciPQ centralQueue)
+{
+   cout << "Half a day (w.l.o.g. 1 sec) is gone." << endl;
+   forwardToCentralQueue(data, people, centralQueue);
+   cout << "Successfully forwarded your information to the Central Queue." << endl;
+}
+
 int main()
 {
+   FibonacciPQ central_Queue = FibonacciPQ();
    Notifications notification;
    TemporaryRegisterRecord temporaryRegisterRecordMethods;
-   int userCommandType;
-
    notification.notifyUserAboutIntroduction();
-   char data[100]; // buffer
-   int realTimeBegin = getTime();
-   temporaryRegisterRecordMethods.buildTemporaryRegisterRecord(userCommandType, data);
+   string data; // buffer
+   PeopleLocalQueue people;
+   people.init();
+
+   temporaryRegisterRecordMethods.buildTemporaryRegisterRecord(data, people);
    appendTemporaryToPermanent(data);
    localizeAndDeleteTemporaryRegisterRecord(data);
-   int realTimeEnd = getTime();
-   forwardToCentralQueueAtNoon(realTimeBegin, realTimeEnd, data);
-   
+   forwardToCentralQueueAtNoon(data, people, central_Queue);
+   // appointmentQueue(assignqueue, &FIbonaqi)
 
    return 0;
 }

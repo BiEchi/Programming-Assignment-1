@@ -5,21 +5,23 @@
 #include <sstream>
 #include "./TemporaryRegisterRecord.hpp"
 #include "./Notifications.hpp"
+#include "PeopleLocalQueue.hpp"
 
 using namespace std;
 
 
-void TemporaryRegisterRecord::buildTemporaryRegisterRecord(int userCommandType, char* data)
+void TemporaryRegisterRecord::buildTemporaryRegisterRecord(string data, PeopleLocalQueue& people)
 {
-   bool exitFlag = false;
-   while (exitFlag == false)
-   {
-      Notifications notification;
-      notification.notifyUser();
-      getCommandTypeFromUser(userCommandType);
-      chooseTheCorrectCommand(userCommandType, data, exitFlag);
-   }
-   return;
+    int userCommandType;
+    bool exitFlag = false;
+    while (exitFlag == false)
+    {
+       Notifications notification;
+       notification.notifyUser();
+       getCommandTypeFromUser(userCommandType);
+       chooseTheCorrectCommand(userCommandType, data, exitFlag, people);
+    }
+    return;
 }
 
 void TemporaryRegisterRecord::getCommandTypeFromUser(int& userCommandType)
@@ -30,15 +32,14 @@ void TemporaryRegisterRecord::getCommandTypeFromUser(int& userCommandType)
    return;
 }
 
-
-void TemporaryRegisterRecord::chooseTheCorrectCommand(int userCommandType, char* data, bool& exitFlag)
+void TemporaryRegisterRecord::chooseTheCorrectCommand(int userCommandType, string data, bool& exitFlag, PeopleLocalQueue& people)
 {
    enum choices {REGISTER=1, READ, FINISH};
    switch (userCommandType)
    {
    case REGISTER:
       cout << "You choose to write in data" << endl;
-      writeRoutine(outFile, data);
+      writeRoutine(outFile, data, people);
       break;
    case READ:
       cout << "You choose to read from the summary" << endl;
@@ -57,18 +58,17 @@ void TemporaryRegisterRecord::chooseTheCorrectCommand(int userCommandType, char*
    return;
 }
 
-
-void TemporaryRegisterRecord::writeRoutine(ofstream& outFile, char* data)
+void TemporaryRegisterRecord::writeRoutine(ofstream& outFile, string data, PeopleLocalQueue& people)
 {
    IOManipulations writeManipulation;
    writeManipulation.openTemporaryDataWithWriteMode(outFile);
-   writeManipulation.writeTemporaryDataWithWriteMode(data, outFile);
+   writeManipulation.writeTemporaryDataWithWriteMode(data, outFile, people);
    writeManipulation.closeTemporaryDataWithWriteMode(outFile);
 
    return;
 }
 
-void TemporaryRegisterRecord::readRoutine(ifstream& inFile, char* data)
+void TemporaryRegisterRecord::readRoutine(ifstream& inFile, string data)
 {
    IOManipulations readManipulation;
    readManipulation.openTemporaryDataWithReadMode(inFile);
