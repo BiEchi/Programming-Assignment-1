@@ -25,6 +25,7 @@ int PeopleLocalQueue::pushBack(Person *const ptr)
         temp->next = NULL;
         temp->person_ptr = new Person;
         *temp->person_ptr = *ptr; // Use = to assign value!
+        ptr->setCurrentStage(buffer); // Add for withdraw functionality. 
         front = temp;
         back = temp;
         length++;

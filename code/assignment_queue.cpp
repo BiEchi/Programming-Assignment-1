@@ -189,6 +189,7 @@ int queueManger::reassign(FibonacciPQ *PQ)
         }
 
         thePerson = PQ->popMin();
+        thePerson->setCurrentStage(appointment); // Add for withdraw functionality. 
         cout << "Assigning the person with ID " << thePerson->getID() << " ...... \n";
         int theLocation = stoi(thePerson->getContactDetails());
         int otherLocation = std::rand() % 7;

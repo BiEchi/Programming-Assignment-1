@@ -13,7 +13,7 @@ Person *withdrawProcess::findAndReturnPersonPointer(string ID)
     return nullptr;
 }
 
-bool withdrawProcess::decideAndOperateWithdraw(Person *person, blackList &blackList, FibonacciPQ &centralList, PeopleLocalQueue &people, assignmentQueue &assign_queue)
+bool withdrawProcess::decideAndOperateWithdraw(Person *person, blackList &blackList, FibonacciPQ &centralList, PeopleLocalQueue &people, queueManger &hospitals)
 {
     switch (person->getcurrentStage())
     {
@@ -22,12 +22,14 @@ bool withdrawProcess::decideAndOperateWithdraw(Person *person, blackList &blackL
         break;
     case buffer:
         cout << "hello buffer!" << endl;
+        people.deleteNode(person); // Withdraw the person in people local queue.
         break;
     case centralQueue:
         centralList.withdrawInCentral(person, blackList);
         break;
     case appointment:
         cout << "hello appointment!" << endl;
+        hospitals.doWithdraw(person); // Withdraw the person in assignment queues. 
     case Finish:
         cout << "hello Finish!" << endl;
         break;
@@ -38,7 +40,7 @@ bool withdrawProcess::decideAndOperateWithdraw(Person *person, blackList &blackL
     return true;
 }
 
-void withdrawProcess::askUserWhetherWithdraw(blackList &blackList, FibonacciPQ &centralList, PeopleLocalQueue &people, assignmentQueue &assign_queue)
+void withdrawProcess::askUserWhetherWithdraw(blackList &blackList, FibonacciPQ &centralList, PeopleLocalQueue &people, queueManger &hospitals)
 {
     int choice;
     do
@@ -50,7 +52,7 @@ void withdrawProcess::askUserWhetherWithdraw(blackList &blackList, FibonacciPQ &
         {
         case 1:
             target_person = *(findAndReturnPersonPointer(askForID()));
-            decideAndOperateWithdraw(&target_person, blackList, centralList, people, assign_queue);
+            decideAndOperateWithdraw(&target_person, blackList, centralList, people, hospitals);
             return;
             break;
         case 2:

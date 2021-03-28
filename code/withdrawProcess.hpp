@@ -10,12 +10,12 @@
 class withdrawProcess
 {
 public:
-    void askUserWhetherWithdraw(blackList &blackList, FibonacciPQ &centralList, PeopleLocalQueue& people, assignmentQueue &assign_queue);
+    void askUserWhetherWithdraw(blackList &blackList, FibonacciPQ &centralList, PeopleLocalQueue& people, queueManger &hospitals);
 
 private:
     string askForID();
     Person *findAndReturnPersonPointer(string ID);
-    bool decideAndOperateWithdraw(Person *person, blackList &blackList, FibonacciPQ &centralList, PeopleLocalQueue& people, assignmentQueue &assign_queue);
+    bool decideAndOperateWithdraw(Person *person, blackList &blackList, FibonacciPQ &centralList, PeopleLocalQueue& people, queueManger &hospitals);
 };
 
 #endif
