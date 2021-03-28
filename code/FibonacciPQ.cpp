@@ -13,7 +13,7 @@ void FibonacciPQ::newPerson(Person *newroot)
     // judge whether there is a requirement to change the min_ptr
     if (Minptr == NULL)
         Minptr = newroot;
-    else if (newroot->Key < Minptr->Key)
+    else if (newroot->isLargerThan(*Minptr))
         Minptr = newroot;
     Rootsize++;
     return;
@@ -23,7 +23,7 @@ void FibonacciPQ::newPerson(Person *newroot)
 // 返回成为根节点的ptr。
 Person *FibonacciPQ::link(Person *a_ptr, Person *b_ptr)
 {
-    if (a_ptr->Key > b_ptr->Key) // root a_ptr should be the SonPerson of b_ptr
+    if (b_ptr->isLargerThan(*a_ptr)) // root a_ptr should be the SonPerson of b_ptr
     {
         addSonPerson(a_ptr, b_ptr);
         // delete a_ptr from the root set
@@ -70,14 +70,15 @@ void FibonacciPQ::rebalance()
     {
         if (NULL == Minptr)
             Minptr = (*i);
-        else if ((*i)->Key < Minptr->Key)
+        else if ((*i)->isLargerThan(*Minptr))
             Minptr = (*i);
     }
     Rootsize = Rootlist.size();
     return;
 }
 
-// add one Person as the SonPerson to another Person
+// sonPerson:   the node to be son node in the function
+// parentPerson:    the node to be parent node 
 // 假设加入的子节点是没有younger的且链表的最后一个子节点也是没有younger
 void FibonacciPQ::addSonPerson(Person *sonPerson, Person *parentPerson)
 {
