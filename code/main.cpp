@@ -112,6 +112,7 @@ int main()
    localizeAndDeleteTemporaryRegisterRecord(data);
    forwardToCentralQueueAtNoon(people, central_Queue);
    cout << "The forward To Central Queue At Noon function has been run. \n";
+   cout << "Show if the central queue is empty before assignment (1 for true): " << central_Queue.isEmpty() << "\n";
    appointmentQueuesInit(&localHospitals);
    assignToLocalHospital(&localHospitals, &central_Queue);
 

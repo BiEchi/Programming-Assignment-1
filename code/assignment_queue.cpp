@@ -168,7 +168,6 @@ int queueManger::reassign(FibonacciPQ *PQ)
     }
     int noSpace;
     // Distribute Person into each assignment list.
-    cout << "Show if PQ is empty before assignment (1 for true): " << PQ->isEmpty() << "\n";
     while (!PQ->isEmpty())
     {
         noSpace = 1;
