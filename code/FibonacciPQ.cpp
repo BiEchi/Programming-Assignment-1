@@ -241,13 +241,13 @@ int FibonacciPQ::returnLength()
     return PQ_length;
 }
 
-bool FibonacciPQ::eatPeople(PeopleLocalQueue *local_queue)
+bool FibonacciPQ::eatPeople(PeopleLocalQueue &local_queue)
 {
-    int length = local_queue->getLength();
+    int length = local_queue.getLength();
     cout << "there is " << length << "people needed to be eaten" << endl;
     while (length > 0)
     {
-        Person *pop_person = local_queue->popFront();
+        Person *pop_person = local_queue.popFront();
         cout << "the person's id is " << pop_person->ID << endl;
         inSert(pop_person);
         length--;

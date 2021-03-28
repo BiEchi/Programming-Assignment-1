@@ -20,7 +20,7 @@ public:
     int returnLength();
     bool isEmpty();
     bool inSert(Person *handle);
-    bool eatPeople(PeopleLocalQueue *local_queue);
+    bool eatPeople(PeopleLocalQueue &local_queue);
     Person *remove(Person *handle);
     Person *popMin();
     Person *changeStatus(Person *changingPatient, string profession_status, string riskStatus_status);
@@ -35,7 +35,6 @@ private:
     bool cascadingCut(Person *parent);
     Person *stand_in(Person *copy_person_ptr);
     bool freeSon(Person *parent_node);
-
 
     int PQ_length;
     int BucketLength;

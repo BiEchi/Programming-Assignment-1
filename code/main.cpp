@@ -37,7 +37,8 @@ bool halfDayIsGone(int realTimeBegin, int realTimeEnd)
 
 void appendTemporaryToPermanent(string data)
 {
-   cout << endl << endl;
+   cout << endl
+        << endl;
    appendPermanentRegisterRecord(data);
    cout << "Successfully put your information into the Permanent Database." << endl;
    return;
@@ -54,32 +55,33 @@ void localizeAndDeleteTemporaryRegisterRecord(string data)
 }
 
 // FibonacciPQ for 治疗队列
-void forwardToCentralQueue(string data, PeopleLocalQueue people, FibonacciPQ centralQueue)
+void forwardToCentralQueue(PeopleLocalQueue &people, FibonacciPQ &centralQueue)
 {
    // readPeopleIntoCentralQueue();
    // withdraw?
-   centralQueue.eatPeople(&people);
-   /* delete &people; */
-   cout << "finish load people into central queue "<< endl;
+   centralQueue.eatPeople(people);
+   // delete &people;
+   cout << "now there is " << centralQueue.returnLength() << " people in the central queue" << endl;
+   cout << "finish load people into central queue " << endl;
    return;
 }
 
-void forwardToCentralQueueAtNoon(string data, PeopleLocalQueue people, FibonacciPQ centralQueue)
+void forwardToCentralQueueAtNoon(PeopleLocalQueue& people, FibonacciPQ &centralQueue)
 {
    cout << "Half a day (w.l.o.g. 1 sec) is gone." << endl;
-   forwardToCentralQueue(data, people, centralQueue);
+   forwardToCentralQueue(people, centralQueue);
    cout << "Successfully forwarded your information to the Central Queue." << endl;
 }
 
 // appointment queues functions
-int appointmentQueuesInit(queueManger* localHospital)
+int appointmentQueuesInit(queueManger *localHospital)
 {
    int32_t hourCapacity = 1;
    int32_t workingHour = 8;
 
    // initialize
    localHospital->init(8); // The number ranges from 1 to 7 (need index 7).
-   for (int i = 0; i < 8; i++) 
+   for (int i = 0; i < 8; i++)
    {
       localHospital->addHospital(i, hourCapacity, workingHour);
    }
@@ -87,7 +89,7 @@ int appointmentQueuesInit(queueManger* localHospital)
 }
 
 // Assumption: The appointent queues have already been initialized.
-int assignToLocalHospital(queueManger* localHospital, FibonacciPQ* centralQueue)
+int assignToLocalHospital(queueManger *localHospital, FibonacciPQ *centralQueue)
 {
    localHospital->reassign(centralQueue);
    localHospital->displayAll();
@@ -108,7 +110,7 @@ int main()
    temporaryRegisterRecordMethods.buildTemporaryRegisterRecord(data, people);
    appendTemporaryToPermanent(data);
    localizeAndDeleteTemporaryRegisterRecord(data);
-   forwardToCentralQueueAtNoon(data, people, central_Queue);
+   forwardToCentralQueueAtNoon(people, central_Queue);
    cout << "The forward To Central Queue At Noon function has been run. \n";
    appointmentQueuesInit(&localHospitals);
    assignToLocalHospital(&localHospitals, &central_Queue);
