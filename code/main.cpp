@@ -77,7 +77,7 @@ void forwardToCentralQueueAtNoon(PeopleLocalQueue& people, FibonacciPQ &centralQ
 int appointmentQueuesInit(queueManger *localHospital)
 {
    int32_t hourCapacity = 1;
-   int32_t workingHour = 8;
+   int32_t workingHour = 2;
 
    // initialize
    localHospital->init(8); // The number ranges from 1 to 7 (need index 7).
@@ -111,8 +111,8 @@ int main()
    appendTemporaryToPermanent(data);
    localizeAndDeleteTemporaryRegisterRecord(data);
    forwardToCentralQueueAtNoon(people, central_Queue);
-   cout << "The forward To Central Queue At Noon function has been run. \n";
-   cout << "Show if the central queue is empty before assignment (1 for true): " << central_Queue.isEmpty() << "\n";
+   // cout << "The forward To Central Queue At Noon function has been run. \n";
+   // cout << "Show if the central queue is empty before assignment (1 for true): " << central_Queue.isEmpty() << "\n";
    appointmentQueuesInit(&localHospitals);
    assignToLocalHospital(&localHospitals, &central_Queue);
 

@@ -98,9 +98,13 @@ int assignmentQueue::display(void)
         {
             aTime = timeSlot[i]->getAssignedTime();
             mktime(&aTime);
-            cout << "The appointment information of person with ID " << timeSlot[i]->getID() << " : \n";
-            cout << "   location:   " << timeSlot[i]->getAssignedLocation() << "\n";
-            cout << "   time:       " << asctime(&aTime) << "\n";
+            cout << "       " << "The appointment information of person with ID " << timeSlot[i]->getID() << " : \n";
+            if (timeSlot[i]->getReassigned())
+            {
+                cout << "       " << "Since the desired hospital is full, this person has been randomly assigned to another hospital.\n";
+            }
+                cout << "       " << "location:   Hospital " << timeSlot[i]->getAssignedLocation() << "\n";
+                cout << "       " << "time:       " << asctime(&aTime) << "\n";
         }
     }
     return 1;
@@ -140,7 +144,7 @@ int queueManger::extendLocations(int hospital)
 }
 
 // Before addition, remember to call this function (initHospital).
-int queueManger::addHospital(int hospital, int wh, int hc)
+int queueManger::addHospital(int hospital, int hc, int wh)
 {
     if (hospital >= capacity)
     {
@@ -186,15 +190,16 @@ int queueManger::reassign(FibonacciPQ *PQ)
 
         thePerson = PQ->popMin();
         cout << "Assigning the person with ID " << thePerson->getID() << " ...... \n";
-        int theLocation = thePerson->getAssignedLocation();
+        int theLocation = stoi(thePerson->getContactDetails());
         int otherLocation = std::rand() % 7;
         if (theLocation >= capacity || NULL == locations[theLocation])
         {
-            fprintf(stderr, "The hospital to which a person will be assigned has not been initialized. \n");
+            fprintf(stderr, "The hospital %d to which the person will be assigned has not been initialized. \n", theLocation);
             continue;
         }
         if (!locations[theLocation]->addPerson(thePerson))
         {
+            thePerson->markReassigned();
             do
             {
                 while (NULL == locations[otherLocation])
@@ -228,14 +233,18 @@ int queueManger::doWithdraw(Person *thePerson)
 
 int queueManger::displayAll(void)
 {
+    cout << "------------------------------------------------------------------------------\n";
     for (int i = 0; i < capacity; i++)
     {
         if (locations[i])
         {
+            cout << endl;
             cout << "The hospital " << locations[i]->getTheHospital() << " have the following assigned people: \n";
             locations[i]->display();
             cout << endl;
         }
     }
+    cout << "------------------------------------------------------------------------------\n";
+    cout << endl;
     return 1;
 }
