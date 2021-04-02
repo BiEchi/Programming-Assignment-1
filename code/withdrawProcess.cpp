@@ -8,7 +8,6 @@ string withdrawProcess::askForID()
     return ID;
 }
 
-
 // 从perment文件中读取数据并存储到内存中
 Person *withdrawProcess::findAndReturnPersonPointer(string ID)
 {
