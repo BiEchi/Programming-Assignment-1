@@ -24,7 +24,7 @@ public:
     void clear(void);
     int isFull(void) { return (occupied == length ? 1 : 0); }
     int addPerson(Person *const thePerson);
-    int deletePerson(Person *const thePerons);
+    int deletePerson(Person* thePerons);
     void assignTimeAndLocation(void);
     int getTheHospital(void) { return theHospital; }
     int display(void);

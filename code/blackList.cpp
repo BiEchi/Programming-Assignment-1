@@ -10,6 +10,7 @@ Person *blackList::popPersonWithID(Person *popped_person)
         if ((*pos)->getID() == popped_person->getID())
         {
             poppedPersonPtr = (*pos);
+            blackList_Hashing_table[index].erase(pos);
             break;
         }
     }
@@ -27,4 +28,19 @@ Person *blackList::appendPerson(Person *Withdraw_person)
     blackList_Hashing_table[index].push_back(Withdraw_person);
     cout << "successfully add a person" << endl;
     return Withdraw_person;
+}
+
+int blackList::display(void)
+{
+    cout << ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" << endl;
+    cout << "Black list info: " << endl;
+    for (auto itor = blackList_Hashing_table.begin(); itor != blackList_Hashing_table.end(); itor++)
+    {
+        for (auto itor2 = (*itor).begin(); itor2 != (*itor).end(); itor2++)
+        {
+            cout << "The person with ID " << (*itor2)->getID() << " is in the black list. " << endl;
+        }
+    }
+    cout << "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<" << endl;
+    return 0;
 }

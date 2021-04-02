@@ -58,7 +58,7 @@ Person *PeopleLocalQueue::popFront(void)
     {
         front = temp->next;
     }
-    cout << "The popped (removed) person has ID " << ptr->getID() << "." << endl;
+    cout << "The removed person (at front) has ID " << ptr->getID() << "." << endl;
     delete temp;
     length--;
     return ptr;
@@ -82,14 +82,14 @@ int PeopleLocalQueue::doWithdraw(Person *thePerson)
     Person* aPerson;
     itor = front;
 
-    if (itor->person_ptr == thePerson)
+    if (itor->person_ptr->getID() == thePerson->getID())
     {
         popFront();
         return 1;
     }
     for (i = 1, itor = front; i < length; i++, itor = itor->next)
     {
-        if (itor->next->person_ptr != thePerson)
+        if (itor->next->person_ptr->getID() != thePerson->getID())
         {
             continue;
         }
@@ -102,8 +102,9 @@ int PeopleLocalQueue::doWithdraw(Person *thePerson)
                 back = itor;
                 back->next = NULL;
                 aPerson = temp->person_ptr;
-                cout << "The removed person has ID " << aPerson->getID() << "." << endl;
+                cout << "The removed person (at back) has ID " << aPerson->getID() << "." << endl;
                 delete temp;
+                length--;
                 return 1;
             }
             else
@@ -113,6 +114,7 @@ int PeopleLocalQueue::doWithdraw(Person *thePerson)
                 aPerson = temp->person_ptr;
                 cout << "The removed person has ID " << aPerson->getID() << "." << endl;
                 delete temp;
+                length--;
                 return 1;
             }
         }
@@ -129,7 +131,13 @@ bool PeopleLocalQueue::display(void)
         cout << "The queue is empty." << endl;
         return false;
     }
-    cout << "The length of the people local queue is " << length << "." << endl;
+    cout << "The length of the people local queue is " << length << ". \n";
 
+    PeopleLocalNode* temp;
+    int i;
+    for (i = 0, temp = front; i < length; i++, temp = temp->next)
+    {
+        cout << "The " << i << "th person has the ID " << temp->person_ptr->getID() << ". \n";
+    }
     return true;
 }
