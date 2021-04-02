@@ -1,5 +1,4 @@
 #include "assignment_queue.hpp"
-#include <stdio.h>
 
 // assignmentQueue class functions
 
@@ -44,15 +43,22 @@ int assignmentQueue::addPerson(Person *const thePerson)
 
 int assignmentQueue::deletePerson(Person *const thePerson)
 {
-    for (int i = 0; i < this->occupied; i++)
+    if (NULL == thePerson)
+    {
+        fprintf(stderr, "The person to be deleted has a NULL pointer. \n");
+        return 0;
+    }
+    for (int i = 0; i < this->length; i++)
     {
         if (thePerson == timeSlot[i])
         {
             timeSlot[i] = NULL;
+            thePerson->assignLocation(-1);
             occupied--;
             return 1;
         }
     }
+    fprintf(stderr, "The person to be deleted has not been assigned to hospital %d. \n", this->theHospital);
     return 0;
 }
 
@@ -226,10 +232,8 @@ int queueManger::reassign(FibonacciPQ *PQ)
 int queueManger::doWithdraw(Person *thePerson)
 {
     int theLocation = thePerson->getAssignedLocation();
-    locations[theLocation]->deletePerson(thePerson);
-    if (!thePerson->assignLocation(-1))
+    if (!locations[theLocation]->deletePerson(thePerson))
     {
-        fprintf(stderr, "The person has not been assigned to %d hospital. \n", theLocation);
         return 0;
     }
     return 1;

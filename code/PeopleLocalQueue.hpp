@@ -1,9 +1,10 @@
 #ifndef localqueue_hpp
 #define localqueue_hpp
 
+#include "Person.hpp"
 #include <iostream>
 #include <stdint.h>
-#include "Person.hpp"
+#include <stdio.h>
 
 // class for each node
 class PeopleLocalNode
@@ -28,7 +29,7 @@ public:
     int init(void);
     int pushBack(Person *const ptr);
     Person *popFront(void);
-    int deleteNode(const Person *thePerson);
+    int doWithdraw(Person *thePerson);
     bool display(void);
 };
 

@@ -24,14 +24,14 @@ bool withdrawProcess::decideAndOperateWithdraw(Person *person, blackList &blackL
         break;
     case buffer:
         cout << "hello buffer!" << endl;
-        people.deleteNode(person); // Withdraw the person in people local queue.
+        if (people.doWithdraw(person)) {blackList.appendPerson(person);} // Withdraw the person in people local queue.
         break;
     case centralQueue:
         centralList.withdrawInCentral(person, blackList);
         break;
     case appointment:
         cout << "hello appointment!" << endl;
-        hospitals.doWithdraw(person); // Withdraw the person in assignment queues. 
+        if (hospitals.doWithdraw(person)) {blackList.appendPerson(person);}  // Withdraw the person in assignment queues. 
     case Finish:
         cout << "hello Finish!" << endl;
         break;

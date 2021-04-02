@@ -1,7 +1,4 @@
-#include <stdint.h>
-#include "Person.hpp"
 #include "PeopleLocalQueue.hpp"
-#include <stdio.h>
 
 // Please call init function when creating new local queue.
 int PeopleLocalQueue::init(void)
@@ -72,7 +69,7 @@ Person *PeopleLocalQueue::popFront(void)
  * 1    the person has been removed from the queue successfully
  * 0    the person is not in the queue
  */
-int PeopleLocalQueue::deleteNode(const Person *thePerson)
+int PeopleLocalQueue::doWithdraw(Person *thePerson)
 {
     if (0 == length)
     {
@@ -120,6 +117,7 @@ int PeopleLocalQueue::deleteNode(const Person *thePerson)
             }
         }
     }
+    fprintf(stderr, "The person to be deleted is not in the people local queue. \n");
     return 0;
 }
 
