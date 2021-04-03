@@ -24,8 +24,6 @@ public:
     void openTemporaryDataWithReadMode(ifstream& inFile);
     void readTemporaryDataWithReadMode(string data, ifstream& inFile);
     void closeTemporaryDataWithReadMode(ifstream& inFile);
-    void readContentAsVariables(ifstream& inFile, string data);
-    void buildTheVectorOfPersonInformationWithIO(string data);
     void dumpTemporaryRegisterRecord(string data);
 };
 

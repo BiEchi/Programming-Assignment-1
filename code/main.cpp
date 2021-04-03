@@ -37,19 +37,15 @@ bool halfDayIsGone(int realTimeBegin, int realTimeEnd)
 
 void appendTemporaryToPermanent(string data)
 {
-   cout << endl
-        << endl;
+   cout << endl << endl;
    appendPermanentRegisterRecord(data);
    cout << "Successfully put your information into the Permanent Database." << endl;
    return;
 }
 
-void localizeAndDeleteTemporaryRegisterRecord(string data)
+void DeleteTemporaryRegisterRecord(string data)
 {
    IOManipulations vectorIOManipulation;
-   vectorIOManipulation.buildTheVectorOfPersonInformationWithIO(data);
-
-   cout << "Successfully built your information into Data Structure inside C++." << endl;
    vectorIOManipulation.dumpTemporaryRegisterRecord(data);
    cout << "Successfully dumped your information in the Temporary Database." << endl;
 }
@@ -112,7 +108,7 @@ int main()
 
    temporaryRegisterRecordMethods.buildTemporaryRegisterRecord(data, people);
    appendTemporaryToPermanent(data);
-   localizeAndDeleteTemporaryRegisterRecord(data);
+   DeleteTemporaryRegisterRecord(data);
    forwardToCentralQueueAtNoon(people, central_Queue);
    // cout << "The forward To Central Queue At Noon function has been run. \n";
    // cout << "Show if the central queue is empty before assignment (1 for true): " << central_Queue.isEmpty() << "\n";

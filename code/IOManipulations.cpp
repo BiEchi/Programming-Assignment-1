@@ -115,18 +115,6 @@ void IOManipulations::closeTemporaryDataWithReadMode(ifstream& inFile)
    return;
 }
 
-void IOManipulations::readContentAsVariables(ifstream& inFile, string data)
-{
-   return;
-}
-
-void IOManipulations::buildTheVectorOfPersonInformationWithIO(string data)
-{
-   openTemporaryDataWithReadMode(inFile);
-   readContentAsVariables(inFile, data);
-   closeTemporaryDataWithReadMode(inFile);
-}
-
 void IOManipulations::dumpTemporaryRegisterRecord(string data)
 {
    system(" echo "" > 'temporaryData.dat' ");
