@@ -47,20 +47,20 @@ bool withdrawProcess::decideAndOperateWithdraw(Person *person, blackList &blackL
     switch (person->getcurrentStage())
     {
     case nonebuffer:
-        cout << "you haven't been added into the system" << endl;
-        break;
-    case buffer:
-        cout << "hello buffer!" << endl;
-        if (people.doWithdraw(person)) {blackList.appendPerson(person);} // Withdraw the person in people local queue.
+        cout << "=======you haven't been added into the system======" << endl;
         break;
     case centralQueue:
+        cout << "==========hello central Queue========" << endl;
         centralList.withdrawInCentral(person, blackList);
         break;
     case appointment:
-        cout << "hello appointment!" << endl;
-        if (hospitals.doWithdraw(person)) {blackList.appendPerson(person);}  // Withdraw the person in assignment queues. 
+        cout << "=========hello appointment!========" << endl;
+        if (hospitals.doWithdraw(person))
+        {
+            blackList.appendPerson(person);
+        } // Withdraw the person in assignment queues.
     case Finish:
-        cout << "you have finished our service, so you cannot withdraw" << endl;
+        cout << "==========you have finished our service, so you cannot withdraw========" << endl;
         break;
     default:
         cout << "stage error, please correct the person's stage" << endl;
@@ -69,36 +69,113 @@ bool withdrawProcess::decideAndOperateWithdraw(Person *person, blackList &blackL
     return true;
 }
 
-void withdrawProcess::askUserWhetherWithdraw(blackList &blackList, FibonacciPQ &centralList, PeopleLocalQueue &people, queueManger &hospitals, string filename)
+void withdrawProcess::askUserWithdraw_inPeople(blackList &blackList, PeopleLocalQueue &people)
 {
     int choice;
+    // 用户交互
+    do
+    {
+        cout << "do you want to withdraw?\n1:yes\t2:no" << endl;
+        cin >> choice;
+        Person *target_person = nullptr;
+        switch (choice)
+        {
+        case 1:
+            target_person = findAndReturnPersonPointer(askForID(), recordDataBase);
+            if (nullptr == target_person)
+                return;
+            cout << "=======hello buffer!=========" << endl;
+            if (people.doWithdraw(target_person))
+            {
+                blackList.appendPerson(target_person);
+            } // Withdraw the person in people local queue.
+            break;
+        case 2:
+            cout << "you choose to quit the withdraw operation" << endl;
+            recordDataBase.close();
+            return;
+        default:
+            cout << "please press the right number" << endl;
+            break;
+        }
+    } while (choice != 2);
+}
+
+void withdrawProcess::askUserWithdraw_inFibonacciPQ(blackList &blackList, FibonacciPQ &centrallist)
+{
+    int choice;
+    do
+    {
+        cout << "do you want to withdraw?\n1:yes\t2:no" << endl;
+        cin >> choice;
+        Person *target_person = nullptr;
+        switch (choice)
+        {
+        case 1:
+            target_person = findAndReturnPersonPointer(askForID(), recordDataBase);
+            if (nullptr == target_person)
+                break;
+            cout << "==========hello central Queue========" << endl;
+            centrallist.withdrawInCentral(target_person, blackList);
+            break;
+        case 2:
+            cout << "you choose to quit the withdraw operation" << endl;
+            recordDataBase.close();
+            return;
+        default:
+            cout << "please press the right number" << endl;
+            break;
+        }
+    } while (choice != 2);
+    return;
+}
+
+void withdrawProcess::askUserWithdraw_inHospital(blackList &blacklist, queueManger &hospital)
+{
+    int choice;
+    do
+    {
+        cout << "do you want to withdraw?\n1:yes\t2:no" << endl;
+        cin >> choice;
+        Person *target_person = nullptr;
+        switch (choice)
+        {
+        case 1:
+            target_person = findAndReturnPersonPointer(askForID(), recordDataBase);
+            if (nullptr == target_person)
+                break;
+            cout << "=========hello appointment!========" << endl;
+            if (hospital.doWithdraw(target_person))
+            {
+                blacklist.appendPerson(target_person);
+            } // Withdraw the person in assignment queues.
+            break;
+        case 2:
+            cout << "you choose to quit the withdraw operation" << endl;
+            recordDataBase.close();
+            return;
+        default:
+            cout << "please press the right number" << endl;
+            break;
+        }
+    } while (choice != 2);
+    return;
+}
+
+
+void withdrawProcess::readFile(string filename)
+{
     recordDataBase.open(filename, ios::in);
     if (!recordDataBase.is_open())
     {
         cout << "open file in withdraw operation failed" << endl;
         return;
     }
-    do
-    {
-        cout << "do you want to withdraw?\n1:yes 2:no" << endl;
-        cin >> choice;
-        Person target_person = Person();
-        switch (choice)
-        {
-        case 1:
-            target_person = *(findAndReturnPersonPointer(askForID(), recordDataBase));
-            decideAndOperateWithdraw(&target_person, blackList, centralList, people, hospitals);
-            return;
-            break;
-        case 2:
-            cout << "you choose to quit the withdraw operation" << endl;
-            return;
-            break;
-        default:
-            cout << "please press the right number" << endl;
-            break;
-        }
-    } while (choice != 2);
+    return;
+}
+
+void withdrawProcess::closeFile(string filename)
+{
     recordDataBase.close();
     return;
 }

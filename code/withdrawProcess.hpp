@@ -12,7 +12,11 @@
 class withdrawProcess
 {
 public:
-    void askUserWhetherWithdraw(blackList &blackList, FibonacciPQ &centralList, PeopleLocalQueue& people, queueManger &hospitals,string filename);
+    void readFile(string filename);
+    void askUserWithdraw_inPeople(blackList &blackList, PeopleLocalQueue &people);
+    void askUserWithdraw_inFibonacciPQ(blackList &blackList, FibonacciPQ &centralist);
+    void askUserWithdraw_inHospital(blackList &blacklist, queueManger &hospital);
+    void closeFile(string filename);
 
 private:
     enum dataClass{id,name,Address,Profession,YOB,MOB,DOB,MAR};

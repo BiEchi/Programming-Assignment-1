@@ -13,10 +13,8 @@
 #include "./FibonacciPQ.hpp"
 #include "./assignment_queue.hpp"
 #include "./blackList.hpp"
-using namespace std;
+#include "./withdrawProcess.hpp"
 
-#include <fstream>
-#include <iostream>
 using namespace std;
 
 void appendPermanentRegisterRecord(string data)
@@ -60,11 +58,11 @@ void forwardToCentralQueue(PeopleLocalQueue &people, FibonacciPQ &centralQueue)
    // withdraw?
    centralQueue.eatPeople(people);
    // delete &people;
-   cout << "now there is " << centralQueue.returnLength() << " people in the central queue" << endl;
+   cout << "now there are " << centralQueue.returnLength() << " patients in the central queue" << endl;
    return;
 }
 
-void forwardToCentralQueueAtNoon(PeopleLocalQueue &people, FibonacciPQ &centralQueue)
+void forwardToCentralQueueAtNoon(PeopleLocalQueue &people, FibonacciPQ &centralQueue, withdrawProcess &withdrawProg, blackList &blacklist)
 {
    cout << endl;
    cout << "------------------CentralQueue-------------------" << endl
@@ -72,6 +70,7 @@ void forwardToCentralQueueAtNoon(PeopleLocalQueue &people, FibonacciPQ &centralQ
    cout << "Half a day (w.l.o.g. 1 sec) is gone." << endl;
    forwardToCentralQueue(people, centralQueue);
    cout << "Successfully forwarded your information to the Central Queue." << endl;
+   withdrawProg.askUserWithdraw_inFibonacciPQ(blacklist,centralQueue);
    cout << endl
         << "-------------CentralQueueFinish--------------" << endl
         << endl;
@@ -82,7 +81,7 @@ int appointmentQueuesInit(queueManger *localHospital)
 {
    // initialize
    localHospital->init();
-   for (int i = 0; i < 8; i++) 
+   for (int i = 0; i < 8; i++)
    {
       localHospital->addHospital(i);
    }
@@ -97,26 +96,47 @@ int assignToLocalHospital(queueManger *localHospital, FibonacciPQ *centralQueue)
    return 1;
 }
 
+void loadTheTemporaryRegister(withdrawProcess &withdrawProg, string filename)
+{
+   withdrawProg.readFile(filename);
+   cout << "successfully open the file" << endl;
+   return;
+}
+
+void closeTheTemporaryRegister(withdrawProcess &withdrawProg, string filename)
+{
+   withdrawProg.closeFile(filename);
+   cout << "successfully close the file" << endl;
+   return;
+}
+
 int main()
 {
-   blackList blackListRegister = blackList();
-   FibonacciPQ central_Queue = FibonacciPQ();
+   // programe variable
    Notifications notification;
    TemporaryRegisterRecord temporaryRegisterRecordMethods;
-   notification.notifyUserAboutIntroduction();
-   string data; // buffer
+   withdrawProcess withdrawProm;
+   // data variable
+   blackList blackListRegister = blackList();
+   FibonacciPQ central_Queue = FibonacciPQ();
+   string data; //buffer
    PeopleLocalQueue people;
-   queueManger localHospitals; // appointment queues
    people.init();
+   queueManger localHospitals; // appointment queues
+
+   // process
+   notification.notifyUserAboutIntroduction();
 
    temporaryRegisterRecordMethods.buildTemporaryRegisterRecord(data, people);
    appendTemporaryToPermanent(data);
-   localizeAndDeleteTemporaryRegisterRecord(data);
-   forwardToCentralQueueAtNoon(people, central_Queue);
-   // cout << "The forward To Central Queue At Noon function has been run. \n";
-   // cout << "Show if the central queue is empty before assignment (1 for true): " << central_Queue.isEmpty() << "\n";
+   loadTheTemporaryRegister(withdrawProm,"temporaryData.dat");
+
+   forwardToCentralQueueAtNoon(people, central_Queue, withdrawProm,blackListRegister);
    appointmentQueuesInit(&localHospitals);
    assignToLocalHospital(&localHospitals, &central_Queue);
+
+   closeTheTemporaryRegister(withdrawProm,"temoraryData.dat");
+   localizeAndDeleteTemporaryRegisterRecord(data);
 
    return 0;
 }
