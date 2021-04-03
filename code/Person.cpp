@@ -81,7 +81,7 @@ void Person::display()
 // 优先级更高
 bool Person::isLargerThan(Person person)
 {
-  if (this->riskStatus = 3 && person.riskStatus != 3)
+  if (this->riskStatus == 3 && person.riskStatus != 3)
   {
     return false;
   }

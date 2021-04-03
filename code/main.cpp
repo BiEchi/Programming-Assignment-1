@@ -15,10 +15,6 @@
 #include "./blackList.hpp"
 using namespace std;
 
-#include <fstream>
-#include <iostream>
-using namespace std;
-
 void appendPermanentRegisterRecord(string data)
 {
    system(" cat 'temporaryData.dat' >> 'permanentData.dat' ");
