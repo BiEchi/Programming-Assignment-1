@@ -1,5 +1,4 @@
 #include "assignment_queue.hpp"
-#include <stdio.h>
 
 // assignmentQueue class functions
 
@@ -10,8 +9,11 @@ int assignmentQueue::init(int hc, int wh, int thePlace)
     workingHour = wh;
     length = hc * wh;
     occupied = 0;
-    timeSlot = new Person *[workingHour * hourCapacity];
-    this->clear();
+    timeSlot = new Person* [workingHour * hourCapacity];
+    for (int i = 0; i < length; i++)
+    {
+        timeSlot[i] = NULL;
+    }
     return 1;
 }
 
@@ -20,6 +22,7 @@ void assignmentQueue::clear(void)
 {
     for (int i = 0; i < workingHour * hourCapacity; i++)
     {
+        if (timeSlot[i]) {delete timeSlot[i];}
         timeSlot[i] = NULL;
     }
     occupied = 0;
@@ -42,17 +45,21 @@ int assignmentQueue::addPerson(Person *const thePerson)
     return 1;
 }
 
-int assignmentQueue::deletePerson(Person *const thePerson)
+// Assumption: The Person pointer is not NULL.
+int assignmentQueue::deletePerson(Person* thePerson)
 {
-    for (int i = 0; i < this->occupied; i++)
+    for (int i = 0; i < this->length; i++)
     {
-        if (thePerson == timeSlot[i])
+        if (timeSlot[i] && thePerson->getID() == timeSlot[i]->getID())
         {
+            delete timeSlot[i];
             timeSlot[i] = NULL;
+            thePerson->assignLocation(-1);
             occupied--;
             return 1;
         }
     }
+    fprintf(stderr, "The person to be deleted has not been assigned to hospital %d. \n", this->theHospital);
     return 0;
 }
 
@@ -225,11 +232,14 @@ int queueManger::reassign(FibonacciPQ *PQ)
 
 int queueManger::doWithdraw(Person *thePerson)
 {
-    int theLocation = thePerson->getAssignedLocation();
-    locations[theLocation]->deletePerson(thePerson);
-    if (!thePerson->assignLocation(-1))
+    if (NULL == thePerson)
     {
-        fprintf(stderr, "The person has not been assigned to %d hospital. \n", theLocation);
+        fprintf(stderr, "The person to be deleted has a NULL pointer. \n");
+        return 0;
+    }
+    int theLocation = thePerson->getAssignedLocation();
+    if (locations[theLocation] && !locations[theLocation]->deletePerson(thePerson))
+    {
         return 0;
     }
     return 1;
@@ -237,7 +247,7 @@ int queueManger::doWithdraw(Person *thePerson)
 
 int queueManger::displayAll(void)
 {
-    cout << "------------------------------------------------------------------------------\n";
+    cout << ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" << endl;
     for (int i = 0; i < capacity; i++)
     {
         if (locations[i])
@@ -245,10 +255,9 @@ int queueManger::displayAll(void)
             cout << endl;
             cout << "The hospital " << locations[i]->getTheHospital() << " have the following assigned people: \n";
             locations[i]->display();
-            cout << endl;
         }
     }
-    cout << "------------------------------------------------------------------------------\n";
+    cout << "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<" << endl;
     cout << endl;
     return 1;
 }

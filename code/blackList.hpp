@@ -17,6 +17,7 @@ public:
     // API
     Person *popPersonWithID(Person *popped_person);
     Person *appendPerson(Person *Withdraw_person);
+    int display(void);
 
 private:
     int length;
