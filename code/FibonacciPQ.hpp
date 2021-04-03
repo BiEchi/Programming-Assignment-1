@@ -5,7 +5,6 @@
 #include "blackList.hpp"
 using namespace std;
 
-
 class FibonacciPQ
 {
     // API functions
@@ -23,14 +22,15 @@ public:
     bool isEmpty();
     bool inSert(Person *handle);
     bool eatPeople(PeopleLocalQueue &local_queue);
-    Person *withdrawInCentral(Person* withdrawingPerson, blackList& blacklistObjective);
+    Person *withdrawInCentral(Person *withdrawingPerson, blackList &blacklistObjective);
     Person *popMin();
     Person *changeStatus(Person *changingPatient, string profession_status, string riskStatus_status);
+    Person *find(Person *checkObject, list<Person *> &findingList);
 
 private:
     void remove(Person *handle);
     Person *link(Person *a_prt, Person *b_ptr);
-    Person *decreaseKey(Person *changeStatusPerson, string profession_status, string riskStatus_status);
+    Person *decreaseKey(Person *changeStatusPerson, string &profession_status, string &riskStatus_status);
     void rebalance();
     void addSonPerson(Person *sonPerson, Person *parentPerson);
     void cut(Person *sonPerson, Person *parentPerson);
@@ -41,7 +41,7 @@ private:
 
     int PQ_length;
     int BucketLength;
-    int Rootsize;
+    size_t Rootsize;
     Person *Minptr; // the ptr pointing to the root having min Key in the list.
     // 初始时造个空的
     list<Person *> Rootlist; //creating a Rootlist to store the root

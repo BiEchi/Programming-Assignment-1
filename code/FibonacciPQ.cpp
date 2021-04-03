@@ -6,7 +6,7 @@
 void FibonacciPQ::newPerson(Person *newroot)
 {
     // the Person root Person shouldn't have any sibling Person
-    newroot->Parent = NULL;
+    newroot->Parent = nullptr;
     newroot->CutMark = false;
     // add the newroot Person in the root set
     Rootlist.push_back(newroot);
@@ -160,7 +160,7 @@ bool FibonacciPQ::inSert(Person *handle)
 }
 
 // 更改handle的key值，返回更改的句柄
-Person *FibonacciPQ::decreaseKey(Person *changeStatusPerson, string profession_status, string riskStatus_status)
+Person *FibonacciPQ::decreaseKey(Person *changeStatusPerson, string &profession_status, string &riskStatus_status)
 {
     // 造个替身进行假想比较
     Person *origin_person = stand_in(changeStatusPerson);
@@ -223,7 +223,9 @@ bool FibonacciPQ::freeSon(Person *parent_node)
 }
 void FibonacciPQ::remove(Person *handle)
 {
-    decreaseKey(handle, to_string(handle->getProfession() - 1), to_string(handle->getRiskStatus() - 1));
+    string Profession = to_string(handle->getProfession() - 1);
+    string RiskStatus = to_string(handle->getRiskStatus() - 1);
+    decreaseKey(handle, Profession, RiskStatus);
     popMin();
     return;
 }
@@ -266,18 +268,40 @@ Person *FibonacciPQ::stand_in(Person *copy_person_ptr)
     return stand;
 }
 
+Person *FibonacciPQ::find(Person *checkObject, list<Person *> &findinglist)
+{
+    if (findinglist.size() == 0)
+        return nullptr;
+    for (auto i = findinglist.begin(); i != findinglist.end(); i++)
+    {
+        if ((*i)->getID() == checkObject->getID())
+        {
+            cout << "fooooooound!" << endl;
+            return (*i);
+        }
+        find(checkObject, (*i)->Son);
+    }
+    return nullptr;
+}
+
 // withdraw operatioon for person in central queue
 // __withdrawingPerson: the person who wants withdraw
 // __blackList: the black where the person will be added
 // success:return the pointer to the withdrawing person, else return nullptr
 Person *FibonacciPQ::withdrawInCentral(Person *withdrawingPerson, blackList &blacklistObjective)
 {
-    if (withdrawingPerson->currentStage == centralQueue)
+    Person *targetPerson = find(withdrawingPerson,Rootlist);
+    if (nullptr == targetPerson)
     {
-        blacklistObjective.appendPerson(withdrawingPerson);
-        remove(withdrawingPerson);
-        cout << "Person " << withdrawingPerson->getName() << "withdraw successfully, but will be added into the blacklist" << endl;
-        return withdrawingPerson;
+        cout << "the person with ID " << withdrawingPerson->getID() << " is not found" << endl;
+        return nullptr;
+    }
+    if (targetPerson->currentStage == centralQueue)
+    {
+        blacklistObjective.appendPerson(targetPerson);
+        remove(targetPerson);
+        cout << "Person " << targetPerson->getName() << "withdraw successfully, but will be added into the blacklist" << endl;
+        return targetPerson;
     }
     else
     {
