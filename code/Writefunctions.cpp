@@ -12,7 +12,7 @@ using namespace std;
 void WriteFunctions::writeFunctionID(ofstream& outFile, string data, Person& person)
 {
     cin >> data;
-    outFile << data << endl;
+    outFile << data << " ";
     person.setID(data);
     return;
 }
@@ -20,7 +20,7 @@ void WriteFunctions::writeFunctionID(ofstream& outFile, string data, Person& per
 void WriteFunctions::writeFunctionName(ofstream& outFile, string data, Person& person)
 {
     cin >> data;
-    outFile << data << endl;
+    outFile << data << " ";
     person.setName(data);
     return;
 }
@@ -28,7 +28,7 @@ void WriteFunctions::writeFunctionName(ofstream& outFile, string data, Person& p
 void WriteFunctions::writeFunctionContactDetails(ofstream& outFile, string data, Person& person)
 {
     cin >> data;
-    outFile << data << endl;
+    outFile << data << " ";
     person.setContactDetails(data);
     return;
 }
@@ -36,7 +36,7 @@ void WriteFunctions::writeFunctionContactDetails(ofstream& outFile, string data,
 void WriteFunctions::writeFunctionProfession(ofstream& outFile, string data, Person& person)
 {
     cin >> data;
-    outFile << data << endl;
+    outFile << data << " ";
     person.setProfession(data);
     return;
 }
@@ -44,7 +44,7 @@ void WriteFunctions::writeFunctionProfession(ofstream& outFile, string data, Per
 void WriteFunctions::writeFunctionYearOfBirth(ofstream& outFile, string data, Person& person)
 {
     cin >> data;
-    outFile << data << endl;
+    outFile << data << " ";
     person.setBirthYear(data);
     return;
 }
@@ -52,7 +52,7 @@ void WriteFunctions::writeFunctionYearOfBirth(ofstream& outFile, string data, Pe
 void WriteFunctions::writeFunctionMonthOfBirth(ofstream& outFile, string data, Person& person)
 {
     cin >> data;
-    outFile << data << endl;
+    outFile << data << " ";
     person.setBirthMonth(data);
     return;
 }
@@ -60,7 +60,7 @@ void WriteFunctions::writeFunctionMonthOfBirth(ofstream& outFile, string data, P
 void WriteFunctions::writeFunctionDayOfBirth(ofstream& outFile, string data, Person& person)
 {
     cin >> data;
-    outFile << data << endl;
+    outFile << data << " ";
     person.setBirthDay(data);
     return;
 }

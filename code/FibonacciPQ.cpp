@@ -116,7 +116,6 @@ Person *FibonacciPQ::popMin()
     cout << "the popped person's id is " << return_obj->ID << endl;
     if (PQ_length > 0)
         cout << "now the top priority is " << Minptr->ID << endl;
-    return_obj->setCurrentStage(nonebuffer);
     return return_obj;
 }
 

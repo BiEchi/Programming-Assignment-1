@@ -48,7 +48,6 @@ void localizeAndDeleteTemporaryRegisterRecord(string data)
 {
    IOManipulations vectorIOManipulation;
    vectorIOManipulation.buildTheVectorOfPersonInformationWithIO(data);
-
    cout << "Successfully built your information into Data Structure inside C++." << endl;
    vectorIOManipulation.dumpTemporaryRegisterRecord(data);
    cout << "Successfully dumped your information in the Temporary Database." << endl;

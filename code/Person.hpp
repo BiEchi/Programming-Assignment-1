@@ -8,7 +8,14 @@
 #include <list>
 #include <math.h>
 using namespace std;
-enum processStage{nonebuffer, buffer, centralQueue, appointment,Finish};
+enum processStage
+{
+  nonebuffer,
+  buffer,
+  centralQueue,
+  appointment,
+  Finish
+};
 class Person
 {
 public:
@@ -32,7 +39,7 @@ public:
   tm getTimestamp(void) { return timeStamp; }
   int getProfession(void) { return profession; }
   int getRiskStatus(void) { return riskStatus; }
-  processStage getcurrentStage(void){return currentStage;}
+  processStage getcurrentStage(void) { return currentStage; }
 
   void setID(string data);
   void setName(string data);
@@ -48,13 +55,25 @@ public:
   void display();
 
   //Jiahao
-  bool assignTime(tm* atime) {appointmentTime = *atime; return true;}
-  bool assignLocation(int thePlace) {appointmentLocation = thePlace; return true;}
+  bool assignTime(tm *atime)
+  {
+    appointmentTime = *atime;
+    return true;
+  }
+  bool assignLocation(int thePlace)
+  {
+    appointmentLocation = thePlace;
+    return true;
+  }
   // int getLocation(void) {return location;}
-  int markReassigned(void) {reassigned = 1; return 1;}
-  int getReassigned(void) {return reassigned;}
-  int getAssignedLocation(void) {return appointmentLocation;}
-  tm getAssignedTime(void) {return appointmentTime;}
+  int markReassigned(void)
+  {
+    reassigned = 1;
+    return 1;
+  }
+  int getReassigned(void) { return reassigned; }
+  int getAssignedLocation(void) { return appointmentLocation; }
+  tm getAssignedTime(void) { return appointmentTime; }
   //baihao
   bool init();
   // yi_hong
