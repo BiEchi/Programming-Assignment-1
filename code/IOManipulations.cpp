@@ -95,21 +95,17 @@ void IOManipulations::openTemporaryDataWithReadMode(ifstream& inFile)
    return;
 }
 
-void IOManipulations::readFunctional(ifstream& inFile, string data)
-{
-    cin >> data;
-   cout << data << endl;
-   return;
-}
-
 void IOManipulations::readTemporaryDataWithReadMode(string data, ifstream& inFile)
 {
    cout << endl << endl;
    cout << "### Summary of Records ###" << endl; 
    cout << endl << endl;
 
-   while(!inFile.eof())
-      readFunctional(inFile, data);
+    while(getline(inFile, data))
+    {
+        cout << data << endl;
+    }
+    
    return;
 }
 

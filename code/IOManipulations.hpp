@@ -22,7 +22,6 @@ public:
     void writeTemporaryDataWithWriteMode(string data, ofstream& outFile, PeopleLocalQueue& people);
     void closeTemporaryDataWithWriteMode(ofstream& outFile);
     void openTemporaryDataWithReadMode(ifstream& inFile);
-    void readFunctional(ifstream& inFile, string data);
     void readTemporaryDataWithReadMode(string data, ifstream& inFile);
     void closeTemporaryDataWithReadMode(ifstream& inFile);
     void readContentAsVariables(ifstream& inFile, string data);
