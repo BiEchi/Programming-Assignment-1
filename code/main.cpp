@@ -39,31 +39,6 @@ void DeleteTemporaryRegisterRecord(string data)
    cout << "Successfully dumped your information in the Temporary Database." << endl;
 }
 
-// FibonacciPQ for 治疗队列
-void forwardToCentralQueue(PeopleLocalQueue &people, FibonacciPQ &centralQueue)
-{
-   // readPeopleIntoCentralQueue();
-   // withdraw?
-   centralQueue.eatPeople(people);
-   // delete &people;
-   cout << "now there are " << centralQueue.returnLength() << " patients in the central queue" << endl;
-   return;
-}
-
-void forwardToCentralQueueAtNoon(PeopleLocalQueue &people, FibonacciPQ &centralQueue, withdrawProcess &withdrawProg, blackList &blacklist, string &filename)
-{
-   cout << endl;
-   cout << "------------------CentralQueue-------------------" << endl
-        << endl;
-   cout << "Half a day (w.l.o.g. 1 sec) is gone." << endl;
-   forwardToCentralQueue(people, centralQueue);
-   cout << "Successfully forwarded your information to the Central Queue." << endl;
-   withdrawProg.askUserWithdraw_inFibonacciPQ(blacklist,centralQueue, filename);
-   cout << endl
-        << "-------------CentralQueueFinish--------------" << endl
-        << endl;
-}
-
 // appointment queues functions
 int appointmentQueuesInit(queueManger *localHospital)
 {
@@ -120,7 +95,6 @@ int main()
    temporaryRegisterRecordMethods.buildTemporaryRegisterRecord(data, people);
    appendTemporaryToPermanent(data);
 
-   forwardToCentralQueueAtNoon(people, central_Queue, withdrawProm,blackListRegister, searchFile);
    appointmentQueuesInit(&localHospitals);
    assignToLocalHospital(&localHospitals, &central_Queue);
 
