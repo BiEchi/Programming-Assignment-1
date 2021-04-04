@@ -293,14 +293,14 @@ Person *FibonacciPQ::withdrawInCentral(Person *withdrawingPerson, blackList &bla
     Person *targetPerson = find(withdrawingPerson,Rootlist);
     if (nullptr == targetPerson)
     {
-        cout << "the person with ID " << withdrawingPerson->getID() << " is not found" << endl;
+        cout << "the person with ID " << withdrawingPerson->getID() << " is not found in central list" << endl;
         return nullptr;
     }
     if (targetPerson->currentStage == centralQueue)
     {
         blacklistObjective.appendPerson(targetPerson);
         remove(targetPerson);
-        cout << "Person " << targetPerson->getName() << "withdraw successfully, but will be added into the blacklist" << endl;
+        cout << "Person " << targetPerson->getName() << " withdraw successfully, but will be added into the blacklist" << endl;
         return targetPerson;
     }
     else

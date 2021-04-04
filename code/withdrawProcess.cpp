@@ -10,7 +10,7 @@ string withdrawProcess::askForID()
 }
 
 // 从perment文件中读取数据并存储到内存中
-Person *withdrawProcess::findAndReturnPersonPointer(string ID, ifstream &recordFile)
+Person *withdrawProcess::findAndReturnPersonPointer(string &ID, ifstream &recordFile)
 {
     Person *blacklistMember = new Person;
     vector<string> recordinfo;
@@ -42,34 +42,7 @@ Person *withdrawProcess::findAndReturnPersonPointer(string ID, ifstream &recordF
     return nullptr;
 }
 
-bool withdrawProcess::decideAndOperateWithdraw(Person *person, blackList &blackList, FibonacciPQ &centralList, PeopleLocalQueue &people, queueManger &hospitals)
-{
-    switch (person->getcurrentStage())
-    {
-    case nonebuffer:
-        cout << "=======you haven't been added into the system======" << endl;
-        break;
-    case centralQueue:
-        cout << "==========hello central Queue========" << endl;
-        centralList.withdrawInCentral(person, blackList);
-        break;
-    case appointment:
-        cout << "=========hello appointment!========" << endl;
-        if (hospitals.doWithdraw(person))
-        {
-            blackList.appendPerson(person);
-        } // Withdraw the person in assignment queues.
-    case Finish:
-        cout << "==========you have finished our service, so you cannot withdraw========" << endl;
-        break;
-    default:
-        cout << "stage error, please correct the person's stage" << endl;
-        break;
-    }
-    return true;
-}
-
-void withdrawProcess::askUserWithdraw_inPeople(blackList &blackList, PeopleLocalQueue &people)
+void withdrawProcess::askUserWithdraw_inPeople(blackList &blackList, PeopleLocalQueue &people, string &filename)
 {
     int choice;
     // 用户交互
@@ -81,18 +54,18 @@ void withdrawProcess::askUserWithdraw_inPeople(blackList &blackList, PeopleLocal
         switch (choice)
         {
         case 1:
-            target_person = findAndReturnPersonPointer(askForID(), recordDataBase);
-            if (nullptr == target_person)
-                return;
             cout << "=======hello buffer!=========" << endl;
+            // loadFileAndFindData(filename, askForID(), recordDataBase, target_person);
+            if (nullptr == target_person)
+                break;
+            // Withdraw the person in people local queue.
             if (people.doWithdraw(target_person))
             {
                 blackList.appendPerson(target_person);
-            } // Withdraw the person in people local queue.
+            }
             break;
         case 2:
             cout << "you choose to quit the withdraw operation" << endl;
-            recordDataBase.close();
             return;
         default:
             cout << "please press the right number" << endl;
@@ -101,26 +74,29 @@ void withdrawProcess::askUserWithdraw_inPeople(blackList &blackList, PeopleLocal
     } while (choice != 2);
 }
 
-void withdrawProcess::askUserWithdraw_inFibonacciPQ(blackList &blackList, FibonacciPQ &centrallist)
+void withdrawProcess::askUserWithdraw_inFibonacciPQ(blackList &blackList, FibonacciPQ &centrallist, string &filename)
 {
     int choice;
     do
     {
         cout << "do you want to withdraw?\n1:yes\t2:no" << endl;
         cin >> choice;
-        Person *target_person = nullptr;
+        Person *target_person = new Person;
         switch (choice)
         {
         case 1:
-            target_person = findAndReturnPersonPointer(askForID(), recordDataBase);
+            cout << "==========hello central Queue========" << endl;
+            target_person = loadFileAndFindData(filename, askForID(), recordDataBase);
             if (nullptr == target_person)
                 break;
-            cout << "==========hello central Queue========" << endl;
+
+            cout << "the person's ID " << target_person->getID() << endl;
+            // Withdraw the person in people central queue.
             centrallist.withdrawInCentral(target_person, blackList);
+            delete target_person;
             break;
         case 2:
             cout << "you choose to quit the withdraw operation" << endl;
-            recordDataBase.close();
             return;
         default:
             cout << "please press the right number" << endl;
@@ -130,7 +106,7 @@ void withdrawProcess::askUserWithdraw_inFibonacciPQ(blackList &blackList, Fibona
     return;
 }
 
-void withdrawProcess::askUserWithdraw_inHospital(blackList &blacklist, queueManger &hospital)
+void withdrawProcess::askUserWithdraw_inHospital(blackList &blacklist, queueManger &hospital, string &filename)
 {
     int choice;
     do
@@ -141,18 +117,19 @@ void withdrawProcess::askUserWithdraw_inHospital(blackList &blacklist, queueMang
         switch (choice)
         {
         case 1:
-            target_person = findAndReturnPersonPointer(askForID(), recordDataBase);
+            cout << "=========hello appointment!========" << endl;
+            target_person = loadFileAndFindData(filename, askForID(), recordDataBase);
             if (nullptr == target_person)
                 break;
-            cout << "=========hello appointment!========" << endl;
+
+            // Withdraw the person in assignment queues.
             if (hospital.doWithdraw(target_person))
             {
                 blacklist.appendPerson(target_person);
-            } // Withdraw the person in assignment queues.
+            }
             break;
         case 2:
             cout << "you choose to quit the withdraw operation" << endl;
-            recordDataBase.close();
             return;
         default:
             cout << "please press the right number" << endl;
@@ -162,8 +139,7 @@ void withdrawProcess::askUserWithdraw_inHospital(blackList &blacklist, queueMang
     return;
 }
 
-
-void withdrawProcess::readFile(string filename)
+void withdrawProcess::readFile(string &filename)
 {
     recordDataBase.open(filename, ios::in);
     if (!recordDataBase.is_open())
@@ -174,10 +150,38 @@ void withdrawProcess::readFile(string filename)
     return;
 }
 
-void withdrawProcess::closeFile(string filename)
+void withdrawProcess::closeFile(string &filename)
 {
     recordDataBase.close();
     return;
+}
+
+// void withdrawProcess::loadFileAndFindData(string &filename, string ID, ifstream &recordfile, Person *target_person)
+// {
+//     readFile(filename);
+//     target_person = findAndReturnPersonPointer(ID, recordDataBase);
+//     closeFile(filename);
+//     return;
+// }
+
+Person* withdrawProcess::loadFileAndFindData(string &filename, string ID, ifstream &recordfile)
+{
+    Person *target_person = nullptr;
+    readFile(filename);
+    target_person = findAndReturnPersonPointer(ID, recordDataBase);
+    closeFile(filename);
+    return target_person;
+
+
+    // if(nullptr == target_person)
+    //     return nullptr;
+    // else
+    // {
+    //     // Person *return_ptr = new Person;
+    //     Person *return_ptr = nullptr;
+    //     return_ptr = target_person;
+    //     return return_ptr;
+    // }
 }
 
 // split the string by some signs and store it in the vector object and then return that

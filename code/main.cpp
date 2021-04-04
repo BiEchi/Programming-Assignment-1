@@ -62,7 +62,7 @@ void forwardToCentralQueue(PeopleLocalQueue &people, FibonacciPQ &centralQueue)
    return;
 }
 
-void forwardToCentralQueueAtNoon(PeopleLocalQueue &people, FibonacciPQ &centralQueue, withdrawProcess &withdrawProg, blackList &blacklist)
+void forwardToCentralQueueAtNoon(PeopleLocalQueue &people, FibonacciPQ &centralQueue, withdrawProcess &withdrawProg, blackList &blacklist, string &filename)
 {
    cout << endl;
    cout << "------------------CentralQueue-------------------" << endl
@@ -70,7 +70,7 @@ void forwardToCentralQueueAtNoon(PeopleLocalQueue &people, FibonacciPQ &centralQ
    cout << "Half a day (w.l.o.g. 1 sec) is gone." << endl;
    forwardToCentralQueue(people, centralQueue);
    cout << "Successfully forwarded your information to the Central Queue." << endl;
-   withdrawProg.askUserWithdraw_inFibonacciPQ(blacklist,centralQueue);
+   withdrawProg.askUserWithdraw_inFibonacciPQ(blacklist,centralQueue, filename);
    cout << endl
         << "-------------CentralQueueFinish--------------" << endl
         << endl;
@@ -96,19 +96,19 @@ int assignToLocalHospital(queueManger *localHospital, FibonacciPQ *centralQueue)
    return 1;
 }
 
-void loadTheTemporaryRegister(withdrawProcess &withdrawProg, string filename)
-{
-   withdrawProg.readFile(filename);
-   cout << "successfully open the file" << endl;
-   return;
-}
+// void loadTheTemporaryRegister(withdrawProcess &withdrawProg, string filename)
+// {
+//    withdrawProg.readFile(filename);
+//    cout << "successfully open the file" << endl;
+//    return;
+// }
 
-void closeTheTemporaryRegister(withdrawProcess &withdrawProg, string filename)
-{
-   withdrawProg.closeFile(filename);
-   cout << "successfully close the file" << endl;
-   return;
-}
+// void closeTheTemporaryRegister(withdrawProcess &withdrawProg, string filename)
+// {
+//    withdrawProg.closeFile(filename);
+//    cout << "successfully close the file " << endl;
+//    return;
+// }
 
 int main()
 {
@@ -119,6 +119,7 @@ int main()
    // data variable
    blackList blackListRegister = blackList();
    FibonacciPQ central_Queue = FibonacciPQ();
+   string searchFile = "temporaryData.dat";
    string data; //buffer
    PeopleLocalQueue people;
    people.init();
@@ -129,13 +130,11 @@ int main()
 
    temporaryRegisterRecordMethods.buildTemporaryRegisterRecord(data, people);
    appendTemporaryToPermanent(data);
-   loadTheTemporaryRegister(withdrawProm,"temporaryData.dat");
 
-   forwardToCentralQueueAtNoon(people, central_Queue, withdrawProm,blackListRegister);
+   forwardToCentralQueueAtNoon(people, central_Queue, withdrawProm,blackListRegister, searchFile);
    appointmentQueuesInit(&localHospitals);
    assignToLocalHospital(&localHospitals, &central_Queue);
 
-   closeTheTemporaryRegister(withdrawProm,"temoraryData.dat");
    localizeAndDeleteTemporaryRegisterRecord(data);
 
    return 0;
