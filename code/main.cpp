@@ -13,22 +13,14 @@
 #include "./FibonacciPQ.hpp"
 #include "./assignment_queue.hpp"
 #include "./blackList.hpp"
+#include "./MULTITHREAD.hpp"
+
 using namespace std;
 
 void appendPermanentRegisterRecord(string data)
 {
    system(" cat 'temporaryData.dat' >> 'permanentData.dat' ");
    return;
-}
-
-// take 1 minute as half a day
-bool halfDayIsGone(int realTimeBegin, int realTimeEnd)
-{
-   /* // TODO
-   if (realTimeBegin - realTimeEnd) return true;
-   else return false;
-   */
-   return true;
 }
 
 void appendTemporaryToPermanent(string data)
@@ -44,30 +36,6 @@ void DeleteTemporaryRegisterRecord(string data)
    IOManipulations vectorIOManipulation;
    vectorIOManipulation.dumpTemporaryRegisterRecord(data);
    cout << "Successfully dumped your information in the Temporary Database." << endl;
-}
-
-// FibonacciPQ for 治疗队列
-void forwardToCentralQueue(PeopleLocalQueue &people, FibonacciPQ &centralQueue)
-{
-   // readPeopleIntoCentralQueue();
-   // withdraw?
-   centralQueue.eatPeople(people);
-   // delete &people;
-   cout << "now there is " << centralQueue.returnLength() << " people in the central queue" << endl;
-   return;
-}
-
-void forwardToCentralQueueAtNoon(PeopleLocalQueue &people, FibonacciPQ &centralQueue)
-{
-   cout << endl;
-   cout << "------------------CentralQueue-------------------" << endl
-        << endl;
-   cout << "Half a day (w.l.o.g. 1 sec) is gone." << endl;
-   forwardToCentralQueue(people, centralQueue);
-   cout << "Successfully forwarded your information to the Central Queue." << endl;
-   cout << endl
-        << "-------------CentralQueueFinish--------------" << endl
-        << endl;
 }
 
 // appointment queues functions
@@ -102,11 +70,10 @@ int main()
    queueManger localHospitals; // appointment queues
    people.init();
 
+   while (1) MULTITHREAD_forwardToCentralQueueAtNoon(people, central_Queue);
    temporaryRegisterRecordMethods.buildTemporaryRegisterRecord(data, people);
    appendTemporaryToPermanent(data);
    DeleteTemporaryRegisterRecord(data);
-   forwardToCentralQueueAtNoon(people, central_Queue);
-   // cout << "The forward To Central Queue At Noon function has been run. \n";
    // cout << "Show if the central queue is empty before assignment (1 for true): " << central_Queue.isEmpty() << "\n";
    appointmentQueuesInit(&localHospitals);
    assignToLocalHospital(&localHospitals, &central_Queue);
