@@ -68,6 +68,7 @@ int assignmentQueue::deletePerson(Person *thePerson)
 
 void assignmentQueue::assignTimeAndLocation(void)
 {
+    startTime;
     time_t currentTime;
     struct tm *baseTime;
     struct tm aTime;

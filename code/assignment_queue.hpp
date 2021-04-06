@@ -3,6 +3,7 @@
 
 #include "FibonacciPQ.hpp"
 #include "Person.hpp"
+#include "Tools.hpp"
 #include <stdint.h>
 #include <stdio.h>
 #include <time.h>
