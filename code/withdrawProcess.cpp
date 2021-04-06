@@ -135,6 +135,8 @@ void withdrawProcess::withdrawAdvanced(blackList &blackList, PeopleLocalQueue &p
         case 1:
         {
             Person *target_Person = loadFileAndFindData(filename, askForID(), recordDataBase);
+            if(nullptr == target_Person)
+                break;
             askUserWithdraw_inFibonacciPQ(blackList, centralList, target_Person);
             askUserWithdraw_inPeople(blackList, people, target_Person);
             askUserWithdraw_inHospital(blackList, hospital, target_Person);
