@@ -123,6 +123,20 @@ int PeopleLocalQueue::doWithdraw(Person *thePerson)
     return 0;
 }
 
+Person* PeopleLocalQueue::isIn(string ID)
+{
+    int i;
+    PeopleLocalNode* itor;
+    for (i = 0, itor = front; i < length; i++, itor = itor->next)
+    {
+        if(itor->person_ptr->getID() == ID)
+        {
+            return itor->person_ptr;
+        }
+    }
+    return NULL;
+}
+
 // Print the ID of the last person in the queue.
 bool PeopleLocalQueue::display(void)
 {

@@ -56,6 +56,15 @@ Person *withdrawProcess::findAndReturnPersonPointer(string &ID, ifstream &record
 
 void withdrawProcess::askUserWithdraw_inPeople(blackList &blackList, PeopleLocalQueue &people, Person *finding_obj)
 {
+    cout << "================hello people================" << endl;
+    Person *targetPerson = people.isIn(finding_obj->getID());
+    if(nullptr == targetPerson)
+    {
+        cout << "we do not find the person in people" << endl;
+        return;
+    }
+    people.doWithdraw(targetPerson);
+    blackList.appendPerson(targetPerson);
     return;
 }
 
@@ -76,6 +85,14 @@ void withdrawProcess::askUserWithdraw_inFibonacciPQ(blackList &blackList, Fibona
 
 void withdrawProcess::askUserWithdraw_inHospital(blackList &blacklist, queueManger &hospital, Person *finding_obj)
 {
+    cout << "==============hello hospital=============" << endl;
+    Person *targetPerson = hospital.isIn(finding_obj->getID());
+    if(nullptr == targetPerson)
+    {
+        cout << "sorry we do not find the person in hospital queue" << endl;
+        return;
+    }
+    blacklist.appendPerson(targetPerson);
     return;
 }
 
@@ -118,8 +135,8 @@ void withdrawProcess::withdrawAdvanced(blackList &blackList, PeopleLocalQueue &p
         case 1:
             Person *targetPerson = loadFileAndFindData(filename, askForID(), recordDataBase);
             askUserWithdraw_inFibonacciPQ(blackList, centralList, targetPerson);
-            askUserWithdraw_inPeople(blackList);
-            askUserWithdraw_inHospital(blackList);
+            askUserWithdraw_inPeople(blackList, people, targetPerson);
+            askUserWithdraw_inHospital(blackList, hospital, targetPerson);
             break;
         case 2:
             break;

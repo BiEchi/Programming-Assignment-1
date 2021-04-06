@@ -116,13 +116,17 @@ Person *FibonacciPQ::popMin()
     for (auto i = storePeople.begin(); i != storePeople.end(); i++)
     {
         if ((*i)->getID() == return_obj->getID())
+        {
+        // erase 之后会更改end值
             storePeople.erase(i);
+            break;
+        }
     }
     PQ_length--;
     cout << "the popped person's id is " << return_obj->getID() << endl;
-    if (PQ_length > 0)
-        cout << "now the top priority is " << Minptr->getID() << endl;
-    else
+    // if (PQ_length > 0)
+        // cout << "now the top priority is " << Minptr->getID() << endl;
+    if(PQ_length == 0)
         cout << "now there is no person in the central list" << endl;
     return return_obj;
 }

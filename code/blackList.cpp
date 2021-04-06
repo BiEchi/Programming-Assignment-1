@@ -16,8 +16,10 @@ Person *blackList::popPersonWithID(Person *popped_person)
     }
     if (nullptr == poppedPersonPtr)
         cout << "there is not such a person!" << endl;
-    else
+    else {
         cout << "successfully delete " << popped_person->getID() << endl;
+        num--;
+    }
     return poppedPersonPtr;
 }
 
@@ -28,6 +30,7 @@ Person *blackList::appendPerson(Person *Withdraw_person)
     blackList_Hashing_table[index].push_back(Withdraw_person);
     Withdraw_person->setCurrentStage(nonebuffer);
     cout << "successfully add a person" << endl;
+    num++;
     return Withdraw_person;
 }
 
@@ -44,9 +47,4 @@ int blackList::display(void)
     }
     cout << "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<" << endl;
     return 0;
-}
-
-int blackList::size()
-{
-    return length;
 }

@@ -3,6 +3,7 @@
 
 #include "FibonacciPQ.hpp"
 #include "Person.hpp"
+#include "Tools.hpp"
 #include <stdint.h>
 #include <stdio.h>
 #include <time.h>
@@ -27,6 +28,7 @@ public:
     int deletePerson(Person *thePerons);
     void assignTimeAndLocation(void);
     int getTheHospital(void) { return theHospital; }
+    Person* isIn(string ID);
     int display(void);
 };
 
@@ -46,6 +48,7 @@ public:
     int reassign(FibonacciPQ *PQ);
     // Handle withdraw
     int doWithdraw(Person *thePerson);
+    Person* isIn(string ID);
     int displayAll(void);
 };
 

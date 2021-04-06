@@ -9,8 +9,10 @@
 #define MULTITHREAD_hpp
 
 #include <stdio.h>
-
 #include <ctime>
+
+#include "blackList.hpp"
+#include "Tools.hpp"
 
 // FibonacciPQ for 治疗队列
 void forwardToCentralQueue(PeopleLocalQueue &people, FibonacciPQ &centralQueue)
@@ -60,74 +62,9 @@ void settimer(unsigned int id, int msec, PeopleLocalQueue &people, FibonacciPQ &
     return;
 }
 
-void MULTITHREAD_forwardToCentralQueueAtNoon(PeopleLocalQueue &people,
+void forwardToCentralQueueAtNoonTwiceADay(PeopleLocalQueue &people,
                                              FibonacciPQ &centralQueue) {
   settimer(1, 2000000, people, centralQueue);
-}
-
-#endif /* MULTITHREAD_hpp */
-
-void Reporting_weekly(unsigned int personType, unsigned int sortType,
-                      vector<Person> treatedPeople, vector<Person> centralQueue,
-                      vector<Person> assignmentQueue) {
-  if (personType > 3 || personType < 0) {
-    cout << "personType ERROR" << endl;
-    return;
-  }
-  if (sortType > 3 || sortType < 0) {
-    cout << "sortType ERROR" << endl;
-    return;
-  }
-  if (personType = 0) {
-    if (sortType = 0) {
-      quick_sort_name(treatedPeople, 0, treatedPeople.size() - 1);
-    } else if (sortType = 1) {
-      quick_sort_profession(treatedPeople, 0, treatedPeople.size() - 1);
-    } else {
-      quick_sort_age(treatedPeople, 0, treatedPeople.size() - 1);
-    }
-    for (auto iter = treatedPeople.begin(); iter != treatedPeople.end();
-         iter++) {
-      cout << (*iter).getName() << (*iter).getProfession() << " "
-           << (*iter).getAgeGroup() << (*iter).getRiskStatus() << " "
-           << difftime(mktime(&(*iter).getTimestamp()),
-                       mktime(&(*iter).getAssignedTime()))
-           << " " << endl;
-    }
-  }
-  if (personType = 1) {
-    if (sortType = 0) {
-      quick_sort_name(centralQueue, 0, centralQueue.size() - 1);
-    } else if (sortType = 1) {
-      quick_sort_profession(centralQueue, 0, centralQueue.size() - 1);
-    } else {
-      quick_sort_age(centralQueue, 0, centralQueue.size() - 1);
-    }
-    for (auto iter = centralQueue.begin(); iter != centralQueue.end(); iter++) {
-      cout << (*iter).getName() << (*iter).getProfession() << " "
-           << (*iter).getAgeGroup() << (*iter).getRiskStatus() << " "
-           << difftime(mktime(&(*iter).getTimestamp()),
-                       mktime(&(*iter).getAssignedTime()))
-           << " " << endl;
-    }
-  }
-  if (personType = 2) {
-    if (sortType = 0) {
-      quick_sort_name(assignmentQueue, 0, assignmentQueue.size() - 1);
-    } else if (sortType = 1) {
-      quick_sort_profession(assignmentQueue, 0, assignmentQueue.size() - 1);
-    } else {
-      quick_sort_age(assignmentQueue, 0, assignmentQueue.size() - 1);
-    }
-    for (auto iter = assignmentQueue.begin(); iter != assignmentQueue.end();
-         iter++) {
-      cout << (*iter).getName() << (*iter).getProfession() << " "
-           << (*iter).getAgeGroup() << (*iter).getRiskStatus() << " "
-           << difftime(mktime(&(*iter).getTimestamp()),
-                       mktime(&(*iter).getAssignedTime()))
-           << " " << endl;
-    }
-  }
 }
 
 void quick_sort_name(vector<Person> people, int l, int r) {
@@ -194,6 +131,70 @@ void quick_sort_age(vector<Person> people, int l, int r) {
   }
 }
 
+void Reporting_weekly(unsigned int personType, unsigned int sortType,
+                      vector<Person> treatedPeople, vector<Person> centralQueue,
+                      vector<Person> assignmentQueue) {
+  if (personType > 3 || personType < 0) {
+    cout << "personType ERROR" << endl;
+    return;
+  }
+  if (sortType > 3 || sortType < 0) {
+    cout << "sortType ERROR" << endl;
+    return;
+  }
+  if (personType == 0) {
+    if (sortType == 0) {
+      quick_sort_name(treatedPeople, 0, treatedPeople.size() - 1);
+    } else if (sortType == 1) {
+      quick_sort_profession(treatedPeople, 0, treatedPeople.size() - 1);
+    } else {
+      quick_sort_age(treatedPeople, 0, treatedPeople.size() - 1);
+    }
+    for (auto iter = treatedPeople.begin(); iter != treatedPeople.end();
+         iter++) {
+      tm TimeRrgister = (*iter).getTimestamp();
+      tm TimeAssigned = (*iter).getAssignedTime();
+      cout << (*iter).getName() << (*iter).getProfession() << " "
+           << (*iter).getAgeGroup() << (*iter).getRiskStatus() << " "
+           << difftime(mktime(&TimeRrgister), mktime(&TimeAssigned)) << " "
+           << endl;
+    }
+  }
+  if (personType == 1) {
+    if (sortType == 0) {
+      quick_sort_name(centralQueue, 0, centralQueue.size() - 1);
+    } else if (sortType == 1) {
+      quick_sort_profession(centralQueue, 0, centralQueue.size() - 1);
+    } else {
+      quick_sort_age(centralQueue, 0, centralQueue.size() - 1);
+    }
+    for (auto iter = centralQueue.begin(); iter != centralQueue.end(); iter++) {
+      tm TimeRrgister = (*iter).getTimestamp();
+      time_t now = time(0);
+      cout << (*iter).getName() << (*iter).getProfession() << " "
+           << (*iter).getAgeGroup() << (*iter).getRiskStatus() << " "
+           << difftime(mktime(&TimeRrgister), now) << " " << endl;
+    }
+  }
+  if (personType == 2) {
+    if (sortType == 0) {
+      quick_sort_name(assignmentQueue, 0, assignmentQueue.size() - 1);
+    } else if (sortType == 1) {
+      quick_sort_profession(assignmentQueue, 0, assignmentQueue.size() - 1);
+    } else {
+      quick_sort_age(assignmentQueue, 0, assignmentQueue.size() - 1);
+    }
+    for (auto iter = assignmentQueue.begin(); iter != assignmentQueue.end();
+         iter++) {
+      tm TimeRrgister = (*iter).getTimestamp();
+      time_t now = time(0);
+      cout << (*iter).getName() << (*iter).getProfession() << " "
+           << (*iter).getAgeGroup() << (*iter).getRiskStatus() << " "
+           << difftime(mktime(&TimeRrgister), now) << " " << endl;
+    }
+  }
+}
+
 void Reporting_monthly(vector<Person> treatedPeople,
                        vector<Person> centralQueue,
                        vector<Person> assignmentQueue, blackList blackList) {
@@ -209,3 +210,5 @@ void Reporting_monthly(vector<Person> treatedPeople,
   cout << "There are " << blackList.size()
        << " people who withdraw their registration" << endl;
 }
+
+#endif /* MULTITHREAD_hpp */
