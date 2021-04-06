@@ -1,27 +1,20 @@
 #ifndef database_h
 #define database_h
+#include <math.h>
+#include <stdio.h>
+
 #include <cstring>
 #include <ctime>
 #include <iostream>
-#include <stdio.h>
-#include <vector>
 #include <list>
-#include <math.h>
+#include <vector>
+
 using namespace std;
-enum processStage
-{
-  nonebuffer,
-  buffer,
-  centralQueue,
-  appointment,
-  Finish
-};
-class Person
-{
-public:
+enum processStage { nonebuffer, buffer, centralQueue, appointment, Finish };
+class Person {
+ public:
   friend class FibonacciPQ;
-  Person()
-  {
+  Person() {
     name = string();
     contactDetails = string();
     // location = 0;
@@ -39,11 +32,13 @@ public:
   tm getTimestamp(void) { return timeStamp; }
   int getProfession(void) { return profession; }
   int getRiskStatus(void) { return riskStatus; }
+  int getAgeGroup(void) { return ageGroup; }
   processStage getcurrentStage(void) { return currentStage; }
 
   void setID(string data);
   void setName(string data);
   void setContactDetails(string data);
+  void setAgeGroup(string data);
   void setBirthYear(string data);
   void setBirthMonth(string data);
   void setBirthDay(string data);
@@ -54,32 +49,29 @@ public:
 
   void display();
 
-  //Jiahao
-  bool assignTime(tm *atime)
-  {
+  // Jiahao
+  bool assignTime(tm *atime) {
     appointmentTime = *atime;
     return true;
   }
-  bool assignLocation(int thePlace)
-  {
+  bool assignLocation(int thePlace) {
     appointmentLocation = thePlace;
     return true;
   }
   // int getLocation(void) {return location;}
-  int markReassigned(void)
-  {
+  int markReassigned(void) {
     reassigned = 1;
     return 1;
   }
   int getReassigned(void) { return reassigned; }
   int getAssignedLocation(void) { return appointmentLocation; }
   tm getAssignedTime(void) { return appointmentTime; }
-  //baihao
+  // baihao
   bool init();
   // yi_hong
   bool isLargerThan(Person person);
 
-private:
+ private:
   string ID;
   string name;
   string contactDetails;
@@ -88,10 +80,11 @@ private:
   // int location;
   int ageGroup;
   int profession, riskStatus;
-  //Jiahao
+  // Jiahao
   tm appointmentTime;
   int appointmentLocation;
-  int reassigned; // Indicate that whether a person has been assigned to another hospital different from his/her contact detail.
+  int reassigned;  // Indicate that whether a person has been assigned to
+                   // another hospital different from his/her contact detail.
   // added by Liyang in 3.19
   bool Store = true;
   int Degree = 0;

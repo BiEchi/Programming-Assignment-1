@@ -45,3 +45,8 @@ int blackList::display(void)
     cout << "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<" << endl;
     return 0;
 }
+
+int blackList::size()
+{
+    return length;
+}

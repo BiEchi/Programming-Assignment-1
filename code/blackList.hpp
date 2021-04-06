@@ -13,7 +13,7 @@ public:
         length = 5;
         blackList_Hashing_table = vector<list<Person *>>(length, list<Person *>());
     }
-
+    int size();
     // API
     Person *popPersonWithID(Person *popped_person);
     Person *appendPerson(Person *Withdraw_person);
