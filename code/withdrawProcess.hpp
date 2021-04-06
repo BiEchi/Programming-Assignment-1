@@ -16,7 +16,7 @@ public:
     void askUserWithdraw_inFibonacciPQ(blackList &blackList, FibonacciPQ &centralist, string &filename);
     void askUserWithdraw_inHospital(blackList &blacklist, queueManger &hospital, string &filename);
 
-    // private:
+private:
     enum dataClass
     {
         id,

@@ -69,17 +69,19 @@ int assignmentQueue::deletePerson(Person *thePerson)
 void assignmentQueue::assignTimeAndLocation(void)
 {
     time_t currentTime;
+    int32_t diffday;
     struct tm *baseTime;
     struct tm aTime;
     int addHour, addMin;
     int increment = 60 / hourCapacity;
 
     time(&currentTime);
-    baseTime = localtime(&currentTime);
+    diffday = difftime(currentTime, startTime)/10; // Compute the difference between start time and current system time.
+    baseTime = localtime(&startTime);
     baseTime->tm_sec = 0;
     baseTime->tm_min = 0;
     baseTime->tm_hour = 8;
-    baseTime->tm_mday++;
+    baseTime->tm_mday += diffday;
     for (int i = 0; i < workingHour * hourCapacity; i++)
     {
         addHour = i / hourCapacity;

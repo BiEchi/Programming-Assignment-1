@@ -64,29 +64,30 @@ int assignToLocalHospital(queueManger *localHospital, FibonacciPQ *centralQueue)
    return 1;
 }
 
+time_t startTime = time(NULL);
+
+blackList blackListRegister = blackList();
+FibonacciPQ central_Queue = FibonacciPQ();
+PeopleLocalQueue people;
+withdrawProcess withdrawProm;
+
 int main()
 {
-   // include
-   startTime = time(NULL);
-
    // programme variable
    Notifications notification;
    TemporaryRegisterRecord temporaryRegisterRecordMethods;
-   withdrawProcess withdrawProm;
    // data variable
-   blackList blackListRegister = blackList();
-   FibonacciPQ central_Queue = FibonacciPQ();
    string searchFile = "temporaryData.dat";
    string data; //buffer
-   PeopleLocalQueue people;
    people.init();
    queueManger localHospitals; // appointment queues
 
    // process
    notification.notifyUserAboutIntroduction();
    thread threadForCentralQueue(ref(forwardToCentralQueueAtNoonTwiceADay), ref(people), ref(central_Queue));
+   // thread threadForReportingWeekly(ref(reportingWeeklyWrapper), 2, 70000, 0, 0, treatedPeople, centralQueue, assignmentQueue);
+   // thread threadForReportingMonthly(ref(reportingMonthlyWrapper), 3, 300000,0, 0, treatedPeople, centralQueue, assignmentQueue, blackList);
 
-   // forwardToCentralQueueAtNoonTwiceADay(people, central_Queue);
    temporaryRegisterRecordMethods.buildTemporaryRegisterRecord(data, people);
    appendTemporaryToPermanent(data);
 
