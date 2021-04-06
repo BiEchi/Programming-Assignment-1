@@ -81,43 +81,43 @@ bool Person::isLargerThan(Person person) {
     return false;
   }
 
-  if (this->profession < person.profession) {
+  if (this->profession <= person.profession) {
     return false;
   } else if (this->profession > person.profession) {
     return true;
   }
 
-  if (this->ageGroup < person.ageGroup) {
+  if (this->ageGroup <= person.ageGroup) {
     return false;
   } else if (this->ageGroup > person.ageGroup) {
     return true;
   }
 
-  if (this->timeStamp.tm_year < person.timeStamp.tm_year) {
+  if (this->timeStamp.tm_year <= person.timeStamp.tm_year) {
     return false;
   } else if (this->timeStamp.tm_year > person.timeStamp.tm_year) {
     return true;
   }
 
-  if (this->timeStamp.tm_mon < person.timeStamp.tm_mon) {
+  if (this->timeStamp.tm_mon <= person.timeStamp.tm_mon) {
     return false;
   } else if (this->timeStamp.tm_mon > person.timeStamp.tm_mon) {
     return true;
   }
 
-  if (this->timeStamp.tm_mday < person.timeStamp.tm_mday) {
+  if (this->timeStamp.tm_mday <= person.timeStamp.tm_mday) {
     return false;
   } else if (this->timeStamp.tm_mday > person.timeStamp.tm_mday) {
     return true;
   }
 
-  if (this->timeStamp.tm_min < person.timeStamp.tm_min) {
+  if (this->timeStamp.tm_min <= person.timeStamp.tm_min) {
     return false;
   } else if (this->timeStamp.tm_min > person.timeStamp.tm_min) {
     return true;
   }
 
-  if (this->timeStamp.tm_sec < person.timeStamp.tm_sec) {
+  if (this->timeStamp.tm_sec <= person.timeStamp.tm_sec) {
     return false;
   } else if (this->timeStamp.tm_sec > person.timeStamp.tm_sec) {
     return true;
