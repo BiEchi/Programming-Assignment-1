@@ -15,6 +15,7 @@
 #include "./blackList.hpp"
 #include "./MULTITHREAD.hpp"
 #include "./withdrawProcess.hpp"
+#include "./Tools.hpp"
 
 using namespace std;
 
@@ -75,6 +76,9 @@ int assignToLocalHospital(queueManger *localHospital, FibonacciPQ *centralQueue)
 
 int main()
 {
+   // include
+   startTime = time(NULL);
+    
    // programe variable
    Notifications notification;
    TemporaryRegisterRecord temporaryRegisterRecordMethods;
@@ -91,7 +95,7 @@ int main()
    // process
    notification.notifyUserAboutIntroduction();
 
-   while (1) MULTITHREAD_forwardToCentralQueueAtNoon(people, central_Queue);
+   while (1) forwardToCentralQueueAtNoonTwiceADay(people, central_Queue);
    temporaryRegisterRecordMethods.buildTemporaryRegisterRecord(data, people);
    appendTemporaryToPermanent(data);
 

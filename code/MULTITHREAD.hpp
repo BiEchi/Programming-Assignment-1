@@ -9,10 +9,11 @@
 #define MULTITHREAD_hpp
 
 #include <stdio.h>
-
 #include <ctime>
 
 #include "blackList.hpp"
+#include "Tools.hpp"
+
 // FibonacciPQ for 治疗队列
 void forwardToCentralQueue(PeopleLocalQueue &people,
                            FibonacciPQ &centralQueue) {
@@ -63,7 +64,7 @@ void settimer(unsigned int id, int msec, PeopleLocalQueue &people,
   return;
 }
 
-void MULTITHREAD_forwardToCentralQueueAtNoon(PeopleLocalQueue &people,
+void forwardToCentralQueueAtNoonTwiceADay(PeopleLocalQueue &people,
                                              FibonacciPQ &centralQueue) {
   settimer(1, 2000000, people, centralQueue);
 }
