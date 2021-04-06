@@ -85,8 +85,10 @@ int main()
    // process
    notification.notifyUserAboutIntroduction();
    thread threadForCentralQueue(ref(forwardToCentralQueueAtNoonTwiceADay), ref(people), ref(central_Queue));
-   // thread threadForReportingWeekly(ref(reportingWeeklyWrapper), 2, 70000, 0, 0, treatedPeople, centralQueue, assignmentQueue);
-   // thread threadForReportingMonthly(ref(reportingMonthlyWrapper), 3, 300000,0, 0, treatedPeople, centralQueue, assignmentQueue, blackList);
+
+   // notification.
+   // thread threadForReportingWeekly(ref(reportingWeeklyWrapper), 2, 70000000, personType, sortType, treatedPeople, central_Queue, assignmentQueue);
+   // thread threadForReportingMonthly(ref(reportingMonthlyWrapper), treatedPeople, central_Queue, assignmentQueue, blackList);
 
    temporaryRegisterRecordMethods.buildTemporaryRegisterRecord(data, people);
    appendTemporaryToPermanent(data);
