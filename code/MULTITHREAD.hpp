@@ -80,10 +80,10 @@ void Reporting_weekly(unsigned int personType, unsigned int sortType,
     cout << "sortType ERROR" << endl;
     return;
   }
-  if (personType = 0) {
-    if (sortType = 0) {
+  if (personType == 0) {
+    if (sortType == 0) {
       quick_sort_name(treatedPeople, 0, treatedPeople.size() - 1);
-    } else if (sortType = 1) {
+    } else if (sortType == 1) {
       quick_sort_profession(treatedPeople, 0, treatedPeople.size() - 1);
     } else {
       quick_sort_age(treatedPeople, 0, treatedPeople.size() - 1);
@@ -97,10 +97,10 @@ void Reporting_weekly(unsigned int personType, unsigned int sortType,
            << " " << endl;
     }
   }
-  if (personType = 1) {
-    if (sortType = 0) {
+  if (personType == 1) {
+    if (sortType == 0) {
       quick_sort_name(centralQueue, 0, centralQueue.size() - 1);
-    } else if (sortType = 1) {
+    } else if (sortType == 1) {
       quick_sort_profession(centralQueue, 0, centralQueue.size() - 1);
     } else {
       quick_sort_age(centralQueue, 0, centralQueue.size() - 1);
@@ -113,10 +113,10 @@ void Reporting_weekly(unsigned int personType, unsigned int sortType,
            << " " << endl;
     }
   }
-  if (personType = 2) {
-    if (sortType = 0) {
+  if (personType == 2) {
+    if (sortType == 0) {
       quick_sort_name(assignmentQueue, 0, assignmentQueue.size() - 1);
-    } else if (sortType = 1) {
+    } else if (sortType == 1) {
       quick_sort_profession(assignmentQueue, 0, assignmentQueue.size() - 1);
     } else {
       quick_sort_age(assignmentQueue, 0, assignmentQueue.size() - 1);
@@ -208,6 +208,6 @@ void Reporting_monthly(vector<Person> treatedPeople,
        << endl;
   cout << "The average waiting time is "
        << "?" << endl;
-  cout << "There are " << blacklist.size()
+  cout << "There are " << blackList.size()
        << " people who withdraw their registration" << endl;
 }
