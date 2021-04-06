@@ -234,7 +234,7 @@ void settimerForReportingWeekly(unsigned int id, int msec, unsigned int personTy
 }
 
 void settimerForReportingMonthly(unsigned int id, int msec, vector<Person> treatedPeople, vector<Person> centralQueue, vector<Person> assignmentQueue, blackList blackList) {
-  if (msec < 0)  // 判断时间段是否满足 >=0
+  if (msec < 0)  // 判断时间段是否满足 >= 0
   {
     return;
   }
