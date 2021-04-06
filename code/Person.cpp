@@ -26,16 +26,19 @@ void Person::setContactDetails(string data) {
 }
 
 /// set the year of birth
-/// @param data char* ageGrop
-void Person::setAgeGroup(string data) {
-  ageGroup = stoi(data);
-  return;
-}
-
-/// set the year of birth
 /// @param data char* YYYY
 void Person::setBirthYear(string data) {
-  birthDate.tm_year = stoi(data);
+    birthDate.tm_year = stoi(data);
+    int age = 2021 - birthDate.tm_year;
+    
+    if (age < 12) ageGroup = 0;
+    if (age < 18) ageGroup = 1;
+    if (age < 35) ageGroup = 2;
+    if (age < 50) ageGroup = 3;
+    if (age < 65) ageGroup = 4;
+    if (age < 75) ageGroup = 5;
+    else ageGroup = 6;
+    
   return;
 }
 

@@ -14,6 +14,7 @@ class Notifications
 public:
     void notifyUser();
     void notifyUserAboutIntroduction();
+    void notifyUserAboutReportingWeeklyType();
 };
 
 #endif

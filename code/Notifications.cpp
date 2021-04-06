@@ -22,3 +22,9 @@ void Notifications::notifyUserAboutIntroduction()
    cout << "Author: Hao Bai, Yihong Jin, Liyang Qian, Jiahao Wei. Our team always intend to create great codes." << endl;
    cout << "Now welcome to the world of patients. Follow the directions to gain full experience. Enjoy!" << endl << endl;
 }
+
+void Notifications::notifyUserAboutReportingWeeklyType()
+{
+   cout << endl << endl << endl << endl;
+   cout << "Please Enter the person type and sort type you want." << endl << endl;
+}

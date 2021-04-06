@@ -30,8 +30,7 @@ void appendPermanentRegisterRecord(string data)
 
 void appendTemporaryToPermanent(string data)
 {
-   cout << endl
-        << endl;
+   cout << endl << endl;
    appendPermanentRegisterRecord(data);
    cout << "Successfully put your information into the Permanent Database." << endl;
    return;
@@ -64,8 +63,18 @@ int assignToLocalHospital(queueManger *localHospital, FibonacciPQ *centralQueue)
    return 1;
 }
 
-time_t startTime = time(NULL);
+void getReportingWeeklyType(int& personType, int& sortType)
+{
+    cout << "Person Type = 0(treated), 1(in queue), 2(with assignment)" << endl;
+    cin >> personType;
+    
+    cout << "Sort Type = 0(name), 1(profession), 2(age)" << endl;
+    cin >> sortType;
+    
+    return;
+}
 
+time_t startTime = time(NULL);
 blackList blackListRegister = blackList();
 FibonacciPQ central_Queue = FibonacciPQ();
 PeopleLocalQueue people;
@@ -83,13 +92,17 @@ int main()
    queueManger localHospitals; // appointment queues
 
    // process
+   notification.notifyUserAboutReportingWeeklyType();
+   int personType, sortType;
+   getReportingWeeklyType(personType, sortType);
+    
    notification.notifyUserAboutIntroduction();
    thread threadForCentralQueue(ref(forwardToCentralQueueAtNoonTwiceADay), ref(people), ref(central_Queue));
-
-   // notification.
-   // thread threadForReportingWeekly(ref(reportingWeeklyWrapper), 2, 70000000, personType, sortType, treatedPeople, central_Queue, assignmentQueue);
-   // thread threadForReportingMonthly(ref(reportingMonthlyWrapper), treatedPeople, central_Queue, assignmentQueue, blackList);
-
+    
+   thread threadForReportingWeekly(reportingWeeklyWrapper, 2, 70000000, personType, sortType, localHospitals.treated_list, central_Queue.returnStorePeople(), localHospitals.assignment_list);
+    
+   thread threadForReportingMonthly(reportingMonthlyWrapper, 3, 300000000, localHospitals.treated_list, central_Queue.returnStorePeople(), localHospitals.assignment_list, blackListRegister);
+    
    temporaryRegisterRecordMethods.buildTemporaryRegisterRecord(data, people);
    appendTemporaryToPermanent(data);
 
@@ -97,8 +110,10 @@ int main()
    assignToLocalHospital(&localHospitals, &central_Queue);
 
    DeleteTemporaryRegisterRecord(data);
-
+    
    threadForCentralQueue.detach();
-
+   threadForReportingWeekly.detach();
+   threadForReportingMonthly.detach();
+    
    return 0;
 }

@@ -38,7 +38,6 @@ class Person {
   void setID(string data);
   void setName(string data);
   void setContactDetails(string data);
-  void setAgeGroup(string data);
   void setBirthYear(string data);
   void setBirthMonth(string data);
   void setBirthDay(string data);

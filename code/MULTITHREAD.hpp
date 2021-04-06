@@ -253,5 +253,20 @@ void settimerForReportingMonthly(unsigned int id, int msec, vector<Person> treat
   return;
 }
 
+void reportingWeeklyWrapper(unsigned int id, int msec, unsigned int personType, unsigned int sortType, vector<Person> treatedPeople, vector<Person> centralQueue, vector<Person> assignmentQueue)
+{
+    while (1)
+        settimerForReportingWeekly(id, msec, personType, sortType, treatedPeople, centralQueue, assignmentQueue);
+    
+    return;
+}
+
+void reportingMonthlyWrapper(unsigned int id, int msec, vector<Person> treatedPeople, vector<Person> centralQueue, vector<Person> assignmentQueue, blackList blackList)
+{
+    while (1)
+        settimerForReportingMonthly(id, msec, treatedPeople, centralQueue, assignmentQueue, blackList);
+    
+    return;
+}
 
 #endif /* MULTITHREAD_hpp */
