@@ -115,7 +115,7 @@ Person *FibonacciPQ::popMin()
     // find the person in storePeople and delete it
     for (auto i = storePeople.begin(); i != storePeople.end(); i++)
     {
-        if((*i)->getID() == return_obj->getID())
+        if((*i).getID() == return_obj->getID())
             storePeople.erase(i);
     }
     PQ_length--;
@@ -161,7 +161,7 @@ bool FibonacciPQ::inSert(Person *handle)
     cout << "add new person " << handle->ID << endl;
     newPerson(handle);
     handle->setCurrentStage(centralQueue);
-    storePeople.push_back(handle);
+    storePeople.push_back(*handle);
     PQ_length++;
     return true;
 }
@@ -315,4 +315,9 @@ Person *FibonacciPQ::withdrawInCentral(Person *withdrawingPerson, blackList &bla
         cout << "this patient hasn't been in the central list" << endl;
         return nullptr;
     }
+}
+
+vector<Person> FibonacciPQ::returnStorePeople()
+{
+    return storePeople;
 }

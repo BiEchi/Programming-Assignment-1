@@ -16,7 +16,7 @@ public:
         Minptr = NULL;
         Rootlist = list<Person *>();
         Degreebucket = vector<Person *>(10, NULL);
-        storePeople = vector<Person *>();
+        storePeople = vector<Person>();
         Rootsize = 0;
     }
     int returnLength();
@@ -27,6 +27,7 @@ public:
     Person *popMin();
     Person *changeStatus(Person *changingPatient, string profession_status, string riskStatus_status);
     Person *find(Person *checkObject, list<Person *> &findingList);
+    vector<Person> returnStorePeople();
 
 private:
     void removeNode(Person *handle);
@@ -47,7 +48,7 @@ private:
     // 初始时造个空的
     list<Person *> Rootlist; //creating a Rootlist to store the root
     vector<Person *> Degreebucket;
-    vector<Person *> storePeople;
+    vector<Person> storePeople;
 };
 
 #endif

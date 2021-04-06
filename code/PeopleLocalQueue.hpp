@@ -30,6 +30,7 @@ public:
     int pushBack(Person *const ptr);
     Person *popFront(void);
     int doWithdraw(Person *thePerson);
+    Person* isIn(string ID);
     bool display(void);
 };
 

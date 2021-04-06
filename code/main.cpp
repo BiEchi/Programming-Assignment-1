@@ -5,6 +5,9 @@
 #include <sstream>
 #include <cstdlib>
 #include <cstring>
+#include <thread>
+#include <mutex>
+#include <condition_variable>
 
 #include "./Person.hpp"
 #include "./TemporaryRegisterRecord.hpp"
@@ -15,6 +18,7 @@
 #include "./blackList.hpp"
 #include "./MULTITHREAD.hpp"
 #include "./withdrawProcess.hpp"
+#include "./Tools.hpp"
 
 using namespace std;
 
@@ -26,7 +30,8 @@ void appendPermanentRegisterRecord(string data)
 
 void appendTemporaryToPermanent(string data)
 {
-   cout << endl << endl;
+   cout << endl
+        << endl;
    appendPermanentRegisterRecord(data);
    cout << "Successfully put your information into the Permanent Database." << endl;
    return;
@@ -59,23 +64,12 @@ int assignToLocalHospital(queueManger *localHospital, FibonacciPQ *centralQueue)
    return 1;
 }
 
-// void loadTheTemporaryRegister(withdrawProcess &withdrawProg, string filename)
-// {
-//    withdrawProg.readFile(filename);
-//    cout << "successfully open the file" << endl;
-//    return;
-// }
-
-// void closeTheTemporaryRegister(withdrawProcess &withdrawProg, string filename)
-// {
-//    withdrawProg.closeFile(filename);
-//    cout << "successfully close the file " << endl;
-//    return;
-// }
-
 int main()
 {
-   // programe variable
+   // include
+   startTime = time(NULL);
+
+   // programme variable
    Notifications notification;
    TemporaryRegisterRecord temporaryRegisterRecordMethods;
    withdrawProcess withdrawProm;
@@ -90,8 +84,9 @@ int main()
 
    // process
    notification.notifyUserAboutIntroduction();
+   thread threadForCentralQueue(ref(forwardToCentralQueueAtNoonTwiceADay), ref(people), ref(central_Queue));
 
-   while (1) MULTITHREAD_forwardToCentralQueueAtNoon(people, central_Queue);
+   // forwardToCentralQueueAtNoonTwiceADay(people, central_Queue);
    temporaryRegisterRecordMethods.buildTemporaryRegisterRecord(data, people);
    appendTemporaryToPermanent(data);
 
@@ -99,5 +94,8 @@ int main()
    assignToLocalHospital(&localHospitals, &central_Queue);
 
    DeleteTemporaryRegisterRecord(data);
+
+   threadForCentralQueue.detach();
+
    return 0;
 }

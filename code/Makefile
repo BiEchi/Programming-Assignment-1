@@ -7,12 +7,11 @@ TARGET := ComputingAssignmentOne # PUT YOUR INTENDED NAME HERE
 
 # Link ALL dependency files to carry out ALL target files
 $(TARGET): $(OBJECTIVES)
-	$(LD) -o $@ $^
+	$(LD) -o $@ $^ -lpthread
 
 # Compile ALL objective files EACH BY EACH
 %.o:%.c
-	$(CC) -c $^
-
+	$(CC) -c $^ 
 # Definition of phony targets
 .PHONY: all clear clean directory
 all: $(TARGET)

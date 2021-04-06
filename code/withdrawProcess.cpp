@@ -20,7 +20,7 @@ Person *withdrawProcess::findAndReturnPersonPointer(string &ID, ifstream &record
         return nullptr;
     while (getline(recordFile, patientRecord))
     {
-        int pos = patientRecord.find(ID);
+        int pos = int(patientRecord.find(ID));
         if (pos > -1)
         {
             cout << "succefully find the patient " << ID << " in the database" << endl;

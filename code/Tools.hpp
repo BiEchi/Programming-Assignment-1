@@ -5,20 +5,15 @@
 //  Created by Jack's Macbook Pro on 2021/3/25.
 //
 
-#ifndef ConvertTools_hpp
-#define ConvertTools_hpp
+#ifndef Tools_hpp
+#define Tools_hpp
 
 #include <iostream>
 #include <cstring>
+#include <ctime>
 
 using namespace std;
 
-class ConvertTools
-{
-public:
-    string convertFromCharArrayToString(char* charArray);
-};
-
-
+time_t startTime;
 
 #endif /* ConvertTools_hpp */
