@@ -18,12 +18,12 @@ private:
     ofstream outFile;
 
 public:
-    void openTemporaryDataWithWriteMode(ofstream& outFile);
-    void writeTemporaryDataWithWriteMode(string data, ofstream& outFile, PeopleLocalQueue& people);
-    void closeTemporaryDataWithWriteMode(ofstream& outFile);
-    void openTemporaryDataWithReadMode(ifstream& inFile);
-    void readTemporaryDataWithReadMode(string data, ifstream& inFile);
-    void closeTemporaryDataWithReadMode(ifstream& inFile);
+    void openTemporaryDataWithWriteMode(ofstream &outFile);
+    void writeTemporaryDataWithWriteMode(string data, ofstream &outFile, PeopleLocalQueue &people);
+    void closeTemporaryDataWithWriteMode(ofstream &outFile);
+    void openTemporaryDataWithReadMode(ifstream &inFile);
+    void readTemporaryDataWithReadMode(string data, ifstream &inFile);
+    void closeTemporaryDataWithReadMode(ifstream &inFile);
     void dumpTemporaryRegisterRecord(string data);
 };
 

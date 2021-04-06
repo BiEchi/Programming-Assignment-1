@@ -112,10 +112,18 @@ Person *FibonacciPQ::popMin()
     Rootlist.remove(Minptr);
     Minptr = NULL;
     rebalance();
+    // find the person in storePeople and delete it
+    for (auto i = storePeople.begin(); i != storePeople.end(); i++)
+    {
+        if((*i)->getID() == return_obj->getID())
+            storePeople.erase(i);
+    }
     PQ_length--;
-    cout << "the popped person's id is " << return_obj->ID << endl;
+    cout << "the popped person's id is " << return_obj->getID() << endl;
     if (PQ_length > 0)
-        cout << "now the top priority is " << Minptr->ID << endl;
+        cout << "now the top priority is " << Minptr->getID() << endl;
+    else
+        cout << "now there is no person in the central list" << endl;
     return return_obj;
 }
 
@@ -151,10 +159,9 @@ bool FibonacciPQ::cascadingCut(Person *parent)
 bool FibonacciPQ::inSert(Person *handle)
 {
     cout << "add new person " << handle->ID << endl;
-    // handle->arrangeStage = treatment;
-    // cout << "the person's current Stage is " << treatment;
     newPerson(handle);
     handle->setCurrentStage(centralQueue);
+    storePeople.push_back(handle);
     PQ_length++;
     return true;
 }
@@ -221,7 +228,7 @@ bool FibonacciPQ::freeSon(Person *parent_node)
     }
     return true;
 }
-void FibonacciPQ::remove(Person *handle)
+void FibonacciPQ::removeNode(Person *handle)
 {
     string Profession = to_string(handle->getProfession() - 1);
     string RiskStatus = to_string(handle->getRiskStatus() - 1);
@@ -290,7 +297,7 @@ Person *FibonacciPQ::find(Person *checkObject, list<Person *> &findinglist)
 // success:return the pointer to the withdrawing person, else return nullptr
 Person *FibonacciPQ::withdrawInCentral(Person *withdrawingPerson, blackList &blacklistObjective)
 {
-    Person *targetPerson = find(withdrawingPerson,Rootlist);
+    Person *targetPerson = find(withdrawingPerson, Rootlist);
     if (nullptr == targetPerson)
     {
         cout << "the person with ID " << withdrawingPerson->getID() << " is not found in central list" << endl;
@@ -299,7 +306,7 @@ Person *FibonacciPQ::withdrawInCentral(Person *withdrawingPerson, blackList &bla
     if (targetPerson->currentStage == centralQueue)
     {
         blacklistObjective.appendPerson(targetPerson);
-        remove(targetPerson);
+        removeNode(targetPerson);
         cout << "Person " << targetPerson->getName() << " withdraw successfully, but will be added into the blacklist" << endl;
         return targetPerson;
     }
