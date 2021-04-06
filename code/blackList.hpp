@@ -19,9 +19,10 @@ class blackList {
   Person *appendPerson(Person *Withdraw_person);
   int display(void);
   // need to be added
-  int size();
+  int size(){return num;};
 
  private:
+  int num = 0;
   int length;
   vector<list<Person *>> blackList_Hashing_table;
   hash<string> hash_for_id;
