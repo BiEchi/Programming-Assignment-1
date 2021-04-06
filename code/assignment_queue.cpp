@@ -99,6 +99,18 @@ void assignmentQueue::assignTimeAndLocation(void)
     }
 }
 
+Person* assignmentQueue::isIn(string ID)
+{
+    for (int i = 0; i < this->length; i++)
+    {
+        if(timeSlot[i])
+        {
+            if (timeSlot[i]->getID() == ID) {return timeSlot[i];}
+        }
+    }
+    return NULL;
+}
+
 int assignmentQueue::display(void)
 {
     tm aTime;
@@ -249,6 +261,20 @@ int queueManger::doWithdraw(Person *thePerson)
         return 0;
     }
     return 1;
+}
+
+Person* queueManger::isIn(string ID)
+{
+    Person* temp;
+    for (int i = 0; i < this->capacity; i++)
+    {
+        if (locations[i]) 
+        {
+            temp = locations[i]->isIn(ID);
+            if (temp) {return temp;}
+        }
+    }
+    return NULL;
 }
 
 int queueManger::displayAll(void)
