@@ -18,12 +18,13 @@ int assignmentQueue::init(int hc, int wh, int thePlace)
 }
 
 // Clear the timeSlot array.
-void assignmentQueue::clear(void)
+void assignmentQueue::clear(vector<Person> *treated)
 {
     for (int i = 0; i < workingHour * hourCapacity; i++)
     {
         if (timeSlot[i])
         {
+            treated->push_back(*timeSlot[i]);
             delete timeSlot[i];
         }
         timeSlot[i] = NULL;
@@ -195,8 +196,12 @@ int queueManger::reassign(FibonacciPQ *PQ)
     {
         if (locations[i])
         {
-            locations[i]->clear();
+            locations[i]->clear(&treated_list);
         }
+    }
+    for (int i = 0; i < assignment_list.size(); i++)
+    {
+        assignment_list.pop_back();
     }
 
     int noSpace = 0;
@@ -226,6 +231,7 @@ int queueManger::reassign(FibonacciPQ *PQ)
             locations[otherLocation]->addPerson(thePerson);
         }
 
+        assignment_list.push_back(*thePerson);
         // Checkout whether there is empty space.
         noSpace = 1;
         for (int i = 0; i < capacity; i++)
