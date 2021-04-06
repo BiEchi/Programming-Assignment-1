@@ -115,7 +115,7 @@ Person *FibonacciPQ::popMin()
     // find the person in storePeople and delete it
     for (auto i = storePeople.begin(); i != storePeople.end(); i++)
     {
-        if((*i)->getID() == return_obj->getID())
+        if ((*i)->getID() == return_obj->getID())
             storePeople.erase(i);
     }
     PQ_length--;
@@ -283,7 +283,6 @@ Person *FibonacciPQ::find(Person *checkObject, list<Person *> &findinglist)
     {
         if ((*i)->getID() == checkObject->getID())
         {
-            cout << "fooooooound!" << endl;
             return (*i);
         }
         find(checkObject, (*i)->Son);
@@ -297,22 +296,13 @@ Person *FibonacciPQ::find(Person *checkObject, list<Person *> &findinglist)
 // success:return the pointer to the withdrawing person, else return nullptr
 Person *FibonacciPQ::withdrawInCentral(Person *withdrawingPerson, blackList &blacklistObjective)
 {
-    Person *targetPerson = find(withdrawingPerson, Rootlist);
-    if (nullptr == targetPerson)
-    {
-        cout << "the person with ID " << withdrawingPerson->getID() << " is not found in central list" << endl;
-        return nullptr;
-    }
-    if (targetPerson->currentStage == centralQueue)
-    {
-        blacklistObjective.appendPerson(targetPerson);
-        removeNode(targetPerson);
-        cout << "Person " << targetPerson->getName() << " withdraw successfully, but will be added into the blacklist" << endl;
-        return targetPerson;
-    }
-    else
-    {
-        cout << "this patient hasn't been in the central list" << endl;
-        return nullptr;
-    }
+    blacklistObjective.appendPerson(withdrawingPerson);
+    removeNode(withdrawingPerson);
+    cout << "Person " << withdrawingPerson->getName() << " withdraw successfully, but will be added into the blacklist" << endl;
+    return withdrawingPerson;
+}
+
+list<Person *> FibonacciPQ::getRootlist()
+{
+    return Rootlist;
 }

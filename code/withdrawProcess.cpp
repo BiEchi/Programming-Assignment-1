@@ -1,6 +1,18 @@
 #include "withdrawProcess.hpp"
 #include <regex>
 using namespace std;
+
+// split the string by some signs and store it in the vector object and then return that
+// in: the string object
+// delim: spliting sings
+vector<string> withdrawProcess::s_split(const string &in, const string &delim)
+{
+    regex re{delim};
+    return vector<string>{
+        sregex_token_iterator(in.begin(), in.end(), re, -1),
+        sregex_token_iterator()};
+}
+
 string withdrawProcess::askForID()
 {
     string ID;
@@ -42,100 +54,28 @@ Person *withdrawProcess::findAndReturnPersonPointer(string &ID, ifstream &record
     return nullptr;
 }
 
-void withdrawProcess::askUserWithdraw_inPeople(blackList &blackList, PeopleLocalQueue &people, string &filename)
+void withdrawProcess::askUserWithdraw_inPeople(blackList &blackList, PeopleLocalQueue &people, Person *finding_obj)
 {
-    int choice;
-    // 用户交互
-    do
-    {
-        cout << "do you want to withdraw?\n1:yes\t2:no" << endl;
-        cin >> choice;
-        Person *target_person = nullptr;
-        switch (choice)
-        {
-        case 1:
-            cout << "=======hello buffer!=========" << endl;
-            // loadFileAndFindData(filename, askForID(), recordDataBase, target_person);
-            if (nullptr == target_person)
-                break;
-            // Withdraw the person in people local queue.
-            if (people.doWithdraw(target_person))
-            {
-                blackList.appendPerson(target_person);
-            }
-            break;
-        case 2:
-            cout << "you choose to quit the withdraw operation" << endl;
-            return;
-        default:
-            cout << "please press the right number" << endl;
-            break;
-        }
-    } while (choice != 2);
-}
-
-void withdrawProcess::askUserWithdraw_inFibonacciPQ(blackList &blackList, FibonacciPQ &centrallist, string &filename)
-{
-    int choice;
-    do
-    {
-        cout << "do you want to withdraw?\n1:yes\t2:no" << endl;
-        cin >> choice;
-        Person *target_person = new Person;
-        switch (choice)
-        {
-        case 1:
-            cout << "==========hello central Queue========" << endl;
-            target_person = loadFileAndFindData(filename, askForID(), recordDataBase);
-            if (nullptr == target_person)
-                break;
-
-            cout << "the person's ID " << target_person->getID() << endl;
-            // Withdraw the person in people central queue.
-            centrallist.withdrawInCentral(target_person, blackList);
-            delete target_person;
-            break;
-        case 2:
-            cout << "you choose to quit the withdraw operation" << endl;
-            return;
-        default:
-            cout << "please press the right number" << endl;
-            break;
-        }
-    } while (choice != 2);
     return;
 }
 
-void withdrawProcess::askUserWithdraw_inHospital(blackList &blacklist, queueManger &hospital, string &filename)
+void withdrawProcess::askUserWithdraw_inFibonacciPQ(blackList &blackList, FibonacciPQ &centrallist, Person *finding_obj)
 {
-    int choice;
-    do
+    cout << "==========hello central Queue========" << endl;
+    list<Person *> start = centrallist.getRootlist();
+    Person *targetPerson = centrallist.find(finding_obj, start);
+    if (nullptr == targetPerson)
     {
-        cout << "do you want to withdraw?\n1:yes\t2:no" << endl;
-        cin >> choice;
-        Person *target_person = nullptr;
-        switch (choice)
-        {
-        case 1:
-            cout << "=========hello appointment!========" << endl;
-            target_person = loadFileAndFindData(filename, askForID(), recordDataBase);
-            if (nullptr == target_person)
-                break;
+        cout << "sorry we do not find the person in central Queue" << endl;
+        return;
+    }
+    // Withdraw the person in people central queue.
+    centrallist.withdrawInCentral(targetPerson, blackList);
+    return;
+}
 
-            // Withdraw the person in assignment queues.
-            if (hospital.doWithdraw(target_person))
-            {
-                blacklist.appendPerson(target_person);
-            }
-            break;
-        case 2:
-            cout << "you choose to quit the withdraw operation" << endl;
-            return;
-        default:
-            cout << "please press the right number" << endl;
-            break;
-        }
-    } while (choice != 2);
+void withdrawProcess::askUserWithdraw_inHospital(blackList &blacklist, queueManger &hospital, Person *finding_obj)
+{
     return;
 }
 
@@ -156,41 +96,36 @@ void withdrawProcess::closeFile(string &filename)
     return;
 }
 
-// void withdrawProcess::loadFileAndFindData(string &filename, string ID, ifstream &recordfile, Person *target_person)
-// {
-//     readFile(filename);
-//     target_person = findAndReturnPersonPointer(ID, recordDataBase);
-//     closeFile(filename);
-//     return;
-// }
-
-Person* withdrawProcess::loadFileAndFindData(string &filename, string ID, ifstream &recordfile)
+Person *withdrawProcess::loadFileAndFindData(string &filename, string &ID, ifstream &recordfile)
 {
-    Person *target_person = nullptr;
+    Person *targetPerson = nullptr;
     readFile(filename);
-    target_person = findAndReturnPersonPointer(ID, recordDataBase);
+    targetPerson = findAndReturnPersonPointer(ID, recordDataBase);
     closeFile(filename);
-    return target_person;
-
-
-    // if(nullptr == target_person)
-    //     return nullptr;
-    // else
-    // {
-    //     // Person *return_ptr = new Person;
-    //     Person *return_ptr = nullptr;
-    //     return_ptr = target_person;
-    //     return return_ptr;
-    // }
+    return targetPerson;
 }
 
-// split the string by some signs and store it in the vector object and then return that
-// in: the string object
-// delim: spliting sings
-vector<string> withdrawProcess::s_split(const string &in, const string &delim)
+void withdrawProcess::withdrawAdvanced(blackList &blackList, PeopleLocalQueue &people, FibonacciPQ &centralList, queueManger &hospital, string &filename)
 {
-    regex re{delim};
-    return vector<string>{
-        sregex_token_iterator(in.begin(), in.end(), re, -1),
-        sregex_token_iterator()};
+    int choice;
+    do
+    {
+        cout << "do you want to withdraw ?" << endl;
+        cout << "1:yes 2:no" << endl;
+        cin >> choice;
+        switch (choice)
+        {
+        case 1:
+            Person *targetPerson = loadFileAndFindData(filename, askForID(), recordDataBase);
+            askUserWithdraw_inFibonacciPQ(blackList, centralList, targetPerson);
+            askUserWithdraw_inPeople(blackList);
+            askUserWithdraw_inHospital(blackList);
+            break;
+        case 2:
+            break;
+        default:
+            cout << "please enter the right number" << endl;
+            break;
+        }
+    } while (choice != 2);
 }

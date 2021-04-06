@@ -26,7 +26,8 @@ void appendPermanentRegisterRecord(string data)
 
 void appendTemporaryToPermanent(string data)
 {
-   cout << endl << endl;
+   cout << endl
+        << endl;
    appendPermanentRegisterRecord(data);
    cout << "Successfully put your information into the Permanent Database." << endl;
    return;
@@ -59,20 +60,6 @@ int assignToLocalHospital(queueManger *localHospital, FibonacciPQ *centralQueue)
    return 1;
 }
 
-// void loadTheTemporaryRegister(withdrawProcess &withdrawProg, string filename)
-// {
-//    withdrawProg.readFile(filename);
-//    cout << "successfully open the file" << endl;
-//    return;
-// }
-
-// void closeTheTemporaryRegister(withdrawProcess &withdrawProg, string filename)
-// {
-//    withdrawProg.closeFile(filename);
-//    cout << "successfully close the file " << endl;
-//    return;
-// }
-
 int main()
 {
    // programe variable
@@ -89,9 +76,9 @@ int main()
    queueManger localHospitals; // appointment queues
 
    // process
-   notification.notifyUserAboutIntroduction();
 
-   while (1) MULTITHREAD_forwardToCentralQueueAtNoon(people, central_Queue);
+   while (1)
+      MULTITHREAD_forwardToCentralQueueAtNoon(people, central_Queue);
    temporaryRegisterRecordMethods.buildTemporaryRegisterRecord(data, people);
    appendTemporaryToPermanent(data);
 
