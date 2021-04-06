@@ -23,11 +23,8 @@ void forwardToCentralQueue(PeopleLocalQueue &people,
           "gone."
        << endl
        << endl;
-
-  // readPeopleIntoCentralQueue();
-  // withdraw?
+    
   centralQueue.eatPeople(people);
-  // delete &people;
 
   cout << "now there is " << centralQueue.returnLength()
        << " people in the central queue" << endl;
@@ -43,7 +40,7 @@ void forwardToCentralQueue(PeopleLocalQueue &people,
 /// set up the timer
 /// @param id the id number of the timer
 /// @param msec the number of milli-seconds you want to lapse in one epoch
-void settimer(unsigned int id, int msec, PeopleLocalQueue &people,
+void settimerForCentralQueue(unsigned int id, int msec, PeopleLocalQueue &people,
               FibonacciPQ &centralQueue) {
   if (msec < 0)  // 判断时间段是否满足 >=0
   {
@@ -66,7 +63,8 @@ void settimer(unsigned int id, int msec, PeopleLocalQueue &people,
 
 void forwardToCentralQueueAtNoonTwiceADay(PeopleLocalQueue &people,
                                              FibonacciPQ &centralQueue) {
-  settimer(1, 2000000, people, centralQueue);
+    while (1) settimerForCentralQueue(1, 5000000, people, centralQueue);
+    return;
 }
 
 void quick_sort_name(vector<Person> people, int l, int r) {
@@ -90,6 +88,7 @@ void quick_sort_name(vector<Person> people, int l, int r) {
     quick_sort_name(people, i + 1, r);
   }
 }
+
 void quick_sort_profession(vector<Person> people, int l, int r) {
   if (l < r) {
     // Swap(s[l], s[(l + r) / 2]); //将中间的这个数和第一个数交换 参见注1
@@ -111,6 +110,7 @@ void quick_sort_profession(vector<Person> people, int l, int r) {
     quick_sort_profession(people, i + 1, r);
   }
 }
+
 void quick_sort_age(vector<Person> people, int l, int r) {
   if (l < r) {
     // Swap(s[l], s[(l + r) / 2]); //将中间的这个数和第一个数交换 参见注1
@@ -146,11 +146,11 @@ void Reporting_weekly(unsigned int personType, unsigned int sortType,
   }
   if (personType == 0) {
     if (sortType == 0) {
-      quick_sort_name(treatedPeople, 0, treatedPeople.size() - 1);
+      quick_sort_name(treatedPeople, 0, int(treatedPeople.size() - 1));
     } else if (sortType == 1) {
-      quick_sort_profession(treatedPeople, 0, treatedPeople.size() - 1);
+      quick_sort_profession(treatedPeople, 0, int(treatedPeople.size() - 1));
     } else {
-      quick_sort_age(treatedPeople, 0, treatedPeople.size() - 1);
+      quick_sort_age(treatedPeople, 0, int(treatedPeople.size() - 1));
     }
     for (auto iter = treatedPeople.begin(); iter != treatedPeople.end();
          iter++) {
@@ -164,11 +164,11 @@ void Reporting_weekly(unsigned int personType, unsigned int sortType,
   }
   if (personType == 1) {
     if (sortType == 0) {
-      quick_sort_name(centralQueue, 0, centralQueue.size() - 1);
+      quick_sort_name(centralQueue, 0, int(centralQueue.size() - 1));
     } else if (sortType == 1) {
-      quick_sort_profession(centralQueue, 0, centralQueue.size() - 1);
+      quick_sort_profession(centralQueue, 0, int(centralQueue.size() - 1));
     } else {
-      quick_sort_age(centralQueue, 0, centralQueue.size() - 1);
+      quick_sort_age(centralQueue, 0, int(centralQueue.size() - 1));
     }
     for (auto iter = centralQueue.begin(); iter != centralQueue.end(); iter++) {
       tm TimeRrgister = (*iter).getTimestamp();
@@ -180,11 +180,11 @@ void Reporting_weekly(unsigned int personType, unsigned int sortType,
   }
   if (personType == 2) {
     if (sortType == 0) {
-      quick_sort_name(assignmentQueue, 0, assignmentQueue.size() - 1);
+      quick_sort_name(assignmentQueue, 0, int(assignmentQueue.size() - 1));
     } else if (sortType == 1) {
-      quick_sort_profession(assignmentQueue, 0, assignmentQueue.size() - 1);
+      quick_sort_profession(assignmentQueue, 0, int(assignmentQueue.size() - 1));
     } else {
-      quick_sort_age(assignmentQueue, 0, assignmentQueue.size() - 1);
+      quick_sort_age(assignmentQueue, 0, int(assignmentQueue.size() - 1));
     }
     for (auto iter = assignmentQueue.begin(); iter != assignmentQueue.end();
          iter++) {
@@ -212,5 +212,46 @@ void Reporting_monthly(vector<Person> treatedPeople,
   cout << "There are " << blackList.size()
        << " people who withdraw their registration" << endl;
 }
+
+void settimerForReportingWeekly(unsigned int id, int msec, unsigned int personType, unsigned int sortType, vector<Person> treatedPeople, vector<Person> centralQueue, vector<Person> assignmentQueue) {
+  if (msec < 0)  // 判断时间段是否满足 >=0
+  {
+    return;
+  }
+  clock_t start, finish;
+  start = clock();       // 计时函数
+  double totaltime = 0;  // 定义时间变量
+  while (1) {
+    finish = clock();
+    totaltime = (double)(finish - start);
+    if (totaltime > msec) {
+      Reporting_weekly(personType, sortType, treatedPeople, centralQueue, assignmentQueue);
+      break;
+    }
+  }
+
+  return;
+}
+
+void settimerForReportingMonthly(unsigned int id, int msec, vector<Person> treatedPeople, vector<Person> centralQueue, vector<Person> assignmentQueue, blackList blackList) {
+  if (msec < 0)  // 判断时间段是否满足 >=0
+  {
+    return;
+  }
+  clock_t start, finish;
+  start = clock();       // 计时函数
+  double totaltime = 0;  // 定义时间变量
+  while (1) {
+    finish = clock();
+    totaltime = (double)(finish - start);
+    if (totaltime > msec) {
+        Reporting_monthly(treatedPeople, centralQueue, assignmentQueue, blackList);
+      break;
+    }
+  }
+
+  return;
+}
+
 
 #endif /* MULTITHREAD_hpp */
