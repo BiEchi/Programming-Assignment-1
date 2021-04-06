@@ -14,6 +14,6 @@
 
 using namespace std;
 
-time_t startTime;
+extern time_t startTime;
 
-#endif /* ConvertTools_hpp */
+#endif /* Tools_hpp */

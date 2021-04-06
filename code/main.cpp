@@ -63,11 +63,10 @@ int assignToLocalHospital(queueManger *localHospital, FibonacciPQ *centralQueue)
    return 1;
 }
 
+time_t startTime = time(NULL);
+
 int main()
 {
-   // include
-   startTime = time(NULL);
-    
    // programme variable
    Notifications notification;
    TemporaryRegisterRecord temporaryRegisterRecordMethods;
