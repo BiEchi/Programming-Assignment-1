@@ -96,7 +96,7 @@ void withdrawProcess::closeFile(string &filename)
     return;
 }
 
-Person *withdrawProcess::loadFileAndFindData(string &filename, string &ID, ifstream &recordfile)
+Person *withdrawProcess::loadFileAndFindData(string &filename, string ID, ifstream &recordfile)
 {
     Person *targetPerson = nullptr;
     readFile(filename);
