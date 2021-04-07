@@ -56,7 +56,7 @@ Person *withdrawProcess::findAndReturnPersonPointer(string &ID, ifstream &record
 
 void withdrawProcess::askUserWithdraw_inPeople(blackList &blackList, PeopleLocalQueue &people, Person *finding_obj)
 {
-    cout << "================hello people================" << endl;
+    // cout << "================hello people================" << endl;
     Person *targetPerson = people.isIn(finding_obj->getID());
     if (nullptr == targetPerson)
     {
@@ -70,7 +70,7 @@ void withdrawProcess::askUserWithdraw_inPeople(blackList &blackList, PeopleLocal
 
 void withdrawProcess::askUserWithdraw_inFibonacciPQ(blackList &blackList, FibonacciPQ &centrallist, Person *finding_obj)
 {
-    cout << "==========hello central Queue========" << endl;
+    // cout << "==========hello central Queue========" << endl;
     list<Person *> start = centrallist.getRootlist();
     Person *targetPerson = centrallist.find(finding_obj, start);
     if (nullptr == targetPerson)
@@ -85,11 +85,11 @@ void withdrawProcess::askUserWithdraw_inFibonacciPQ(blackList &blackList, Fibona
 
 void withdrawProcess::askUserWithdraw_inHospital(blackList &blacklist, queueManger &hospital, Person *finding_obj)
 {
-    cout << "==============hello hospital=============" << endl;
+    // cout << "==============hello hospital=============" << endl;
     Person *targetPerson = hospital.isIn(finding_obj->getID());
     if (nullptr == targetPerson)
     {
-        cout << "sorry we do not find the person in hospital queue" << endl;
+        cout << "sorry we do not find the person in hospital queue" << endl << endl;
         return;
     }
     blacklist.appendPerson(targetPerson);

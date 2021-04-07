@@ -175,7 +175,7 @@ Person *FibonacciPQ::decreaseKey(Person *changeStatusPerson, string &profession_
 {
     // 造个替身进行假想比较
     Person *origin_person = stand_in(changeStatusPerson);
-    cout << "decrease the statues" << endl;
+    // cout << "decrease the statues" << endl;
     changeStatusPerson->setProfession(profession_status);
     changeStatusPerson->setRiskStatus(riskStatus_status);
     if ((changeStatusPerson->Parent != NULL) && (origin_person->isLargerThan(*changeStatusPerson)))
@@ -187,11 +187,11 @@ Person *FibonacciPQ::decreaseKey(Person *changeStatusPerson, string &profession_
     }
     if (changeStatusPerson->isLargerThan(*Minptr))
     {
-        cout << "the decrease operation has change the minptr" << endl;
+        // cout << "the decrease operation has change the minptr" << endl;
         Minptr = changeStatusPerson;
     }
     delete origin_person;
-    cout << "successfully increase the priority of the patient " << changeStatusPerson->name << endl;
+    // cout << "successfully increase the priority of the patient " << changeStatusPerson->name << endl;
     return changeStatusPerson;
 }
 
