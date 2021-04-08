@@ -54,46 +54,46 @@ Person *withdrawProcess::findAndReturnPersonPointer(string &ID, ifstream &record
     return nullptr;
 }
 
-void withdrawProcess::askUserWithdraw_inPeople(blackList &blackList, PeopleLocalQueue &people, Person *finding_obj)
+bool withdrawProcess::askUserWithdraw_inPeople(blackList &blackList, PeopleLocalQueue &people, Person *finding_obj)
 {
     // cout << "================hello people================" << endl;
     Person *targetPerson = people.isIn(finding_obj->getID());
     if (nullptr == targetPerson)
     {
-        cout << "we do not find the person in people" << endl;
-        return;
+        // cout << "we do not find the person in people" << endl;
+        return false;
     }
     people.doWithdraw(targetPerson);
     blackList.appendPerson(targetPerson);
-    return;
+    return true;
 }
 
-void withdrawProcess::askUserWithdraw_inFibonacciPQ(blackList &blackList, FibonacciPQ &centrallist, Person *finding_obj)
+bool withdrawProcess::askUserWithdraw_inFibonacciPQ(blackList &blackList, FibonacciPQ &centrallist, Person *finding_obj)
 {
     // cout << "==========hello central Queue========" << endl;
     list<Person *> start = centrallist.getRootlist();
     Person *targetPerson = centrallist.find(finding_obj, start);
     if (nullptr == targetPerson)
     {
-        cout << "sorry we do not find the person in central Queue" << endl;
-        return;
+        // cout << "sorry we do not find the person in central Queue" << endl;
+        return false;
     }
     // Withdraw the person in people central queue.
     centrallist.withdrawInCentral(targetPerson, blackList);
-    return;
+    return true;
 }
 
-void withdrawProcess::askUserWithdraw_inHospital(blackList &blacklist, queueManger &hospital, Person *finding_obj)
+bool withdrawProcess::askUserWithdraw_inHospital(blackList &blacklist, queueManger &hospital, Person *finding_obj)
 {
     // cout << "==============hello hospital=============" << endl;
     Person *targetPerson = hospital.isIn(finding_obj->getID());
     if (nullptr == targetPerson)
     {
-        cout << "sorry we do not find the person in hospital queue" << endl << endl;
-        return;
+        // cout << "sorry we do not find the person in hospital queue" << endl << endl;
+        return false;
     }
     blacklist.appendPerson(targetPerson);
-    return;
+    return true;
 }
 
 void withdrawProcess::readFile(string &filename)

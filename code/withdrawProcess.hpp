@@ -12,9 +12,9 @@
 class withdrawProcess
 {
 public:
-    void askUserWithdraw_inPeople(blackList &blackList, PeopleLocalQueue &people, Person *finding_obj);
-    void askUserWithdraw_inFibonacciPQ(blackList &blackList, FibonacciPQ &centrallist, Person *finding_obj);
-    void askUserWithdraw_inHospital(blackList &blacklist, queueManger &hospital, Person *finding_obj);
+    bool askUserWithdraw_inPeople(blackList &blackList, PeopleLocalQueue &people, Person *finding_obj);
+    bool askUserWithdraw_inFibonacciPQ(blackList &blackList, FibonacciPQ &centrallist, Person *finding_obj);
+    bool askUserWithdraw_inHospital(blackList &blacklist, queueManger &hospital, Person *finding_obj);
     void withdrawAdvanced(blackList &blackList, PeopleLocalQueue &people, FibonacciPQ &centralList, queueManger &hospital, string &filename);
     // private:
     enum dataClass

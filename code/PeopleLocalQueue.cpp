@@ -58,7 +58,7 @@ Person *PeopleLocalQueue::popFront(void)
     {
         front = temp->next;
     }
-    cout << "The removed person (at front) has ID " << ptr->getID() << "." << endl;
+    // cout << "The removed person (at front) has ID " << ptr->getID() << "." << endl;
     delete temp;
     length--;
     return ptr;
@@ -102,7 +102,7 @@ int PeopleLocalQueue::doWithdraw(Person *thePerson)
                 back = itor;
                 back->next = NULL;
                 aPerson = temp->person_ptr;
-                cout << "The removed person (at back) has ID " << aPerson->getID() << "." << endl;
+                // cout << "The removed person (at back) has ID " << aPerson->getID() << "." << endl;
                 delete temp;
                 length--;
                 return 1;
@@ -112,7 +112,7 @@ int PeopleLocalQueue::doWithdraw(Person *thePerson)
                 temp = itor->next;
                 itor->next = temp->next;
                 aPerson = temp->person_ptr;
-                cout << "The removed person has ID " << aPerson->getID() << "." << endl;
+                // cout << "The removed person has ID " << aPerson->getID() << "." << endl;
                 delete temp;
                 length--;
                 return 1;

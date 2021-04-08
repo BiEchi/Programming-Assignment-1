@@ -17,22 +17,22 @@
 // FibonacciPQ for 治疗队列
 void forwardToCentralQueue(PeopleLocalQueue &people,
                            FibonacciPQ &centralQueue) {
-  cout << endl;
-  cout << "-------------CentralQueueStart---------------" << endl;
-  cout << "Forwarding temporary record to central queue because half a day is "
-          "gone."
-       << endl
-       << endl;
+  // cout << endl;
+  // cout << "-------------CentralQueueStart---------------" << endl;
+  // cout << "Forwarding temporary record to central queue because half a day is "
+  //         "gone."
+  //      << endl
+  //      << endl;
     
   centralQueue.eatPeople(people);
 
-  cout << "now there is " << centralQueue.returnLength()
-       << " people in the central queue" << endl;
-  cout << "Successfully forwarded your information to the Central Queue."
-       << endl;
-  cout << endl
-       << "-------------CentralQueueFinish--------------" << endl
-       << endl;
+  // cout << "now there is " << centralQueue.returnLength()
+  //      << " people in the central queue" << endl;
+  // cout << "Successfully forwarded your information to the Central Queue."
+  //      << endl;
+  // cout << endl
+  //      << "-------------CentralQueueFinish--------------" << endl
+  //      << endl;
 
   return;
 }

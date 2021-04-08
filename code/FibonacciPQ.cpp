@@ -123,7 +123,7 @@ Person *FibonacciPQ::popMin()
         }
     }
     PQ_length--;
-    cout << "the popped person's id is " << return_obj->getID() << endl;
+    // cout << "the popped person's id is " << return_obj->getID() << endl;
     // if (PQ_length > 0)
     // cout << "now the top priority is " << Minptr->getID() << endl;
     if (PQ_length == 0)
@@ -162,7 +162,7 @@ bool FibonacciPQ::cascadingCut(Person *parent)
 // operation list
 bool FibonacciPQ::inSert(Person *handle)
 {
-    cout << "add new person " << handle->ID << endl;
+    // cout << "add new person " << handle->ID << endl;
     newPerson(handle);
     handle->setCurrentStage(centralQueue);
     storePeople.push_back(*handle);
@@ -180,7 +180,7 @@ Person *FibonacciPQ::decreaseKey(Person *changeStatusPerson, string &profession_
     changeStatusPerson->setRiskStatus(riskStatus_status);
     if ((changeStatusPerson->Parent != NULL) && (origin_person->isLargerThan(*changeStatusPerson)))
     {
-        cout << "the priority has been changed" << endl;
+        // cout << "the priority has been changed" << endl;
         cut(changeStatusPerson, changeStatusPerson->Parent);
         newPerson(changeStatusPerson);
         cascadingCut(changeStatusPerson->Parent);
@@ -199,7 +199,7 @@ Person *FibonacciPQ::decreaseKey(Person *changeStatusPerson, string &profession_
 Person *FibonacciPQ::changeStatus(Person *changingPatient, string profession_status, string riskStatus_status)
 {
     Person *origin_person = stand_in(changingPatient);
-    cout << "now change the status " << endl;
+    // cout << "now change the status " << endl;
     if (origin_person->isLargerThan(*changingPatient))
     {
         changingPatient->setProfession(profession_status);
