@@ -15,7 +15,7 @@
 #include "./blackList.hpp"
 #include "./MULTITHREAD.hpp"
 #include "./withdrawProcess.hpp"
-#include "./Tools.hpp"
+#include "./TimePredef.hpp"
 #include "./CSVInputManipulations.hpp"
 
 using namespace std;
@@ -70,14 +70,26 @@ int main()
     int personType, sortType;
     getReportingWeeklyType(personType, sortType);
 
+    sleep(1);
     cout << "This is the presentation code for Computing Assignment 2, with authors Hao BAI, Liyang QIAN, Jiahao WEI and Yihong JIN." << endl;
+    sleep(1);
+    system("echo '\033[41m\033[37m\033[1m\033[4m ### The presentation starts in 3 seconds... ### \33[0m' ");
+    sleep(3);
     
+    cout << "Thread 1 begins." << endl;
     thread threadForCentralQueue(ref(forwardToCentralQueueAtNoonTwiceADay), ref(people), ref(central_Queue));
+    sleep(1);
 
+    cout << "Thread 2 begins." << endl;
     thread threadForReportingWeekly(reportingWeeklyWrapper, 2, 70000000, personType, sortType, localHospitals.treated_list, central_Queue.returnStorePeople(), localHospitals.assignment_list);
+    sleep(1);
 
+    cout << "Thread 3 begins." << endl;
     thread threadForReportingMonthly(reportingMonthlyWrapper, 3, 300000000, localHospitals.treated_list, central_Queue.returnStorePeople(), localHospitals.assignment_list, blackListRegister);
+    sleep(1);
     
+    cout << "Reading the input CSV file into People Local Queue..." << endl;
+    sleep(3);
     readTheInputCSVIntoPeople(people);
     withdrawProm.withdrawAdvanced(blackListRegister,people,central_Queue,localHospitals,searchFile);
     appointmentQueuesInit(&localHospitals);

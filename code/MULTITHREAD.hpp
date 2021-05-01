@@ -12,7 +12,7 @@
 #include <ctime>
 
 #include "blackList.hpp"
-#include "Tools.hpp"
+#include "TimePredef.hpp"
 
 // FibonacciPQ for 治疗队列
 void forwardToCentralQueue(PeopleLocalQueue &people,

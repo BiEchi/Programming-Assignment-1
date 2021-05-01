@@ -32,15 +32,16 @@ void readTheInputCSVIntoPeople(PeopleLocalQueue& people)
     string line;
     
     cout << "Writing information to the Registration Relation..." << endl;
-    sleep(2);
     system("cp ../database/People.csv ../database/Registration.csv");
+    sleep(2);
     
-    cout << "Successfully wrote information to the Registration Relation" << endl;
+    system("echo '\33[32mSuccessfully wrote information to the Registration Relation.\33[0m' ");
     sleep(1);
+    
     cout << "You can now go to ../database to find the updated version of Registration.csv file" << endl;
     sleep(1);
 
-    cout << "Retrieving tuples in database into programme..." << endl;
+    cout << "Retrieving tuples in database into programme in 3 seconds..." << endl;
     sleep(3);
     
     int i = -1;
@@ -66,12 +67,17 @@ void readTheInputCSVIntoPeople(PeopleLocalQueue& people)
         person.setBirthDay(Trim(fields[6]));
         person.setRiskStatus(Trim(fields[7]));
         
+        usleep(10000);
+        cout << endl << "Printed the " << i << "/500 person's info:" << endl;
         person.display();
         people.pushBack(&person);
     }
 
-    cout << "Successfully retrieved tuples in database into programme." << endl;
     sleep(1);
+    cout << endl;
+    system("echo '\33[32m ### Successfully retrieved tuples in database into programme. ### \33[0m' ");
+    cout << endl;
+    sleep(3);
     
     inFile.close();
     return;
