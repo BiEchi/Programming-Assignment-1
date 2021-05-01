@@ -39,3 +39,6 @@ LICENSE
 # Editor
 *.vscode
 *.xcodeproj
+
+# Browser Favor
+*.DS_STORE
