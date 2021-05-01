@@ -7,7 +7,6 @@
 #include <iostream>
 #include <vector>
 
-
 using namespace std;
 
 void Person::setID(string data) {
