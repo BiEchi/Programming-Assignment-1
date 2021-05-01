@@ -1,5 +1,6 @@
 #include "withdrawProcess.hpp"
 #include <regex>
+#include <unistd.h>
 using namespace std;
 
 // split the string by some signs and store it in the vector object and then return that
@@ -85,11 +86,9 @@ bool withdrawProcess::askUserWithdraw_inFibonacciPQ(blackList &blackList, Fibona
 
 bool withdrawProcess::askUserWithdraw_inHospital(blackList &blacklist, queueManger &hospital, Person *finding_obj)
 {
-    // cout << "==============hello hospital=============" << endl;
     Person *targetPerson = hospital.isIn(finding_obj->getID());
     if (nullptr == targetPerson)
     {
-        // cout << "sorry we do not find the person in hospital queue" << endl << endl;
         return false;
     }
     blacklist.appendPerson(targetPerson);
@@ -143,10 +142,12 @@ void withdrawProcess::withdrawAdvanced(blackList &blackList, PeopleLocalQueue &p
             break;
         }
         case 2:
-            cout << "you chooose to quit" << endl;
+            cout << "you chooose to quit." << endl;
+            sleep(2);
             return;
         default:
-            cout << "please enter the right number" << endl;
+            cout << "please enter the right number." << endl;
+            sleep(1);
             break;
         }
     } while (choice != 2);

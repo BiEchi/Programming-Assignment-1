@@ -88,16 +88,30 @@ int main()
     thread threadForReportingMonthly(reportingMonthlyWrapper, 3, 300000000, localHospitals.treated_list, central_Queue.returnStorePeople(), localHospitals.assignment_list, blackListRegister);
     sleep(1);
     
-    cout << "Reading the input CSV file into People Local Queue..." << endl;
-    sleep(3);
+    system("echo '\033[41m\033[37m\033[1m\033[4mReading the input CSV file into People Local Queue...\33[0m' ");
+    sleep(2);
     readTheInputCSVIntoPeople(people);
+    sleep(3);
+    
+    system("echo '\033[41m\033[37m\033[1m\033[4mChoose whether you want to withdraw...\33[0m' ");
     withdrawProm.withdrawAdvanced(blackListRegister,people,central_Queue,localHospitals,searchFile);
+    sleep(1);
+    
     appointmentQueuesInit(&localHospitals);
+    system("echo '\033[41m\033[37m\033[1m\033[4mAssigning to the local hospitals...\33[0m' ");
+    sleep(1);
     assignToLocalHospital(&localHospitals, &central_Queue);
-
+    sleep(3);
+    
+    cout << "Detaching thread 1..." << endl;
     threadForCentralQueue.detach();
+    sleep(1);
+    cout << "Detaching thread 2..." << endl;
     threadForReportingWeekly.detach();
+    sleep(1);
+    cout << "Detaching thread 3..." << endl;
     threadForReportingMonthly.detach();
-
+    sleep(1);
+    
     return 0;
 }
