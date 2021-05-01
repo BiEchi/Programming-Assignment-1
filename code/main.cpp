@@ -20,28 +20,6 @@
 
 using namespace std;
 
-void appendPermanentRegisterRecord(string data)
-{
-    system(" cat 'temporaryData.dat' >> 'permanentData.dat' ");
-    return;
-}
-
-void appendTemporaryToPermanent(string data)
-{
-    cout << endl
-        << endl;
-    appendPermanentRegisterRecord(data);
-    cout << "Successfully put your information into the Permanent Database." << endl;
-    return;
-}
-
-void DeleteTemporaryRegisterRecord(string data)
-{
-    IOManipulations vectorIOManipulation;
-    vectorIOManipulation.dumpTemporaryRegisterRecord(data);
-    cout << "Successfully dumped your information in the Temporary Database." << endl;
-}
-
 // appointment queues functions
 int appointmentQueuesInit(queueManger *localHospital)
 {
@@ -82,16 +60,12 @@ withdrawProcess withdrawProm;
 
 int main()
 {
-    // programme variable
-    TemporaryRegisterRecord temporaryRegisterRecordMethods;
     // data variable
     string searchFile = "temporaryData.dat";
-    string data; //buffer
     people.init();
     queueManger localHospitals; // appointment queues
 
     // process
-    cout << endl << endl << endl << endl;
     cout << "Please Enter the person type and sort type you want." << endl << endl;
     int personType, sortType;
     getReportingWeeklyType(personType, sortType);
@@ -103,19 +77,14 @@ int main()
 
     thread threadForReportingMonthly(reportingMonthlyWrapper, 3, 300000000, localHospitals.treated_list, central_Queue.returnStorePeople(), localHospitals.assignment_list, blackListRegister);
     
-    // TODO: Turn the input file into people
     readTheInputCSVIntoPeople(people);
-
-    appendTemporaryToPermanent(data);
     withdrawProm.withdrawAdvanced(blackListRegister,people,central_Queue,localHospitals,searchFile);
     appointmentQueuesInit(&localHospitals);
     assignToLocalHospital(&localHospitals, &central_Queue);
 
-    DeleteTemporaryRegisterRecord(data);
-
-    threadForCentralQueue.detach();
-    threadForReportingWeekly.detach();
-    threadForReportingMonthly.detach();
+    threadForCentralQueue.join();
+    threadForReportingWeekly.join();
+    threadForReportingMonthly.join();
 
     return 0;
 }

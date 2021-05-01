@@ -10,17 +10,27 @@
 
 #include <iostream>
 #include <fstream>
+#include <sstream>
+#include <string>
+#include <vector>
 #include <unistd.h>
 #include "PeopleLocalQueue.hpp"
 
 using namespace std;
 
+string Trim(string& str)
+{
+    str.erase(0, str.find_first_not_of(" \t\r\n"));
+    str.erase(str.find_last_not_of(" \t\r\n") + 1);
+    return str;
+}
+
 void readTheInputCSVIntoPeople(PeopleLocalQueue& people)
 {
-    istream& inFile;
     cout << "Opening ../database/People.csv" << endl;
     sleep(1);
-    inFile.open("../database/People.csv", ios::app); // open in READ mode
+    ifstream inFile("../database/People.csv");
+    string line;
     
     cout << "Writing information to the Registration Relation..." << endl;
     sleep(2);
@@ -34,20 +44,31 @@ void readTheInputCSVIntoPeople(PeopleLocalQueue& people)
     cout << "Retrieving tuples in database into programme..." << endl;
     sleep(3);
     
-    // TODO: read CSV file into PeopleLocalQueue people line by line
-    for (int i = 0; i < linesInCSVFile; i++)
+    int i = 0;
+    while (getline(inFile, line) && i != 0)
     {
-        string data;
-        Person person;
-        person.setID(data);
-        person.setName(data);
-        person.setContactDetails(data);
-        person.setProfession(data);
-        person.setBirthYear(data);
-        person.setBirthMonth(data);
-        person.setBirthDay(data);
-        person.setRiskStatus(data);
+        i++;
+        cout << "The initial string is: " << line << endl; // print the original line
+        istringstream inString(line);
+        vector<string> fields;
+        string field;
+        while (getline(inString, field, ','))
+            fields.push_back(field);
+        string name = Trim(fields[0]);
+        string age = Trim(fields[1]);
+        string birthday = Trim(fields[2]);
         
+        Person person;
+        person.setID(Trim(fields[0]));
+        person.setName(Trim(fields[1]));
+        person.setContactDetails(Trim(fields[2]));
+        person.setProfession(Trim(fields[3]));
+        person.setBirthYear(Trim(fields[4]));
+        person.setBirthMonth(Trim(fields[5]));
+        person.setBirthDay(Trim(fields[6]));
+        person.setRiskStatus(Trim(fields[7]));
+        
+        person.display();
         people.pushBack(&person);
     }
 
@@ -57,7 +78,5 @@ void readTheInputCSVIntoPeople(PeopleLocalQueue& people)
     inFile.close();
     return;
 }
-
-
 
 #endif /* CSVInputManipulations_hpp */
