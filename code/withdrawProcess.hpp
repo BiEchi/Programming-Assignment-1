@@ -12,10 +12,11 @@
 class withdrawProcess
 {
 public:
-    bool askUserWithdraw_inPeople(blackList &blackList, PeopleLocalQueue &people, Person *finding_obj);
-    bool askUserWithdraw_inFibonacciPQ(blackList &blackList, FibonacciPQ &centrallist, Person *finding_obj);
-    bool askUserWithdraw_inHospital(blackList &blacklist, queueManger &hospital, Person *finding_obj);
-    void withdrawAdvanced(blackList &blackList, PeopleLocalQueue &people, FibonacciPQ &centralList, queueManger &hospital, string &filename);
+    // bool askUserWithdraw_inPeople(blackList &blackList, PeopleLocalQueue &people, Person *finding_obj);
+    // bool askUserWithdraw_inFibonacciPQ(blackList &blackList, FibonacciPQ &centrallist, Person *finding_obj);
+    // bool askUserWithdraw_inHospital(blackList &blacklist, queueManger &hospital, Person *finding_obj);
+    // void withdrawAdvanced(blackList &blackList, PeopleLocalQueue &people, FibonacciPQ &centralList, queueManger &hospital, string &filename);
+    void withdrawDemo(blackList &blackList, PeopleLocalQueue &people, FibonacciPQ &centralList, queueManger &hospital, string &filename);
     // private:
     enum dataClass
     {
@@ -29,12 +30,11 @@ public:
         MAR
     };
     ifstream recordDataBase;
-    string askForID();
-    // void loadFileAndFindData(string &filename, string ID, ifstream &recordfile, Person *target_person);
+    // string askForID();
     void readFile(string &filename);
     void closeFile(string &filename);
-    Person *loadFileAndFindData(string &filename, string ID, ifstream &recordfile);
-    Person *findAndReturnPersonPointer(string &ID, ifstream &recordfile);
+    Person *loadFileAndFindData(string &filename, string ID);
+    Person *findAndReturnPersonPointer(string &ID);
     vector<string> s_split(const string &in, const string &delim);
 };
 

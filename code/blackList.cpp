@@ -29,7 +29,7 @@ Person *blackList::appendPerson(Person *Withdraw_person)
     int index = hash_for_id(Withdraw_person->getID()) % length;
     blackList_Hashing_table[index].push_back(Withdraw_person);
     Withdraw_person->setCurrentStage(nonebuffer);
-    cout << "successfully add a person" << endl;
+    cout << "successfully add a person with id " << Withdraw_person->getID() << endl;
     num++;
     return Withdraw_person;
 }

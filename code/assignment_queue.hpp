@@ -50,6 +50,8 @@ public:
     int reassign(FibonacciPQ *PQ);
     // Handle withdraw
     int doWithdraw(Person *thePerson);
+    // return length
+    int getlength();
     Person* isIn(string ID);
     int displayAll(void);
 };

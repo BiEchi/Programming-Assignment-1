@@ -279,17 +279,17 @@ Person *FibonacciPQ::stand_in(Person *copy_person_ptr)
     return stand;
 }
 
-Person *FibonacciPQ::find(Person *checkObject, list<Person *> &findinglist)
+Person *FibonacciPQ::find(string &objectID, list<Person *> &findinglist)
 {
     if (findinglist.size() == 0)
         return nullptr;
     for (auto i = findinglist.begin(); i != findinglist.end(); i++)
     {
-        if ((*i)->getID() == checkObject->getID())
+        if ((*i)->getID() == objectID)
         {
             return (*i);
         }
-        find(checkObject, (*i)->Son);
+        find(objectID, (*i)->Son);
     }
     return nullptr;
 }
@@ -312,5 +312,7 @@ vector<Person> FibonacciPQ::returnStorePeople()
 }
 list<Person *> FibonacciPQ::getRootlist()
 {
+    if (Rootlist.empty())
+        cout << "the rootlist is empty " << endl;
     return Rootlist;
 }

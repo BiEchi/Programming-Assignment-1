@@ -26,7 +26,7 @@ public:
     Person *withdrawInCentral(Person *withdrawingPerson, blackList &blacklistObjective);
     Person *popMin();
     Person *changeStatus(Person *changingPatient, string profession_status, string riskStatus_status);
-    Person* find(Person *checkObject, list<Person *> &findingList);
+    Person* find(string &objectID, list<Person *> &findingList);
     vector<Person> returnStorePeople();
     list<Person *> getRootlist();
 

@@ -106,7 +106,7 @@ int main()
 
    temporaryRegisterRecordMethods.buildTemporaryRegisterRecord(data, people);
    appendTemporaryToPermanent(data);
-   withdrawProm.withdrawAdvanced(blackListRegister,people,central_Queue,localHospitals,searchFile);
+   // withdrawProm.withdrawAdvanced(blackListRegister,people,central_Queue,localHospitals,searchFile);
    appointmentQueuesInit(&localHospitals);
    assignToLocalHospital(&localHospitals, &central_Queue);
 

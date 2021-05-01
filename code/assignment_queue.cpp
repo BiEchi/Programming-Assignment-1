@@ -301,3 +301,8 @@ int queueManger::displayAll(void)
     cout << endl;
     return 1;
 }
+
+int queueManger::getlength()
+{
+    return length;
+}
