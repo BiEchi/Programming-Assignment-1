@@ -14,7 +14,6 @@
 #include <string>
 #include <vector>
 #include <unistd.h>
-#include "PeopleLocalQueue.hpp"
 
 using namespace std;
 
@@ -44,19 +43,18 @@ void readTheInputCSVIntoPeople(PeopleLocalQueue& people)
     cout << "Retrieving tuples in database into programme..." << endl;
     sleep(3);
     
-    int i = 0;
-    while (getline(inFile, line) && i != 0)
+    int i = -1;
+    while (getline(inFile, line))
     {
         i++;
+        if (i == 0) continue; // escape the schema
+        
         cout << "The initial string is: " << line << endl; // print the original line
         istringstream inString(line);
         vector<string> fields;
         string field;
         while (getline(inString, field, ','))
             fields.push_back(field);
-        string name = Trim(fields[0]);
-        string age = Trim(fields[1]);
-        string birthday = Trim(fields[2]);
         
         Person person;
         person.setID(Trim(fields[0]));
@@ -73,7 +71,7 @@ void readTheInputCSVIntoPeople(PeopleLocalQueue& people)
     }
 
     cout << "Successfully retrieved tuples in database into programme." << endl;
-    sleep(3);
+    sleep(1);
     
     inFile.close();
     return;

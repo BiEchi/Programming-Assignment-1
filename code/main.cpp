@@ -70,7 +70,8 @@ int main()
     int personType, sortType;
     getReportingWeeklyType(personType, sortType);
 
-    cout << "This is the presentation code for Computing Assignment 2, with authors Hao BAI, Liyang QIAN, Jiahao WEI, Yihong JIN." << endl;
+    cout << "This is the presentation code for Computing Assignment 2, with authors Hao BAI, Liyang QIAN, Jiahao WEI and Yihong JIN." << endl;
+    
     thread threadForCentralQueue(ref(forwardToCentralQueueAtNoonTwiceADay), ref(people), ref(central_Queue));
 
     thread threadForReportingWeekly(reportingWeeklyWrapper, 2, 70000000, personType, sortType, localHospitals.treated_list, central_Queue.returnStorePeople(), localHospitals.assignment_list);
@@ -82,9 +83,9 @@ int main()
     appointmentQueuesInit(&localHospitals);
     assignToLocalHospital(&localHospitals, &central_Queue);
 
-    threadForCentralQueue.join();
-    threadForReportingWeekly.join();
-    threadForReportingMonthly.join();
+    threadForCentralQueue.detach();
+    threadForReportingWeekly.detach();
+    threadForReportingMonthly.detach();
 
     return 0;
 }
