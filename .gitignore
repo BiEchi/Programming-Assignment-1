@@ -30,5 +30,12 @@
 *.exe
 *.out
 *.app
-*test*.*
-*vscode*.*
+
+# Documentations
+*.pdf
+*.drawio
+LICENSE
+
+# Editor
+*.vscode
+*.xcodeproj
