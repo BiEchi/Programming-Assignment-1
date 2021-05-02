@@ -61,12 +61,13 @@ withdrawProcess withdrawProm;
 int main()
 {
     // data variable
-    string searchFile = "temporaryData.dat";
+    // string searchFile = "../database/People.csv";
     people.init();
     queueManger localHospitals; // appointment queues
 
     // process
-    cout << "Please Enter the person type and sort type you want." << endl << endl;
+    cout << "Please Enter the person type and sort type you want." << endl
+         << endl;
     int personType, sortType;
     getReportingWeeklyType(personType, sortType);
 
@@ -75,7 +76,7 @@ int main()
     sleep(1);
     system("echo '\033[41m\033[37m\033[1m\033[4m ### The presentation starts in 3 seconds... ### \33[0m' ");
     sleep(3);
-    
+
     cout << "Thread 1 begins." << endl;
     thread threadForCentralQueue(ref(forwardToCentralQueueAtNoonTwiceADay), ref(people), ref(central_Queue));
     sleep(1);
@@ -87,16 +88,16 @@ int main()
     cout << "Thread 3 begins." << endl;
     thread threadForReportingMonthly(reportingMonthlyWrapper, 3, 300000000, localHospitals.treated_list, central_Queue.returnStorePeople(), localHospitals.assignment_list, blackListRegister);
     sleep(1);
-    
+
     system("echo '\033[41m\033[37m\033[1m\033[4mReading the input CSV file into People Local Queue...\33[0m' ");
     sleep(2);
     readTheInputCSVIntoPeople(people);
     sleep(3);
-    
-    system("echo '\033[41m\033[37m\033[1m\033[4mChoose whether you want to withdraw...\33[0m' ");
-    withdrawProm.withdrawAdvanced(blackListRegister,people,central_Queue,localHospitals,searchFile);
-    sleep(1);
-    
+
+    // system("echo '\033[41m\033[37m\033[1m\033[4mChoose whether you want to withdraw...\33[0m' ");
+    // withdrawProm.withdrawAdvanced(blackListRegister, people, central_Queue, localHospitals, searchFile);
+    // sleep(1);
+
     appointmentQueuesInit(&localHospitals);
     system("echo '\033[41m\033[37m\033[1m\033[4mAssigning to the local hospitals...\33[0m' ");
     sleep(1);
@@ -104,7 +105,7 @@ int main()
     sleep(2);
     system("echo '\33[32mSuccessfully assigned patients to the local hospitals.\33[0m' ");
     sleep(3);
-    
+
     system("echo '\033[41m\033[37m\033[1m\033[4mDetaching threads...\33[0m' ");
     cout << "Detaching thread 1..." << endl;
     threadForCentralQueue.detach();
@@ -119,6 +120,6 @@ int main()
     sleep(2);
     system("echo '\033[32m\033[37m\033[1m\033[4mThe programme ends with exit flag EXIT_SUCCESS\33[0m' ");
     sleep(1);
-    
+
     return EXIT_SUCCESS;
 }
