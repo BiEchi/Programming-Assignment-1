@@ -50,7 +50,6 @@ void readTheInputCSVIntoPeople(PeopleLocalQueue& people)
         i++;
         if (i == 0) continue; // escape the schema
         
-        cout << "The initial string is: " << line << endl; // print the original line
         istringstream inString(line);
         vector<string> fields;
         string field;
@@ -75,7 +74,7 @@ void readTheInputCSVIntoPeople(PeopleLocalQueue& people)
 
     sleep(1);
     cout << endl;
-    system("echo '\33[32m ### Successfully retrieved tuples in database into programme. ### \33[0m' ");
+    system("echo '\33[32mSuccessfully retrieved tuples in database into programme.\33[0m' ");
     cout << endl;
     sleep(3);
     

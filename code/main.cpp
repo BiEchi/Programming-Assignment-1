@@ -101,8 +101,11 @@ int main()
     system("echo '\033[41m\033[37m\033[1m\033[4mAssigning to the local hospitals...\33[0m' ");
     sleep(1);
     assignToLocalHospital(&localHospitals, &central_Queue);
+    sleep(2);
+    system("echo '\33[32mSuccessfully assigned patients to the local hospitals.\33[0m' ");
     sleep(3);
     
+    system("echo '\033[41m\033[37m\033[1m\033[4mDetaching threads...\33[0m' ");
     cout << "Detaching thread 1..." << endl;
     threadForCentralQueue.detach();
     sleep(1);
@@ -111,7 +114,11 @@ int main()
     sleep(1);
     cout << "Detaching thread 3..." << endl;
     threadForReportingMonthly.detach();
+    sleep(2);
+    system("echo '\33[32mSuccessfully detached all the threads. All records are available now.\33[0m' ");
+    sleep(2);
+    system("echo '\033[32m\033[37m\033[1m\033[4mThe programme ends with exit flag EXIT_SUCCESS\33[0m' ");
     sleep(1);
     
-    return 0;
+    return EXIT_SUCCESS;
 }
