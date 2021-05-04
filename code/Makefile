@@ -3,7 +3,7 @@ CC := g++
 LD := g++
 SOURCES := $(wildcard *.cpp)
 OBJECTIVES := $(patsubst %cpp, %o, $(SOURCES))
-TARGET := ComputingAssignmentOne # PUT YOUR INTENDED NAME HERE
+TARGET := ComputingAssignmentTwo # PUT YOUR INTENDED NAME HERE
 
 # Link ALL dependency files to carry out ALL target files
 $(TARGET): $(OBJECTIVES)
@@ -18,7 +18,8 @@ all: $(TARGET)
 clear:
 	rm -f $(OBJECTIVES) $(TARGET)
 	rm -f *.dat
+	rm -f *.o
 clean:
-	rm -f $(TARGET)
+	rm -f *.o
 
 	
