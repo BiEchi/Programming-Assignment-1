@@ -1,4 +1,4 @@
 main: block.cpp
 	g++ -g -Wall block.cpp -o main
-clean: 
+clear: 
 	rm main

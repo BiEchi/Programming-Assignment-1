@@ -8,11 +8,11 @@ public:
     Person() {}
     // temp function !!!
     Person(const Person &src) {ID = src.getID();}
-    int setID(string data) {ID = data; return 0;}
-    string getID(void) const {return ID;}
+    int setID(int data) {ID = data; return 0;}
+    int getID(void) const {return ID;}
 
 private:
-    string ID;
+    int ID;
 };
 
 // ---------------------------------
@@ -25,19 +25,19 @@ class record
 private:
     int tombstone;
 public:
-    Person datum;
+    Person* datum_ptr;
     /**
      * @brief Construct a new record object.
      * 
      */
     record(): 
         tombstone{1},
-        datum{}
+        datum_ptr{NULL}
     {};
     int mark_tombstone(void) {tombstone = 1; return 0;}
     int unmark_tombstone(void) {tombstone = 0; return 0;}
     int get_tombstone(void) const {return tombstone;}
-    string get_key(void) const {return datum.getID();}
+    int get_key(void) const {return datum_ptr->getID();}
 };
 
 /**
@@ -69,12 +69,12 @@ private:
 public:
     int clear();
     int sort(void);
-    Person* find(string ID);
+    Person* find(int ID);
     block* insert(Person* tuple);
     block* split(void);
-    block* remove(string ID);
+    block* remove(int ID);
     block* merge(void);
-    string maximum(void);
+    int maximum(void);
     int display(void);
 };
 // ---------------------------------
