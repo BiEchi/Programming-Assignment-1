@@ -7,7 +7,7 @@
 // Used for testing.
 int main()
 {
-    int num = 100;
+    int num = 40;
     block data;
     BPlusTree testTree = BPlusTree(&data);
     Person people[num];
@@ -21,10 +21,6 @@ int main()
     cout << "Test for insert. " << endl;
     for (int i = 0; i < num; i++)
     {
-        if (i == 99)
-        {
-            cout << "stop " << endl;
-        }
         testTree.bPlustree_insert(testTree.returnRoot(),&people[i]);
     }
     testTree.linear_print();

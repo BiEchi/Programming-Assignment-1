@@ -53,10 +53,11 @@ int BPlusTree::btree_split_child(btree_node *parent, int pos, btree_node *child)
 		cout << "fail to allocate a new memory in split_child" << endl;
 		return -1;
 	}
+	btree_node_num ++;
+	parent->labelArray[pos] = child->labelArray[2*M-1];
 	// 裂节点时的第二个节点（child的兄弟节点）
 	new_child->is_leaf = child->is_leaf;
 	new_child->num = M;
-	child->num = M;
 
 	// 数据拷贝
 	for (int i = 0; i < M; i++)
@@ -72,6 +73,7 @@ int BPlusTree::btree_split_child(btree_node *parent, int pos, btree_node *child)
 			new_child->ptrArray[i] = child->ptrArray[i + M];
 			// empty
 			child->ptrArray[i + M] = nullptr;
+			child->labelArray[i+M] = "0";
 		}
 	}
 	else
@@ -81,6 +83,7 @@ int BPlusTree::btree_split_child(btree_node *parent, int pos, btree_node *child)
 			new_child->BlockPtrarray[i] = child->BlockPtrarray[i + M];
 			// empty
 			child->BlockPtrarray[i + M] = nullptr;
+			child->labelArray[i+M] = "0";
 		}
 	}
 	// 插入到父节点
@@ -92,15 +95,15 @@ int BPlusTree::btree_split_child(btree_node *parent, int pos, btree_node *child)
 	}
 	parent->labelArray[pos] = child->labelArray[M - 1];
 
-	// 移动指针
+	// 移动指针 
 	for (int i = parent->num - 1; i > pos; i--)
 	{
 		parent->ptrArray[i + 1] = parent->ptrArray[i];
 	}
 	parent->ptrArray[pos + 1] = new_child;
 
+	child->num = M;
 	parent->num += 1;
-	btree_node_num ++;
 	return 1;
 }
 
@@ -132,6 +135,7 @@ Person *BPlusTree::bPlustree_insert_nonfull(btree_node *node, Person *target)
 				node->labelArray[arrayIndexPtr] = blockPtr->maximum();
 				node->BlockPtrarray[arrayIndexPtr] = blockPtr;
 				node->labelArray[pos] = blockPtr->prevPointer()->maximum();
+				node->num ++;
 			}
 			else
 			{
@@ -160,6 +164,7 @@ Person *BPlusTree::bPlustree_insert_nonfull(btree_node *node, Person *target)
 				pos++;
 			}
 		}
+		node->labelArray[pos] = target->getID();
 		return bPlustree_insert_nonfull(node->ptrArray[pos], target);
 	}
 }
@@ -168,6 +173,7 @@ Person *BPlusTree::bPlustree_insert(btree_node *root, Person *target)
 {
 	if (NULL == root)
 	{
+		cout << "warning: no such a tree" << endl;
 		return NULL;
 	}
 	// 每个结点能存储2M个
@@ -179,11 +185,16 @@ Person *BPlusTree::bPlustree_insert(btree_node *root, Person *target)
 			cout << "fail to allocate a new memory" << endl;
 			return nullptr;
 		}
+		btree_node_num ++;
 
 		node->is_leaf = false;
 		node->ptrArray[0] = root;
+		node->num++;
 		btree_split_child(node, 0, root);
-
+		if(root == roots)
+		{
+			roots = node;
+		}
 		return bPlustree_insert_nonfull(node, target);
 	}
 	else
@@ -231,13 +242,13 @@ Person *BPlusTree::bPlustree_delete(btree_node *root, string target)
 	{
 		btree_node *y = root->ptrArray[0];
 		btree_node *z = root->ptrArray[1];
-		if (NULL != y && NULL != z &&
-			M - 1 == y->num && M - 1 == z->num)
+		if (NULL != y && NULL != z && M - 1 == y->num && M - 1 == z->num)
 		{
 			// 融合到可以裁剪
 			btree_merge_child(root, 0, y, z);
 			free(root);
 			// 这个时候y作为新的root
+			roots = y;
 			return bPlustree_delete_nonone(y, target);
 		}
 		else
