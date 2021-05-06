@@ -132,6 +132,7 @@ Person *BPlusTree::bPlustree_insert_nonfull(btree_node *node, Person *target)
 			{
 				// update new node and label
 				int arrayIndexPtr = node->num;
+				// 向右增长
 				node->labelArray[arrayIndexPtr] = blockPtr->maximum();
 				node->BlockPtrarray[arrayIndexPtr] = blockPtr;
 				node->labelArray[pos] = blockPtr->prevPointer()->maximum();
@@ -164,6 +165,7 @@ Person *BPlusTree::bPlustree_insert_nonfull(btree_node *node, Person *target)
 				pos++;
 			}
 		}
+		// 逻辑：在这里插入的一定是比当前值大的值，可以直接更新以维护一一对应的性质
 		node->labelArray[pos] = target->getID();
 		return bPlustree_insert_nonfull(node->ptrArray[pos], target);
 	}
@@ -248,12 +250,11 @@ Person *BPlusTree::bPlustree_delete(btree_node *root, string target)
 			btree_merge_child(root, 0, y, z);
 			free(root);
 			// 这个时候y作为新的root
-			roots = y;
+			if(root == roots){roots = y;}
 			return bPlustree_delete_nonone(y, target);
 		}
 		else
 		{
-
 			return bPlustree_delete_nonone(root, target);
 		}
 	}

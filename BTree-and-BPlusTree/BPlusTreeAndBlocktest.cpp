@@ -7,7 +7,7 @@
 // Used for testing.
 int main()
 {
-    int num = 40;
+    int num = 400;
     block data;
     BPlusTree testTree = BPlusTree(&data);
     Person people[num];

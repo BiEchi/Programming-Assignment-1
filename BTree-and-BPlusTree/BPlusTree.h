@@ -1,5 +1,6 @@
 #ifndef BPLUSTREE_H
 #define BPLUSTREE_H
+#include "block.h"
 #include "struct.h"
 #include "Tree.h"
 
@@ -7,6 +8,7 @@ class BPlusTree : public Tree
 {
 private:
 	block *begin = nullptr;
+	Person *dynamicPtrFordelete = nullptr;
 protected:
 	virtual btree_node *btree_create();
 	virtual btree_node *btree_node_new();
@@ -48,7 +50,10 @@ public:
 	// void findMinAndMax();
 	// void findPredecessorAndSuccessor(int target);
 	btree_node *returnRoot();
+	// 返回删除后block中最大值的指针（用于动态地更新路径）
+	// 返回删除的人的指针
 	Person *bPlustree_delete(btree_node *root, string target);
+	// 返回加入的人的指针
 	Person *bPlustree_insert(btree_node *root, Person *target);
 };
 
