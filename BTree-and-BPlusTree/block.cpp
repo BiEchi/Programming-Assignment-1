@@ -9,13 +9,28 @@
  * @param record2 
  * @returns True if the primary key (ID) of record1 is less than the primary key (ID) of record2, false otherwise. 
  */
-bool cmp4sort(const record &record1, const record &record2) 
+bool cmp4sort(const record &record1, const record &record2)
 {
-    if (1 == record1.get_tombstone() && 1 == record2.get_tombstone()) {return false;}
-    if (0 == record1.get_tombstone() && 1 == record2.get_tombstone()) {return true;}
-    if (1 == record1.get_tombstone() && 0 == record2.get_tombstone()) {return false;}
-    if (record1.get_key() < record2.get_key()) {return true;}
-    else {return false;}
+    if (1 == record1.get_tombstone() && 1 == record2.get_tombstone())
+    {
+        return false;
+    }
+    if (0 == record1.get_tombstone() && 1 == record2.get_tombstone())
+    {
+        return true;
+    }
+    if (1 == record1.get_tombstone() && 0 == record2.get_tombstone())
+    {
+        return false;
+    }
+    if (record1.get_key() < record2.get_key())
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
 
 /**
@@ -25,21 +40,28 @@ bool cmp4sort(const record &record1, const record &record2)
  * 
  * @return 1 for indication. 
  */
-int block::sort(void) 
+int block::sort(void)
 {
     int first_empty = 0;
     int i, indicator;
-    for (i = 0, indicator = 0; i < overflow_size && indicator < overflow_occupied; i++) 
+    for (i = 0, indicator = 0; i < overflow_size && indicator < overflow_occupied; i++)
     {
-        if (overflow[i].get_tombstone()) {continue;} // Ignore Person with marked tombstone.
-        for (int j = first_empty; j < mainblock_size; j++) 
+        if (overflow[i].get_tombstone())
+        {
+            continue;
+        } // Ignore Person with marked tombstone.
+        for (int j = first_empty; j < mainblock_size; j++)
         {
             // Find the first empty space in main block.
-            if (mainblock[j].get_tombstone()) {first_empty = j; break;}
+            if (mainblock[j].get_tombstone())
+            {
+                first_empty = j;
+                break;
+            }
         }
-        mainblock[first_empty].datum_ptr = overflow[i].datum_ptr; // copy tuple !!!
+        mainblock[first_empty].datum = overflow[i].datum; // copy tuple !!!
         mainblock[first_empty].unmark_tombstone();
-        (overflow + i)->mark_tombstone(); // Remove tuple in the overflow block. Mark tombstone after copy. 
+        (overflow + i)->mark_tombstone(); // Remove tuple in the overflow block. Mark tombstone after copy.
         indicator++;
     }
     std::sort(mainblock, mainblock + (mainblock_occupied + std::max(overflow_occupied, tombstones_number)), cmp4sort);
@@ -56,15 +78,20 @@ int block::sort(void)
  * @return A pointer to the Person with the input ID.
  * If there is no such person, return NULL. 
  */
-Person* block::find(int ID) {
+Person *block::find(string ID)
+{
     int low = 0, high = tombstones_number + mainblock_occupied - 1;
     int mid;
-    while(high >= low)
+    while (high >= low)
     {
-        mid = high - (high - low)/2;
-        if (mainblock[mid].get_key() == ID) {
-            if (mainblock[mid].get_tombstone()) {break;}
-            return mainblock[mid].datum_ptr;
+        mid = high - (high - low) / 2;
+        if (mainblock[mid].get_key() == ID)
+        {
+            if (mainblock[mid].get_tombstone())
+            {
+                break;
+            }
+            return &mainblock[mid].datum;
         }
         if (mainblock[mid].get_key() < ID)
         {
@@ -80,8 +107,14 @@ Person* block::find(int ID) {
     int i, indicator;
     for (i = 0, indicator = 0; i < overflow_size && indicator < overflow_occupied; i++)
     {
-        if (overflow[i].get_tombstone()) {continue;} // Ignore Person with marked tombstone.
-        if (overflow[i].get_key() == ID) {return overflow[i].datum_ptr;}
+        if (overflow[i].get_tombstone())
+        {
+            continue;
+        } // Ignore Person with marked tombstone.
+        if (overflow[i].get_key() == ID)
+        {
+            return &overflow[i].datum;
+        }
         indicator++;
     }
     return NULL;
@@ -94,15 +127,14 @@ Person* block::find(int ID) {
  * @param tuple 
  * @return The pointer to the new block if split is called, NULL otherwise. 
  */
-block* block::insert(Person* tuple)
+block *block::insert(Person *tuple)
 {
     // Assume that there is always space left in overflow block.
     for (int i = 0; i < overflow_size; i++)
     {
         if (overflow[i].get_tombstone())
         {
-            overflow[i].datum_ptr = new Person;
-            *(overflow[i].datum_ptr) = *tuple;
+            overflow[i].datum = *tuple;
             overflow[i].unmark_tombstone();
             break;
         }
@@ -112,7 +144,7 @@ block* block::insert(Person* tuple)
     {
         sort();
     }
-    // When split is called, all the tuples are in mainblock, and there is no tombstone. 
+    // When split is called, all the tuples are in mainblock, and there is no tombstone.
     if (mainblock_occupied > fill_threshold)
     {
         return split();
@@ -126,17 +158,17 @@ block* block::insert(Person* tuple)
  * 
  * @return The pointer to the newly created block. 
  */
-block* block::split(void)
+block *block::split(void)
 {
-    int mid = mainblock_occupied/2;
-    block* new_block = new block;
+    int mid = mainblock_occupied / 2;
+    block *new_block = new block;
     // Connect new_block
     this->next = new_block;
     new_block->prev = this;
 
     for (int i = mid; i < mainblock_occupied; i++)
     {
-        new_block->mainblock[(new_block->mainblock_occupied)++].datum_ptr = this->mainblock[i].datum_ptr;
+        new_block->mainblock[(new_block->mainblock_occupied)++].datum = this->mainblock[i].datum;
         new_block->mainblock[new_block->mainblock_occupied - 1].unmark_tombstone();
         this->mainblock[i].mark_tombstone();
     }
@@ -151,23 +183,27 @@ block* block::split(void)
  * @param ID 
  * @return The pointer to this block if merge happens, NULL otherwise. 
  */
-block* block::remove(int ID)
+block *block::remove(string ID)
 {
-    record* toRemove;
+    record *toRemove;
     int low = 0, high = tombstones_number + mainblock_occupied - 1, mid;
-    while(high >= low)
+    while (high >= low)
     {
-        mid = high - (high - low)/2;
+        mid = high - (high - low) / 2;
         if (mainblock[mid].get_key() == ID)
         {
-            if (mainblock[mid].get_tombstone()) {break;}
+            if (mainblock[mid].get_tombstone())
+            {
+                break;
+            }
             toRemove = mainblock + mid;
             toRemove->mark_tombstone();
-            delete toRemove->datum_ptr;
             mainblock_occupied--;
             tombstones_number++;
-            if (this->mainblock_occupied < merge_threshold) {return merge();}
-            else {return NULL;}
+            if (this->mainblock_occupied < merge_threshold)
+            {
+                return merge();
+            }
         }
         if (mainblock[mid].get_key() < ID)
         {
@@ -183,12 +219,14 @@ block* block::remove(int ID)
     int i, indicator;
     for (i = 0, indicator = 0; i < overflow_size && indicator < overflow_occupied; i++)
     {
-        if (overflow[i].get_tombstone()) {continue;} // Ignore Person with marked tombstone.
+        if (overflow[i].get_tombstone())
+        {
+            continue;
+        } // Ignore Person with marked tombstone.
         toRemove = overflow + i;
-        if (toRemove->get_key() == ID) 
+        if (toRemove->get_key() == ID)
         {
             toRemove->mark_tombstone();
-            delete toRemove->datum_ptr;
             overflow_occupied--;
             return NULL;
         }
@@ -206,39 +244,54 @@ block* block::remove(int ID)
  * @return The new seperation key such that all the tuples' key in this block are strickly less than the seperation key.
  * If the neighbouring block is deleted, return the maximum key after merge operation.
  */
-block* block::merge(void)
+block *block::merge(void)
 {
-    block* neighbour = this->next;
-    if (NULL == this->next) {return NULL;}
+    block *neighbour = this->next;
+    if (NULL == next)
+    {
+        return NULL;
+    }
     int total_num_tuples = this->mainblock_occupied + this->overflow_occupied + neighbour->mainblock_occupied + neighbour->overflow_occupied;
-    int mid4seperate = total_num_tuples/2;
+    int mid4seperate = total_num_tuples / 2;
     record arr4tuples[total_num_tuples];
     string seperate_key;
-    // Copy all the tuples into arr4tuples. 
+    // Copy all the tuples into arr4tuples.
     int index4arr = 0;
     int i, indicator;
     for (i = 0, indicator = 0; i < this->mainblock_size && indicator < this->mainblock_occupied; i++)
     {
-        if (this->mainblock[i].get_tombstone()) {continue;}
-        arr4tuples[index4arr++].datum_ptr = this->mainblock[i].datum_ptr;
+        if (this->mainblock[i].get_tombstone())
+        {
+            continue;
+        }
+        arr4tuples[index4arr++].datum = this->mainblock[i].datum;
         indicator++;
     }
     for (i = 0, indicator = 0; i < neighbour->mainblock_size && indicator < neighbour->mainblock_occupied; i++)
     {
-        if (neighbour->mainblock[i].get_tombstone()) {continue;}
-        arr4tuples[index4arr++].datum_ptr = neighbour->mainblock[i].datum_ptr;
+        if (neighbour->mainblock[i].get_tombstone())
+        {
+            continue;
+        }
+        arr4tuples[index4arr++].datum = neighbour->mainblock[i].datum;
         indicator++;
     }
     for (i = 0, indicator = 0; i < this->overflow_size && indicator < this->overflow_occupied; i++)
     {
-        if (this->overflow[i].get_tombstone()) {continue;}
-        arr4tuples[index4arr++].datum_ptr = this->overflow[i].datum_ptr;
+        if (this->overflow[i].get_tombstone())
+        {
+            continue;
+        }
+        arr4tuples[index4arr++].datum = this->overflow[i].datum;
         indicator++;
     }
     for (i = 0, indicator = 0; i < neighbour->overflow_size && indicator < neighbour->overflow_occupied; i++)
     {
-        if (neighbour->overflow[i].get_tombstone()) {continue;}
-        arr4tuples[index4arr++].datum_ptr = neighbour->overflow[i].datum_ptr;
+        if (neighbour->overflow[i].get_tombstone())
+        {
+            continue;
+        }
+        arr4tuples[index4arr++].datum = neighbour->overflow[i].datum;
         indicator++;
     }
 
@@ -250,29 +303,34 @@ block* block::merge(void)
     {
         for (i = 0; i < total_num_tuples; i++)
         {
-            this->mainblock[this->mainblock_occupied++].datum_ptr = arr4tuples[i].datum_ptr;
+            this->mainblock[this->mainblock_occupied++].datum = arr4tuples[i].datum;
             this->mainblock[this->mainblock_occupied - 1].unmark_tombstone();
         }
         // Disconnect block.
-        if (neighbour->next) {
+        if (neighbour->next)
+        {
             this->next = neighbour->next;
             neighbour->next->prev = this;
-        } else {
+        }
+        else
+        {
             this->next = NULL;
         }
-        // Delete block. 
+        // Delete block.
         delete neighbour;
         return this;
-    } else {
+    }
+    else
+    {
         seperate_key = arr4tuples[mid4seperate].get_key();
         for (i = 0; i < mid4seperate; i++)
         {
-            this->mainblock[this->mainblock_occupied++].datum_ptr = arr4tuples[i].datum_ptr;
+            this->mainblock[this->mainblock_occupied++].datum = arr4tuples[i].datum;
             this->mainblock[this->mainblock_occupied - 1].unmark_tombstone();
         }
         for (i = mid4seperate; i < total_num_tuples; i++)
         {
-            neighbour->mainblock[neighbour->mainblock_occupied++].datum_ptr = arr4tuples[i].datum_ptr;
+            neighbour->mainblock[neighbour->mainblock_occupied++].datum = arr4tuples[i].datum;
             neighbour->mainblock[neighbour->mainblock_occupied - 1].unmark_tombstone();
         }
         return this;
@@ -284,12 +342,12 @@ block* block::merge(void)
  * 
  * @return The maximum ID. 
  */
-int block::maximum(void)
+string block::maximum(void)
 {
-    int max;
-    for (int i = mainblock_occupied + tombstones_number - 1; i > -1 ; i--)
+    string max;
+    for (int i = mainblock_occupied + tombstones_number - 1; i > -1; i--)
     {
-        if (!mainblock[i].get_tombstone()) 
+        if (!mainblock[i].get_tombstone())
         {
             max = mainblock[i].get_key();
             break;
@@ -298,8 +356,14 @@ int block::maximum(void)
     int i, indicator;
     for (i = 0, indicator = 0; i < overflow_size && indicator < overflow_occupied; i++)
     {
-        if (overflow[i].get_tombstone()) {continue;}
-        if (overflow[i].get_key() > max) {max = overflow[i].get_key();}
+        if (overflow[i].get_tombstone())
+        {
+            continue;
+        }
+        if (overflow[i].get_key() > max)
+        {
+            max = overflow[i].get_key();
+        }
     }
     return max;
 }
@@ -314,13 +378,16 @@ int block::maximum(void)
  */
 int block::display(void)
 {
-    record* temp;
+    record *temp;
     cout << ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>" << endl;
     cout << "Main block has the following tuple: \n";
-    for (int i = 0; i < mainblock_occupied + tombstones_number; i++) 
+    for (int i = 0; i < mainblock_occupied + tombstones_number; i++)
     {
         temp = mainblock + i;
-        if (temp->get_tombstone()) {continue;}
+        if (temp->get_tombstone())
+        {
+            continue;
+        }
         cout << "   ID: " << temp->get_key() << endl;
     }
     cout << "Overflow block has the following tuple: \n";
@@ -328,100 +395,41 @@ int block::display(void)
     for (i = 0, indicator = 0; i < overflow_size && indicator < overflow_occupied; i++)
     {
         temp = overflow + i;
-        if (temp->get_tombstone()) {continue;} // Ignore Person with marked tombstone.
+        if (temp->get_tombstone())
+        {
+            continue;
+        } // Ignore Person with marked tombstone.
         cout << "   ID: " << temp->get_key() << endl;
         indicator++;
     }
-    cout << "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<" << endl << endl;
+    cout << "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<" << endl
+         << endl;
     return 0;
 }
 
-// Used for testing. 
-int main() {
-    int num = 10;
-    block data;
-    Person people[num];
-    block* sec_block;
-    for (int i = 0; i < num; i++)
+int block::clear()
+{
+    mainblock_occupied = 0;
+    overflow_occupied = 0;
+    tombstones_number = 0;
+    
+    for (int i = 0; i < mainblock_size; i++)
     {
-        people[i].setID(i);
+        mainblock[i].mark_tombstone();
     }
-
-    // Test for insert.
-    cout << "Test for insert. " << endl;
-    for (int i = 0; i < 8; i++)
+    for (int i = 0; i < overflow_size; i++)
     {
-        data.insert(&people[i]);
+        overflow[i].mark_tombstone();
     }
-    data.display();
-
-    // Test for remove.
-    cout << "Test for remove. " << endl;
-    cout << data.remove(2) << endl;
-    cout << data.remove(4) << endl;
-    cout << data.remove(6) << endl;
-    data.display();
-    data.insert(&people[4]);
-    data.display();
-    data.remove(4);
-    data.display();
-    data.insert(&people[2]);
-    data.display();
-    data.insert(&people[4]);
-    data.display();
-
-    // Test for find
-    cout << "Test for find. " << endl;
-    Person* temp;
-    data.display();
-    for (int i = 0; i < num; i++)
-    {
-        if((temp = data.find(i)))
-        {
-            cout << "Find the person with ID: " << temp->getID() << endl;
-        }
-        else 
-        {
-            cout << "Did not find the person with ID " << i << ". \n" << endl;
-        }
-    }
-
-    // Test for split.
-    cout << "Test for split. " << endl;
-    data.insert(&people[8]);
-    data.insert(&people[9]);
-    cout << (sec_block = data.insert(&people[6])) << endl;
-    data.display();
-    if (sec_block) {sec_block->display();}
-
-    // Test for merge.
-    cout << "Test for merge. " << endl;
-    data.remove(4);
-    data.remove(2);
-    data.remove(1);
-    data.display();
-    cout << data.merge() << endl;
-    data.display();
-    // sec_block->display();
-
-    // Test for maximum.
-    cout << "Test for maximum. " << endl;
-    data.display();
-    cout << data.maximum() << endl;
-    data.remove(9);
-    data.display();
-    cout << data.maximum() << endl;
-    data.remove(8);
-    data.remove(7);
-    data.insert(&people[4]);
-    data.display();
-    cout << data.maximum() << endl;
-    data.insert(&people[7]);
-    data.display();
-    cout << data.maximum() << endl;
-    data.remove(4);
-    data.display();
-    cout << data.maximum() << endl;
-
-    return 0;
+    return 1;
 }
+
+block *block::nextPointer()
+{
+    return next;
+}
+block *block::prevPointer()
+{
+    return prev;
+}
+
