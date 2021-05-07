@@ -1,5 +1,6 @@
 #include "withdrawProcess.hpp"
 #include <regex>
+#include <unistd.h>
 using namespace std;
 
 // split the string by some signs and store it in the vector object and then return that

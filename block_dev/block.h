@@ -1,6 +1,3 @@
-#ifndef BLOCK_H
-#define BLOCK_H
-#include <cstring>
 #include <iostream>
 using namespace std;
 
@@ -85,5 +82,3 @@ public:
     block* get_next(void) {return next;}
 };
 // ---------------------------------
-
-#endif
