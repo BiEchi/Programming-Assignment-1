@@ -116,7 +116,13 @@ Person *BPlusTree::bPlustree_insert_nonfull(btree_node *node, Person *target)
 			{
 				// update new node and label
 				int arrayIndexPtr = node->num;
-				// 向右增长
+				// 向右增长,移项空位置
+				while (arrayIndexPtr > pos + 1)
+				{
+					node->labelArray[arrayIndexPtr] = node->labelArray[arrayIndexPtr - 1];
+					node->BlockPtrarray[arrayIndexPtr] = node->BlockPtrarray[arrayIndexPtr - 1];	
+					arrayIndexPtr -- ;
+				}
 				node->labelArray[arrayIndexPtr] = blockPtr->maximum();
 				node->BlockPtrarray[arrayIndexPtr] = blockPtr;
 				node->labelArray[pos] = blockPtr->prevPointer()->maximum();
