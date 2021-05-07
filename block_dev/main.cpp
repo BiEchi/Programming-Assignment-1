@@ -1,5 +1,5 @@
 #include <iostream>
-#include "block.hpp"
+#include "block.h"
 using namespace std;
 
 // Used for testing. 
