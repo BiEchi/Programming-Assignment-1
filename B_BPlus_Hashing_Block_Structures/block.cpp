@@ -78,7 +78,7 @@ int block::sort(void)
  * @return A pointer to the Person with the input ID.
  * If there is no such person, return NULL. 
  */
-Person* block::find(int ID) {
+Person* block::find(string ID) {
     int low = 0, high = tombstones_number + mainblock_occupied - 1;
     int mid;
     while(high >= low)
@@ -182,7 +182,7 @@ block* block::split(void)
  * @param ID 
  * @return The pointer to this block if merge happens, NULL otherwise. 
  */
-block* block::remove(int ID)
+block* block::remove(string ID)
 {
     record* toRemove;
     int low = 0, high = tombstones_number + mainblock_occupied - 1, mid;
@@ -312,9 +312,9 @@ block* block::merge(void)
  * 
  * @return The maximum ID. 
  */
-int block::maximum(void)
+string block::maximum(void)
 {
-    int max;
+    string max;
     for (int i = mainblock_occupied + tombstones_number - 1; i > -1 ; i--)
     {
         if (!mainblock[i].get_tombstone()) 

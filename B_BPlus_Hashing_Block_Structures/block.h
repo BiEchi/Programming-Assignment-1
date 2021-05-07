@@ -8,10 +8,10 @@ public:
     // temp function !!!
     Person(const Person &src) {ID = src.getID();}
     int setID(int data) {ID = data; return 0;}
-    int getID(void) const {return ID;}
+    string getID(void) const {return ID;}
 
 private:
-    int ID;
+    string ID;
 };
 
 // ---------------------------------
@@ -38,7 +38,7 @@ private:
     int unmark_tombstone(void) {tombstone = 0; return 0;}
 public:
     int get_tombstone(void) const {return tombstone;}
-    int get_key(void) const {return datum_ptr->getID();}
+    string get_key(void) const {return datum_ptr->getID();}
 };
 
 /**
@@ -73,12 +73,12 @@ private:
     block* split(void);
     block* merge(void);
 public:
-    Person* find(int ID);
+    Person* find(string ID);
     block* insert(Person* tuple);
-    block* remove(int ID);
-    int maximum(void);
+    block* remove(string ID);
+    string maximum(void);
     int display(void);
-    block* get_prev(void) {return prev;}
-    block* get_next(void) {return next;}
+    // block* get_prev(void) {return prev;}
+    // block* get_next(void) {return next;}
 };
 // ---------------------------------
