@@ -1,9 +1,11 @@
 #include "BPlusTree.h"
-#include "BPlusTree.cpp" // delete when make
+// #include "BPlusTree.cpp" // delete when make
 #include "block.h"
-#include "block.cpp" // delete when make
+// #include "block.cpp" // delete when mak
 #include "struct.h"
 #include "Tree.h"
+#include <unistd.h>
+
 // Used for testing.
 int main()
 {
@@ -22,7 +24,8 @@ int main()
     cout << "Test for insert. " << endl;
     for (int i = 0; i < num; i++)
     {
-       testTree.bPlustree_insert(testTree.returnRoot(), &people[i]);
+        usleep(100000);
+        testTree.bPlustree_insert(testTree.returnRoot(), &people[i]);
     }
     testTree.linear_print();
     cout << "test for right direction delete " << endl;
@@ -32,7 +35,7 @@ int main()
     }
 
     testTree.linear_print();
-
+    cout << testTree.returnRoot()->num << endl;
     cout << "Test for insert. " << endl;
     for (int i = 0; i < num; i++)
     {
@@ -42,6 +45,7 @@ int main()
     cout << "test for deletision in inverse direction " << endl;
     for (int i = num - 1; i >= 0; i--)
     {
+        usleep(100000);
         testTree.bPlustree_delete(testTree.returnRoot(), people[i].getID());
     }
     testTree.linear_print();

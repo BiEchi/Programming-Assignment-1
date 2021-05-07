@@ -430,6 +430,7 @@ void BPlusTree::btree_linear_print(btree_node *root)
 		int count = 0;
 		while (nullptr != index)
 		{
+			usleep(100000);
 			cout << "the " << count + 1 << " th Block" << endl;
 			index->display();
 			count++;
