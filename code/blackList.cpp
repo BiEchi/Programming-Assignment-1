@@ -34,7 +34,7 @@ Person *blackList::appendPerson(Person *Withdraw_person)
     return Withdraw_person;
 }
 
-int blackList::display(void)
+void blackList::display(void)
 {
     cout << ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" << endl;
     cout << "Black list info: " << endl;
@@ -46,5 +46,5 @@ int blackList::display(void)
         }
     }
     cout << "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<" << endl;
-    return 0;
+    return;
 }

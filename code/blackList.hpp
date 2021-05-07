@@ -17,7 +17,8 @@ class blackList {
   // API
   Person *popPersonWithID(Person *popped_person);
   Person *appendPerson(Person *Withdraw_person);
-  int display(void);
+  // print the list
+  void display(void);
   // need to be added
   int size(){return num;};
 
