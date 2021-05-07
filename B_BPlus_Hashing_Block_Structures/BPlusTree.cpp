@@ -273,8 +273,9 @@ Person *BPlusTree::bPlustree_delete_nonone(btree_node *root, string target)
 			}
 			root->num--;
 		}
-		// update the label for return and maintain the BPlusTree
+		// update the label for returning and maintaining the BPlusTree
 		dynamicIDForMaintain = root->BlockPtrarray[i]->maximum();
+		root->labelArray[i] = dynamicIDForMaintain;
 		return personIndex;
 	}
 	else
@@ -339,26 +340,6 @@ Person *BPlusTree::bPlustree_delete_nonone(btree_node *root, string target)
 	}
 }
 
-// int BPlusTree::findMin(btree_node *root)
-// {
-// 	btree_node *z = root;
-// 	while (false == z->is_leaf)
-// 	{
-// 		z = z->ptrArray[0];
-// 	}
-// 	return z->labelArray[0];
-// }
-
-// int BPlusTree::findMax(btree_node *root)
-// {
-// 	btree_node *y = root;
-// 	while (false == y->is_leaf)
-// 	{
-// 		y = y->ptrArray[y->num];
-// 	}
-// 	return y->labelArray[y->num - 1];
-// }
-
 void BPlusTree::btree_shift_to_right_child(btree_node *root, int pos,
 										   btree_node *y, btree_node *z)
 {
@@ -367,16 +348,9 @@ void BPlusTree::btree_shift_to_right_child(btree_node *root, int pos,
 	{
 		z->labelArray[i] = z->labelArray[i - 1];
 	}
-	// if (false == z->is_leaf)
-	// {
 	z->labelArray[0] = root->labelArray[pos];
 	// 提取y的倒数第二个label作为新label
 	root->labelArray[pos] = y->labelArray[y->num - 2];
-	// else
-	// {
-	// 	z->labelArray[0] = y->labelArray[y->num - 1];
-	// 	root->labelArray[pos] = y->labelArray[y->num - 2];
-	// }
 
 	if (false == z->is_leaf)
 	{
@@ -402,16 +376,8 @@ void BPlusTree::btree_shift_to_left_child(btree_node *root, int pos,
 {
 	y->num += 1;
 
-	// if (false == z->is_leaf)
-	// {
 	root->labelArray[pos] = z->labelArray[0];
 	y->labelArray[y->num - 1] = root->labelArray[pos];
-	// }
-	// else
-	// {
-	// 	y->labelArray[y->num - 1] = z->labelArray[0];
-	// 	root->labelArray[pos] = z->labelArray[0];
-	// }
 
 	for (int j = 1; j < z->num; j++)
 	{
@@ -437,20 +403,6 @@ void BPlusTree::btree_shift_to_left_child(btree_node *root, int pos,
 	}
 	z->num -= 1;
 }
-
-// void BPlusTree::btree_inorder_print(btree_node *root)
-// {
-// 	if (NULL != root)
-// 	{
-// 		btree_inorder_print(root->ptrArray[0]);
-// 		for (int i = 0; i < root->num; i++)
-// 		{
-// 			cout << root->labelArray[i] << " ";
-// 			// 	fwrite(&root,sizeof(root),1,fp);
-// 			btree_inorder_print(root->ptrArray[i + 1]);
-// 		}
-// 	}
-// }
 
 void BPlusTree::btree_linear_print(btree_node *root)
 {
@@ -515,97 +467,6 @@ void BPlusTree::linear_print()
 	btree_linear_print(roots);
 }
 
-// void BPlusTree::findMinAndMax()
-// {
-// 	cout << "the min is " << findMin(roots) << endl;
-// 	cout << "the max is " << findMax(roots) << endl;
-// 	return;
-// }
-
-// btree_node *BPlusTree::searchTheDataBlockOfTarget(int target)
-// {
-// 	btree_node *tempPtr = roots;
-// 	while (!tempPtr->is_leaf)
-// 	{
-// 		for (int i = 0; i <= tempPtr->num; i++)
-// 		{
-// 			// update the pointer if it is the case
-// 			if (i == tempPtr->num)
-// 			{
-// 				tempPtr = tempPtr->ptrArray[tempPtr->num];
-// 				break;
-// 			}
-// 			else
-// 			{
-// 				if (target <= tempPtr->labelArray[i])
-// 				{
-// 					tempPtr = tempPtr->ptrArray[i];
-// 					break;
-// 				}
-// 			}
-// 		}
-// 	}
-// 	return tempPtr;
-// }
-
-// void BPlusTree::findPredecessorAndSuccessor(int target)
-// {
-// 	btree_node *datablock = searchTheDataBlockOfTarget(target);
-// 	// if the databloclabelArray only have one data, meaning the predecessor is in the previous data bloclabelArray and the successor data bloclabelArray
-// 	if (datablock->num == 1)
-// 	{
-// 		int Predecessor = datablock->prev->labelArray[(datablock->prev->num - 1)];
-// 		int Successor = datablock->next->labelArray[0];
-// 		// judge the case of Predecessor
-// 		if (Predecessor > target)
-// 			cout << "the target data does not have Predecessor " << endl;
-// 		else
-// 			cout << "the Predecessor is " << Predecessor << endl;
-// 		// judge the case of Successor
-// 		if (Successor < target)
-// 			cout << "the target data does not have successor " << endl;
-// 		else
-// 			cout << "the Successor is " << Successor << endl;
-// 		return;
-// 	}
-// 	// locate the data
-// 	for (int i = 0; i < datablock->num; i++)
-// 	{
-// 		// target data is the first data in the main bloclabelArray
-// 		if (datablock->labelArray[i] == target && i == 0)
-// 		{
-// 			// 判断是否为空;
-// 			int Predecessor = datablock->prev->labelArray[(datablock->prev->num - 1)];
-// 			if (Predecessor > target)
-// 				cout << "the target data does not have Predecessor " << endl;
-// 			else
-// 				cout << "the Predecessor is " << datablock->prev->labelArray[datablock->prev->num - 1] << endl;
-// 			cout << "the Successor is " << datablock->labelArray[1] << endl;
-// 			break;
-// 		}
-// 		// target data is the last data in the main bloclabelArray
-// 		else if (datablock->labelArray[i] == target && i == (datablock->num - 1))
-// 		{
-// 			cout << "the Preredeccor is " << datablock->labelArray[i - 1] << endl;
-// 			// 判断是否为空;
-// 			int Successor = datablock->next->labelArray[0];
-// 			if (Successor < target)
-// 				cout << "the target data does not have Successor " << endl;
-// 			else
-// 				cout << "the Successor is " << datablock->next->labelArray[0] << endl;
-// 			break;
-// 		}
-// 		// the target is in the main bloclabelArray
-// 		else if (datablock->labelArray[i] == target)
-// 		{
-// 			cout << "the Predecessor is " << endl;
-// 			cout << "the Successor is " << endl;
-// 			break;
-// 		}
-// 	}
-// 	return;
-// }
-
 BPlusTree::BPlusTree(void)
 {
 	return;
@@ -627,11 +488,3 @@ btree_node *BPlusTree::returnRoot()
 {
 	return roots;
 }
-// int BPlusTree::btree_search_successor(btree_node *root)
-// {
-// 	return 0;
-// }
-// int BPlusTree::btree_search_predecessor(btree_node *root)
-// {
-// 	return 0;
-// }
