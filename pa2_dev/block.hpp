@@ -1,4 +1,3 @@
-#include <cstring>
 #include <iostream>
 using namespace std;
 
@@ -22,10 +21,11 @@ private:
  */
 class record
 {
+friend class block;
 private:
     int tombstone;
-public:
     Person* datum_ptr;
+private:
     /**
      * @brief Construct a new record object.
      * 
@@ -36,6 +36,7 @@ public:
     {};
     int mark_tombstone(void) {tombstone = 1; return 0;}
     int unmark_tombstone(void) {tombstone = 0; return 0;}
+public:
     int get_tombstone(void) const {return tombstone;}
     int get_key(void) const {return datum_ptr->getID();}
 };
@@ -66,38 +67,18 @@ private:
 
     block* prev = NULL;
     block* next = NULL;
-public:
+private:
     int clear();
     int sort(void);
+    block* split(void);
+    block* merge(void);
+public:
     Person* find(int ID);
     block* insert(Person* tuple);
-    block* split(void);
     block* remove(int ID);
-    block* merge(void);
     int maximum(void);
     int display(void);
+    block* get_prev(void) {return prev;}
+    block* get_next(void) {return next;}
 };
 // ---------------------------------
-
-/**
- * @brief clear all the date in the block by marking all tuples' tombstones.
- * Set mainblock_occupied = 0, overflow_occupied = 0, tombstones_number = 0.
- * 
- * @return 1 for indication
- */
-int block::clear()
-{
-    mainblock_occupied = 0;
-    overflow_occupied = 0;
-    tombstones_number = 0;
-    
-    for (int i = 0; i < mainblock_size; i++)
-    {
-        mainblock[i].mark_tombstone();
-    }
-    for (int i = 0; i < overflow_size; i++)
-    {
-        overflow[i].mark_tombstone();
-    }
-    return 1;
-}
