@@ -73,7 +73,7 @@ int test_find()
     block0.insert(&people[9]);
     block0.insert(&people[1]);
     block0.insert(&people[0]);
-    block0.remove(to_string(3));
+    block0.remove(to_string(9));
     block0.remove(to_string(2));
     cout << "Test for find. " << endl;
     cout << "Block0 before find. " << endl;
@@ -87,7 +87,7 @@ int test_find()
         }
         else 
         {
-            cout << "Did not find the person with ID " << i << ". \n" << endl;
+            cout << "Did not find the person with ID " << i << ". \n";
         }
     }
     return 1;     
@@ -135,10 +135,9 @@ int test1_merge()
     }
     cout << "Test 1 for merge: total_num_tuples <= fill_threshold." << endl;
     block0.remove(to_string(1));
-    block0.insert(&people[0]);
-    block0.remove(to_string(0));
     block0.insert(&people[1]);
-    block0.remove(to_string(3));
+    block0.remove(to_string(0));
+    block0.insert(&people[0]);
     block0.nextPointer()->remove(to_string(5));
     block0.nextPointer()->remove(to_string(7));
     block0.nextPointer()->insert(&people[5]);
@@ -228,13 +227,13 @@ int test_maximum()
 }
 
 int main() {
-    test_insert();
-    test_remove();
-    test_find();
-    test_split();
-    test1_merge();
-    test2_merge();
-    test_maximum();
+    // test_insert();
+    // test_remove();
+    // test_find();
+    // test_split();
+    // test1_merge();
+    // test2_merge();
+    // test_maximum();
 
     return 0;
 }

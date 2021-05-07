@@ -94,22 +94,28 @@ int block::sort(void)
  */
 Person* block::find(string ID) {
     int low = 0, high = tombstones_number + mainblock_occupied - 1;
-    int mid;
-    while(high >= low)
+    int mid, shift;
+    while (high >= low && mainblock_occupied != 0)
     {
-        mid = high - (high - low)/2;
-        if (mainblock[mid].get_key() == ID) {
-            if (mainblock[mid].get_tombstone()) {break;}
-            return mainblock[mid].datum_ptr;
-        }
-        if (mainblock[mid].get_key() < ID)
+        shift = mid = high - (high - low)/2;
+        while (mainblock[shift].get_tombstone() && shift <= high)
         {
-            low = mid + 1;
+            shift++;
+            if (shift > high) {high = mid - 1;}
+        }
+        if (shift > high) {continue;}
+        if (mainblock[shift].get_key() == ID) {
+            return mainblock[shift].datum_ptr;
+        }
+        if (mainblock[shift].get_key() < ID)
+        {
+            low = shift + 1;
             continue;
         }
-        if (mainblock[mid].get_key() > ID)
+        if (mainblock[shift].get_key() > ID)
         {
-            high = mid - 1;
+            if (shift == high) {high = mid - 1; continue;}
+            high = shift - 1;
             continue;
         }
     }
@@ -200,14 +206,20 @@ block* block::split(void)
 block* block::remove(string ID)
 {
     record* toRemove;
-    int low = 0, high = tombstones_number + mainblock_occupied - 1, mid;
-    while(high >= low)
+    int low = 0, high = tombstones_number + mainblock_occupied - 1;
+    int mid, shift;
+    while (high >= low && mainblock_occupied != 0)
     {
-        mid = high - (high - low)/2;
-        if (mainblock[mid].get_key() == ID)
+        shift = mid = high - (high - low)/2;
+        while (mainblock[shift].get_tombstone() && shift <= high)
         {
-            if (mainblock[mid].get_tombstone()) {break;}
-            toRemove = mainblock + mid;
+            shift++;
+            if (shift > high) {high = mid - 1;}
+        }
+        if (shift > high) {continue;}
+        if (mainblock[shift].get_key() == ID)
+        {
+            toRemove = mainblock + shift;
             toRemove->mark_tombstone();
             delete toRemove->datum_ptr;
             mainblock_occupied--;
@@ -215,14 +227,15 @@ block* block::remove(string ID)
             if (this->mainblock_occupied < merge_threshold) {return merge();}
             else {return NULL;}
         }
-        if (mainblock[mid].get_key() < ID)
+        if (mainblock[shift].get_key() < ID)
         {
-            low = mid + 1;
+            low = shift + 1;
             continue;
         }
-        if (mainblock[mid].get_key() > ID)
+        if (mainblock[shift].get_key() > ID)
         {
-            high = mid - 1;
+            if (shift == high) {high = mid - 1; continue;}
+            high = shift - 1;
             continue;
         }
     }
