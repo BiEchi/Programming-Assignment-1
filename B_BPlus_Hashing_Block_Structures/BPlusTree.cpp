@@ -279,10 +279,12 @@ Person *BPlusTree::bPlustree_delete_nonone(btree_node *root, string target)
 		{
 			block *previous = root->BlockPtrarray[i]->prevPointer();
 			if(nullptr != previous)
+			{
 				dynamicIDForMaintain = previous->maximum();
+				root->BlockPtrarray[i] = nullptr;
+				root->num--;
+			}
 			root->labelArray[i] = "0";
-			root->BlockPtrarray[i] = nullptr;
-			root->num--;
 		}
 		else
 			root->labelArray[i] = dynamicIDForMaintain;
@@ -464,7 +466,6 @@ void BPlusTree::btree_level_display(btree_node *root)
 			cout << node->labelArray[i] << " ";
 		}
 		printf("]");
-
 		for (int i = 0; i <= node->num; i++)
 		{
 			if (NULL != node->ptrArray[i])

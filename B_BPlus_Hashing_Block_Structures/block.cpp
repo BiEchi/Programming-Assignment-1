@@ -224,7 +224,10 @@ block* block::remove(string ID)
             delete toRemove->datum_ptr;
             mainblock_occupied--;
             tombstones_number++;
-            if (this->mainblock_occupied < merge_threshold) {return merge();}
+            if ((this->mainblock_occupied < merge_threshold) && (nullptr != this->nextPointer()) && (0 < this->nextPointer()->mainblock_occupied))
+            {
+                return merge();
+            }
             else {return NULL;}
         }
         if (mainblock[shift].get_key() < ID)
