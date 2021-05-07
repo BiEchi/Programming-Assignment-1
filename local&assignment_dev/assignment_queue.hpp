@@ -20,9 +20,9 @@ private:
     int32_t length;
     int32_t occupied;
 
-public:
-    int init(int hc, int wh, int thePlace);
+private:
     void clear(void);
+    int init(int hc, int wh, int thePlace);
     int isFull(void) { return (occupied == length ? 1 : 0); }
     int addPerson(Person *const thePerson);
     int deletePerson(Person* thePerons);
@@ -41,6 +41,8 @@ private:
 
     int extendLocations(int hospital);
 
+private:
+    
 public:
     time_t startTime;
     int init(int num = 8);
