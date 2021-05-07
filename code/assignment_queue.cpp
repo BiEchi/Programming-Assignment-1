@@ -169,7 +169,7 @@ int queueManger::init(int num)
  * @brief Extand the length of hospital array. 
  * Allocate a new array and copy all the hospital into the new array. 
  * 
- * @param hospital 
+ * @param hospital a hospital
  * @return 1 for indication. 
  */
 int queueManger::extendLocations(int hospital)
@@ -193,9 +193,9 @@ int queueManger::extendLocations(int hospital)
  * @brief Add a new hospital into the 
  * Before addition, remember to call this initHospital function.
  * 
- * @param hospital 
- * @param hc 
- * @param wh 
+ * @param hospital a hospital
+ * @param hc what's this?
+ * @param wh what's this?
  * @return int 
  */
 int queueManger::addHospital(int hospital, int hc, int wh)

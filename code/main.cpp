@@ -17,45 +17,9 @@
 #include "./withdrawProcess.hpp"
 #include "./TimePredef.hpp"
 #include "./CSVInputManipulations.hpp"
+#include "mainHelp.hpp"
 
 using namespace std;
-
-// FibonacciPQ for 治疗队列
-void forwardToCentralQueue(PeopleLocalQueue &people, FibonacciPQ &centralQueue) {
-  centralQueue.eatPeople(people);
-  return;
-}
-
-// appointment queues functions
-int appointmentQueuesInit(queueManger *localHospital)
-{
-    // initialize
-    localHospital->init();
-    for (int i = 0; i < 8; i++)
-    {
-        localHospital->addHospital(i);
-    }
-    return 1;
-}
-
-// Assumption: The appointent queues have already been initialized.
-int assignToLocalHospital(queueManger *localHospital, FibonacciPQ *centralQueue)
-{
-    localHospital->reassign(centralQueue);
-    localHospital->displayAll();
-    return 1;
-}
-
-void getReportingWeeklyType(int &personType, int &sortType)
-{
-    cout << "Person Type = 0(treated), 1(in queue), 2(with assignment)" << endl;
-    cin >> personType;
-
-    cout << "Sort Type = 0(name), 1(profession), 2(age)" << endl;
-    cin >> sortType;
-
-    return;
-}
 
 // global variables
 time_t startTime = time(NULL);
