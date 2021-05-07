@@ -1,5 +1,5 @@
 #include <iostream>
-#include "block.h"
+#include "block.cpp"
 using namespace std;
 
 // Used for testing. 
@@ -136,7 +136,7 @@ int test1_merge()
     cout << "Test 1 for merge: total_num_tuples <= fill_threshold." << endl;
     block0.remove(to_string(1));
     block0.insert(&people[0]);
-    block0.remove(0);
+    block0.remove(to_string(0));
     block0.insert(&people[1]);
     block0.remove(to_string(3));
     block0.nextPointer()->remove(to_string(5));
@@ -180,7 +180,7 @@ int test2_merge()
     }
     cout << "Test 2 for merge: total_num_tuples > fill_threshold. " << endl;
     // Remove enough tuple to reach the threshold. 
-    block0.remove(0);
+    block0.remove(to_string(0));
     block0.remove(to_string(1));
     // Insert enough tuple in block1 to make total_num_tuples > fill_threshold. 
     block0.insert(&people[0]);
