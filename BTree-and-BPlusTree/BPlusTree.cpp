@@ -1,4 +1,5 @@
 #include "BPlusTree.h"
+#include "block.h"
 #include "struct.h"
 #include <unistd.h>
 #include <iostream>
@@ -273,14 +274,8 @@ Person *BPlusTree::bPlustree_delete_nonone(btree_node *root, string target)
 			i++;
 		block *indexPtr = root->BlockPtrarray[i]->remove(target);
 		// judge whether the merge happens
-		if (nullptr == indexPtr)
-		{
-			// update the label if necessary
-			if (target == root->labelArray[i])
-				root->labelArray[i] = root->BlockPtrarray[i]->maximum();
-		}
 		// merge happens, synchronously merge with block
-		else
+		if(nullptr != indexPtr)
 		{
 			root->labelArray[i] = root->labelArray[i + 1];
 			for (int pos = i + 1; pos < root->num - 1; pos++)
@@ -289,6 +284,8 @@ Person *BPlusTree::bPlustree_delete_nonone(btree_node *root, string target)
 				root->BlockPtrarray[pos] = root->BlockPtrarray[pos + 1];
 			}
 		}
+		// update the label for return and maintain the BPlusTree
+		dynamicIDForMaintain = root->BlockPtrarray[i]->maximum();
 		return root->BlockPtrarray[i]->find(target);
 	}
 	else
@@ -333,11 +330,15 @@ Person *BPlusTree::bPlustree_delete_nonone(btree_node *root, string target)
 			{
 				btree_merge_child(root, i, y, z);
 			}
-			return bPlustree_delete_nonone(y, target);
+			Person * deletePerson =  bPlustree_delete_nonone(y, target);
+			root->labelArray[i] = dynamicIDForMaintain;
+			return	deletePerson;
 		}
 		else
 		{
-			return bPlustree_delete_nonone(y, target);
+			Person * deletePerson =  bPlustree_delete_nonone(y, target);
+			root->labelArray[i] = dynamicIDForMaintain;
+			return	deletePerson;
 		}
 	}
 }

@@ -3,12 +3,13 @@
 #include "block.h"
 #include "struct.h"
 #include "Tree.h"
+#include <string>
 
 class BPlusTree : public Tree
 {
 private:
 	block *begin = nullptr;
-	Person *dynamicPtrFordelete = nullptr;
+	string dynamicIDForMaintain = "0";
 protected:
 	virtual btree_node *btree_create();
 	virtual btree_node *btree_node_new();
