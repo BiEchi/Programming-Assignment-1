@@ -1,16 +1,16 @@
 #ifndef assignment_queue_hpp
 #define assignment_queue_hpp
 
-#include "FibonacciPQ.hpp"
-#include "Person.hpp"
 #include <stdint.h>
 #include <stdio.h>
 #include <time.h>
+#include "FibonacciPQ.hpp"
+#include "Person.hpp"
 
 
 class assignmentQueue
 {
-    friend class queueManger;
+friend class queueManger;
 
 private:
     int theHospital;
@@ -20,9 +20,9 @@ private:
     int32_t length;
     int32_t occupied;
 
-private:
-    void clear(void);
+private: 
     int init(int hc, int wh, int thePlace);
+    void clear(void);
     int isFull(void) { return (occupied == length ? 1 : 0); }
     int addPerson(Person *const thePerson);
     int deletePerson(Person* thePerons);
@@ -38,11 +38,8 @@ private:
     assignmentQueue **locations;
     int capacity;
     int length;
-
-    int extendLocations(int hospital);
-
 private:
-    
+    int extendLocations(int hospital);
 public:
     time_t startTime;
     int init(int num = 8);

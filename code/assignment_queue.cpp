@@ -145,7 +145,13 @@ int assignmentQueue::display(void)
 // queueManger class functions
 //--------------------------------------------------------------------------------------------
 
-// Default length of hospital array is 8.
+/**
+ * @brief Initialize the instance. 
+ * Default length of hospital array is 8. length >= 8
+ * 
+ * @param num the capacity of hospital array. 
+ * @return 1 for indication.  
+ */
 int queueManger::init(int num)
 {
     capacity = (num < 8 ? 8 : num);
@@ -158,6 +164,13 @@ int queueManger::init(int num)
     return 1;
 }
 
+/**
+ * @brief Extand the length of hospital array. 
+ * Allocate a new array and copy all the hospital into the new array. 
+ * 
+ * @param hospital 
+ * @return 1 for indication. 
+ */
 int queueManger::extendLocations(int hospital)
 {
     assignmentQueue **temp = new assignmentQueue *[hospital + 1];
@@ -175,7 +188,15 @@ int queueManger::extendLocations(int hospital)
     return 1;
 }
 
-// Before addition, remember to call this function (initHospital).
+/**
+ * @brief Add a new hospital into the 
+ * Before addition, remember to call this initHospital function.
+ * 
+ * @param hospital 
+ * @param hc 
+ * @param wh 
+ * @return int 
+ */
 int queueManger::addHospital(int hospital, int hc, int wh)
 {
     if (hospital >= capacity)

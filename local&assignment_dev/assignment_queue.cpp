@@ -1,7 +1,14 @@
 #include "assignment_queue.hpp"
 
 // assignmentQueue class functions
-
+/**
+ * @brief Initialize the hospital. 
+ * 
+ * @param hc hour capacity for treatment
+ * @param wh total working hour per day
+ * @param thePlace the location (name) of the hospital
+ * @return 1 for indication
+ */
 int assignmentQueue::init(int hc, int wh, int thePlace)
 {
     theHospital = thePlace;
@@ -17,7 +24,10 @@ int assignmentQueue::init(int hc, int wh, int thePlace)
     return 1;
 }
 
-// Clear the timeSlot array.
+/**
+ * @brief Clear the timeSlot array and delete the person. 
+ * 
+ */
 void assignmentQueue::clear(void)
 {
     for (int i = 0; i < workingHour * hourCapacity; i++)
@@ -29,10 +39,11 @@ void assignmentQueue::clear(void)
     return;
 }
 
-/*
- * OUTPUT: 
- *  1   when add a person to the queue successfully
- *  0   when the queue is full
+/**
+ * @brief Add the person into the queue. 
+ * 
+ * @param thePerson 
+ * @return 1 when add a person to the queue successfully. 0 when the queue is full. 
  */
 int assignmentQueue::addPerson(Person *const thePerson)
 {
@@ -46,6 +57,12 @@ int assignmentQueue::addPerson(Person *const thePerson)
 }
 
 // Assumption: The Person pointer is not NULL.
+/**
+ * @brief Remove the person from the hospital. 
+ * 
+ * @param thePerson pointer to the person to be removed. 
+ * @return 1 for indication.  
+ */
 int assignmentQueue::deletePerson(Person* thePerson)
 {
     for (int i = 0; i < this->length; i++)
@@ -135,7 +152,13 @@ int assignmentQueue::display(void)
 // queueManger class functions
 //--------------------------------------------------------------------------------------------
 
-// Default length of hospital array is 8.
+/**
+ * @brief Initialize the instance. 
+ * Default length of hospital array is 8. length >= 8
+ * 
+ * @param num the number of hospital. 
+ * @return 1 for indication.  
+ */
 int queueManger::init(int num)
 {
     capacity = (num < 8 ? 8 : num);
