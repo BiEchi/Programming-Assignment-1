@@ -2,7 +2,7 @@
 #include "block.h"
 
 /**
- * @brief clear all the date in the block by marking all tuples' tombstones.
+ * @brief Clear all the date in the block by marking all tuples' tombstones.
  * Set mainblock_occupied = 0, overflow_occupied = 0, tombstones_number = 0.
  * 
  * @return 1 for indication
@@ -25,10 +25,10 @@ int block::clear()
 }
 
 /**
- * @brief compare function for sort function.
+ * @brief Compare function for std::sort function.
  * Person with marked tombstone is always greater than Person with unmarked tombstone. 
  * 
- * @param record1
+ * @param record1 
  * @param record2 
  * @returns True if the primary key (ID) of record1 is less than the primary key (ID) of record2, false otherwise. 
  */
@@ -78,7 +78,7 @@ int block::sort(void)
  * @return A pointer to the Person with the input ID.
  * If there is no such person, return NULL. 
  */
-Person* block::find(int ID) {
+Person* block::find(string ID) {
     int low = 0, high = tombstones_number + mainblock_occupied - 1;
     int mid;
     while(high >= low)
@@ -182,7 +182,7 @@ block* block::split(void)
  * @param ID 
  * @return The pointer to this block if merge happens, NULL otherwise. 
  */
-block* block::remove(int ID)
+block* block::remove(string ID)
 {
     record* toRemove;
     int low = 0, high = tombstones_number + mainblock_occupied - 1, mid;
@@ -312,9 +312,9 @@ block* block::merge(void)
  * 
  * @return The maximum ID. 
  */
-int block::maximum(void)
+string block::maximum(void)
 {
-    int max;
+    string max;
     for (int i = mainblock_occupied + tombstones_number - 1; i > -1 ; i--)
     {
         if (!mainblock[i].get_tombstone()) 
