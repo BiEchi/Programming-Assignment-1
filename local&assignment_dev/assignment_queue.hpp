@@ -6,7 +6,7 @@
 #include <time.h>
 #include "FibonacciPQ.hpp"
 #include "Person.hpp"
-#include "TimePredef.hpp"
+
 
 class assignmentQueue
 {
@@ -22,13 +22,13 @@ private:
 
 private: 
     int init(int hc, int wh, int thePlace);
-    void clear(vector<Person> *treated_list);
+    void clear(void);
     int isFull(void) { return (occupied == length ? 1 : 0); }
     int addPerson(Person *const thePerson);
-    int deletePerson(Person *thePerons);
-    void assignTimeAndLocation(void);
+    int deletePerson(Person* thePerons);
+    void assignTimeAndLocation(time_t startTime);
     int getTheHospital(void) { return theHospital; }
-    Person* isIn(string ID);
+    bool isIn(string ID);
     int display(void);
 };
 
@@ -41,15 +41,15 @@ private:
 private:
     int extendLocations(int hospital);
 public:
-    vector<Person> treated_list;
-    vector<Person> assignment_list;
+    time_t startTime;
     int init(int num = 8);
+    void initTime() {startTime = time(NULL);}
     int addHospital(int hospital, int hc = 1, int wh = 8);
     // Handle assignment
     int reassign(FibonacciPQ *PQ);
     // Handle withdraw
     int doWithdraw(Person *thePerson);
-    Person* isIn(string ID);
+    bool isIn(string ID);
     int displayAll(void);
 };
 

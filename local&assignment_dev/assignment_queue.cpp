@@ -1,8 +1,14 @@
 #include "assignment_queue.hpp"
-#include <unistd.h>
 
 // assignmentQueue class functions
-
+/**
+ * @brief Initialize the hospital. 
+ * 
+ * @param hc hour capacity for treatment
+ * @param wh total working hour per day
+ * @param thePlace the location (name) of the hospital
+ * @return 1 for indication
+ */
 int assignmentQueue::init(int hc, int wh, int thePlace)
 {
     theHospital = thePlace;
@@ -10,7 +16,7 @@ int assignmentQueue::init(int hc, int wh, int thePlace)
     workingHour = wh;
     length = hc * wh;
     occupied = 0;
-    timeSlot = new Person *[workingHour * hourCapacity];
+    timeSlot = new Person* [workingHour * hourCapacity];
     for (int i = 0; i < length; i++)
     {
         timeSlot[i] = NULL;
@@ -18,26 +24,26 @@ int assignmentQueue::init(int hc, int wh, int thePlace)
     return 1;
 }
 
-// Clear the timeSlot array.
-void assignmentQueue::clear(vector<Person> *treated)
+/**
+ * @brief Clear the timeSlot array and delete the person. 
+ * 
+ */
+void assignmentQueue::clear(void)
 {
     for (int i = 0; i < workingHour * hourCapacity; i++)
     {
-        if (timeSlot[i])
-        {
-            treated->push_back(*timeSlot[i]);
-            delete timeSlot[i];
-        }
+        if (timeSlot[i]) {delete timeSlot[i];}
         timeSlot[i] = NULL;
     }
     occupied = 0;
     return;
 }
 
-/*
- * OUTPUT:
- *  1   when add a person to the queue successfully
- *  0   when the queue is full
+/**
+ * @brief Add the person into the queue. 
+ * 
+ * @param thePerson 
+ * @return 1 when add a person to the queue successfully. 0 when the queue is full. 
  */
 int assignmentQueue::addPerson(Person *const thePerson)
 {
@@ -51,7 +57,13 @@ int assignmentQueue::addPerson(Person *const thePerson)
 }
 
 // Assumption: The Person pointer is not NULL.
-int assignmentQueue::deletePerson(Person *thePerson)
+/**
+ * @brief Remove the person from the hospital. 
+ * 
+ * @param thePerson pointer to the person to be removed. 
+ * @return 1 for indication.  
+ */
+int assignmentQueue::deletePerson(Person* thePerson)
 {
     for (int i = 0; i < this->length; i++)
     {
@@ -68,7 +80,7 @@ int assignmentQueue::deletePerson(Person *thePerson)
     return 0;
 }
 
-void assignmentQueue::assignTimeAndLocation(void)
+void assignmentQueue::assignTimeAndLocation(time_t startTime)
 {
     time_t currentTime;
     int32_t diffday;
@@ -103,16 +115,16 @@ void assignmentQueue::assignTimeAndLocation(void)
     }
 }
 
-Person* assignmentQueue::isIn(string ID)
+bool assignmentQueue::isIn(string ID)
 {
     for (int i = 0; i < this->length; i++)
     {
         if(timeSlot[i])
         {
-            if (timeSlot[i]->getID() == ID) {return timeSlot[i];}
+            if (timeSlot[i]->getID() == ID) {return true;}
         }
     }
-    return NULL;
+    return false;
 }
 
 int assignmentQueue::display(void)
@@ -124,19 +136,14 @@ int assignmentQueue::display(void)
         {
             aTime = timeSlot[i]->getAssignedTime();
             mktime(&aTime);
-            usleep(500000);
             cout << "       "
                  << "The appointment information of person with ID " << timeSlot[i]->getID() << " : \n";
             if (timeSlot[i]->getReassigned())
             {
-                usleep(500000);
-                cout << "       "
-                     << "Since the desired hospital is full, this person has been randomly assigned to another hospital other than the desired hospital " << stoi(timeSlot[i]->getContactDetails()) << ". \n";
+                cout << "       " << "Since the desired hospital is full, this person has been randomly assigned to another hospital other than the desired hospital " << stoi(timeSlot[i]->getContactDetails()) << ". \n";
             }
-            cout << "       "
-                 << "location:   Hospital " << timeSlot[i]->getAssignedLocation() << "\n";
-            cout << "       "
-                 << "time:       " << asctime(&aTime) << "\n";
+            cout << "       " << "location:   Hospital " << timeSlot[i]->getAssignedLocation() << "\n";
+            cout << "       " << "time:       " << asctime(&aTime) << "\n";
         }
     }
     return 1;
@@ -149,7 +156,7 @@ int assignmentQueue::display(void)
  * @brief Initialize the instance. 
  * Default length of hospital array is 8. length >= 8
  * 
- * @param num the capacity of hospital array. 
+ * @param num the number of hospital. 
  * @return 1 for indication.  
  */
 int queueManger::init(int num)
@@ -164,13 +171,6 @@ int queueManger::init(int num)
     return 1;
 }
 
-/**
- * @brief Extand the length of hospital array. 
- * Allocate a new array and copy all the hospital into the new array. 
- * 
- * @param hospital 
- * @return 1 for indication. 
- */
 int queueManger::extendLocations(int hospital)
 {
     assignmentQueue **temp = new assignmentQueue *[hospital + 1];
@@ -188,15 +188,7 @@ int queueManger::extendLocations(int hospital)
     return 1;
 }
 
-/**
- * @brief Add a new hospital into the 
- * Before addition, remember to call this initHospital function.
- * 
- * @param hospital 
- * @param hc 
- * @param wh 
- * @return int 
- */
+// Before addition, remember to call this function (initHospital).
 int queueManger::addHospital(int hospital, int hc, int wh)
 {
     if (hospital >= capacity)
@@ -220,12 +212,8 @@ int queueManger::reassign(FibonacciPQ *PQ)
     {
         if (locations[i])
         {
-            locations[i]->clear(&treated_list);
+            locations[i]->clear();
         }
-    }
-    for (int i = 0; i < assignment_list.size(); i++)
-    {
-        assignment_list.pop_back();
     }
 
     int noSpace = 0;
@@ -235,7 +223,6 @@ int queueManger::reassign(FibonacciPQ *PQ)
         // Add new hospital.
         thePerson = PQ->popMin();
         thePerson->setCurrentStage(appointment); // Add for withdraw functionality.
-        usleep(500000);
         cout << "Assigning the person with ID " << thePerson->getID() << " ...... \n";
         int theLocation = stoi(thePerson->getContactDetails());
         int otherLocation = std::rand() % capacity;
@@ -256,7 +243,6 @@ int queueManger::reassign(FibonacciPQ *PQ)
             locations[otherLocation]->addPerson(thePerson);
         }
 
-        assignment_list.push_back(*thePerson);
         // Checkout whether there is empty space.
         noSpace = 1;
         for (int i = 0; i < capacity; i++)
@@ -275,7 +261,7 @@ int queueManger::reassign(FibonacciPQ *PQ)
     {
         if (locations[i])
         {
-            locations[i]->assignTimeAndLocation();
+            locations[i]->assignTimeAndLocation(startTime);
         }
     }
     return 1;
@@ -296,34 +282,31 @@ int queueManger::doWithdraw(Person *thePerson)
     return 1;
 }
 
-Person* queueManger::isIn(string ID)
+bool queueManger::isIn(string ID)
 {
-    Person* temp;
     for (int i = 0; i < this->capacity; i++)
     {
         if (locations[i]) 
         {
-            temp = locations[i]->isIn(ID);
-            if (temp) {return temp;}
+            if (locations[i]->isIn(ID)) {return true;}
         }
     }
-    return NULL;
+    return false;
 }
 
 int queueManger::displayAll(void)
 {
+    cout << ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" << endl;
     for (int i = 0; i < capacity; i++)
     {
         if (locations[i])
         {
-            usleep(500000);
             cout << endl;
-            system("echo '\33[33mA new hospital is created.\33[0m' ");
             cout << "The hospital " << locations[i]->getTheHospital() << " have the following assigned people: \n";
-            sleep(1);
             locations[i]->display();
         }
     }
+    cout << "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<" << endl;
     cout << endl;
     return 1;
 }
