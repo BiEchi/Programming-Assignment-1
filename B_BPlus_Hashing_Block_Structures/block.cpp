@@ -2,7 +2,7 @@
 #include "block.h"
 
 /**
- * @brief clear all the date in the block by marking all tuples' tombstones.
+ * @brief Clear all the date in the block by marking all tuples' tombstones.
  * Set mainblock_occupied = 0, overflow_occupied = 0, tombstones_number = 0.
  * 
  * @return 1 for indication
@@ -25,7 +25,21 @@ int block::clear()
 }
 
 /**
- * @brief compare function for sort function.
+ * @brief Overload operator=
+ * 
+ * @param src the right hand side of =
+ * @return record& 
+ */
+record& record::operator=(const record& src)
+{
+    tombstone = src.tombstone;
+    datum_ptr = src.datum_ptr;
+    key = src.key;
+    return *this;
+}
+
+/**
+ * @brief Compare function for std::sort function.
  * Person with marked tombstone is always greater than Person with unmarked tombstone. 
  * 
  * @param record1
@@ -158,6 +172,7 @@ block *block::insert(Person *tuple)
         {
             overflow[i].datum_ptr = new Person;
             *(overflow[i].datum_ptr) = *tuple;
+            overflow[i].key = record::compute_key(tuple);
             overflow[i].unmark_tombstone();
             break;
         }
@@ -167,7 +182,7 @@ block *block::insert(Person *tuple)
     {
         sort();
     }
-    // When split is called, all the tuples are in mainblock, and there is no tombstone.
+    // When split is called, all the tuples are in mainblock, and there is no tombstone. 
     if (mainblock_occupied > fill_threshold)
     {
         return split();

@@ -25,10 +25,24 @@ int block::clear()
 }
 
 /**
+ * @brief Overload operator=
+ * 
+ * @param src the right hand side of =
+ * @return record& 
+ */
+record& record::operator=(const record& src)
+{
+    tombstone = src.tombstone;
+    datum_ptr = src.datum_ptr;
+    key = src.key;
+    return *this;
+}
+
+/**
  * @brief Compare function for std::sort function.
  * Person with marked tombstone is always greater than Person with unmarked tombstone. 
  * 
- * @param record1 
+ * @param record1
  * @param record2 
  * @returns True if the primary key (ID) of record1 is less than the primary key (ID) of record2, false otherwise. 
  */
@@ -125,6 +139,7 @@ block* block::insert(Person* tuple)
         {
             overflow[i].datum_ptr = new Person;
             *(overflow[i].datum_ptr) = *tuple;
+            overflow[i].key = record::compute_key(tuple);
             overflow[i].unmark_tombstone();
             break;
         }
