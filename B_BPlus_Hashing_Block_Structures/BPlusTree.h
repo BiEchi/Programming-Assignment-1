@@ -10,6 +10,8 @@ class BPlusTree : public Tree
 private:
 	block *begin = nullptr;
 	string dynamicIDForMaintain = "0";
+	 // personIndex is used to record the deleted person 
+    Person *personIndex = nullptr;
 protected:
 	virtual btree_node *btree_create();
 	virtual btree_node *btree_node_new();
@@ -56,6 +58,7 @@ public:
 	Person *bPlustree_delete(btree_node *root, const string target);
 	// 返回加入的人的指针
 	Person *bPlustree_insert(btree_node *root, Person *target);
+	Person *find(string ID);
 };
 
 #endif

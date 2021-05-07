@@ -251,7 +251,8 @@ block *block::remove(string ID)
 
             mainblock_occupied--;
             tombstones_number++;
-            if (this->mainblock_occupied < merge_threshold)
+            // 未判断后面是否有足够的block
+            if ((this->mainblock_occupied < merge_threshold) && (nullptr != this->next) && (this->next->mainblock_occupied > 0))
             {
                 return merge();
             }
@@ -303,10 +304,10 @@ block *block::remove(string ID)
 block *block::merge(void)
 {
     block *neighbour = this->next;
-    if (NULL == this->next)
-    {
-        return NULL;
-    }
+    // if (NULL == this->next)
+    // {
+    //     return NULL;
+    // }
     int total_num_tuples = this->mainblock_occupied + this->overflow_occupied + neighbour->mainblock_occupied + neighbour->overflow_occupied;
     int mid4seperate = total_num_tuples / 2;
     record arr4tuples[total_num_tuples];

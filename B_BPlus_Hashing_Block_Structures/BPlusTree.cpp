@@ -256,9 +256,9 @@ Person *BPlusTree::bPlustree_delete_nonone(btree_node *root, string target)
 	if (true == root->is_leaf)
 	{
 		int i = 0;
-		while (i < root->num && target > root->labelArray[i])
+		while (i < root->num - 1 && target > root->labelArray[i])
 			i++;
-		Person *personIndex = root->BlockPtrarray[i]->find(target);
+		personIndex = root->BlockPtrarray[i]->find(target);
 		block *indexPtr = root->BlockPtrarray[i]->remove(target);
 		// judge whether the merge happens
 		// merge happens, synchronously merge with block
@@ -275,7 +275,17 @@ Person *BPlusTree::bPlustree_delete_nonone(btree_node *root, string target)
 		}
 		// update the label for returning and maintaining the BPlusTree
 		dynamicIDForMaintain = root->BlockPtrarray[i]->maximum();
-		root->labelArray[i] = dynamicIDForMaintain;
+		if ("" == dynamicIDForMaintain)
+		{
+			block *previous = root->BlockPtrarray[i]->prevPointer();
+			if(nullptr != previous)
+				dynamicIDForMaintain = previous->maximum();
+			root->labelArray[i] = "0";
+			root->BlockPtrarray[i] = nullptr;
+			root->num--;
+		}
+		else
+			root->labelArray[i] = dynamicIDForMaintain;
 		return personIndex;
 	}
 	else
@@ -305,7 +315,7 @@ Person *BPlusTree::bPlustree_delete_nonone(btree_node *root, string target)
 				// move one ptr from p to y
 				btree_shift_to_right_child(root, i - 1, p, y);
 			}
-			else if (i < root->num && z->num > M - 1)
+			else if (i < root->num && (nullptr != z) && z->num > M - 1)
 			{
 				// move one ptr from z to y
 				btree_shift_to_left_child(root, i, y, z);
@@ -349,6 +359,7 @@ void BPlusTree::btree_shift_to_right_child(btree_node *root, int pos,
 		z->labelArray[i] = z->labelArray[i - 1];
 	}
 	z->labelArray[0] = root->labelArray[pos];
+	y->labelArray[y->num - 1] = "0";
 	// 提取y的倒数第二个label作为新label
 	root->labelArray[pos] = y->labelArray[y->num - 2];
 
@@ -359,6 +370,7 @@ void BPlusTree::btree_shift_to_right_child(btree_node *root, int pos,
 			z->ptrArray[i] = z->ptrArray[i - 1];
 		}
 		z->ptrArray[0] = y->ptrArray[y->num - 1];
+		y->ptrArray[y->num - 1] = nullptr;
 	}
 	else
 	{
@@ -367,6 +379,7 @@ void BPlusTree::btree_shift_to_right_child(btree_node *root, int pos,
 			z->BlockPtrarray[i] = z->BlockPtrarray[i - 1];
 		}
 		z->BlockPtrarray[0] = y->BlockPtrarray[y->num - 1];
+		y->BlockPtrarray[y->num - 1] = nullptr;
 	}
 	y->num--;
 }
