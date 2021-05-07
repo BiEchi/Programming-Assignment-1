@@ -1,4 +1,5 @@
 #include "assignment_queue.hpp"
+#include "TimePredef.hpp"
 #include <unistd.h>
 
 // assignmentQueue class functions
@@ -124,12 +125,12 @@ int assignmentQueue::display(void)
         {
             aTime = timeSlot[i]->getAssignedTime();
             mktime(&aTime);
-            usleep(500000);
+            usleep(100000);
             cout << "       "
                  << "The appointment information of person with ID " << timeSlot[i]->getID() << " : \n";
             if (timeSlot[i]->getReassigned())
             {
-                usleep(500000);
+                usleep(100000);
                 cout << "       "
                      << "Since the desired hospital is full, this person has been randomly assigned to another hospital other than the desired hospital " << stoi(timeSlot[i]->getContactDetails()) << ". \n";
             }
@@ -235,7 +236,7 @@ int queueManger::reassign(FibonacciPQ *PQ)
         // Add new hospital.
         thePerson = PQ->popMin();
         thePerson->setCurrentStage(appointment); // Add for withdraw functionality.
-        usleep(500000);
+        usleep(100000);
         cout << "Assigning the person with ID " << thePerson->getID() << " ...... \n";
         int theLocation = stoi(thePerson->getContactDetails());
         int otherLocation = std::rand() % capacity;

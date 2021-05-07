@@ -13,12 +13,18 @@
 #include "./FibonacciPQ.hpp"
 #include "./assignment_queue.hpp"
 #include "./blackList.hpp"
-#include "./MULTITHREAD.hpp"
+#include "./Reporting.hpp"
 #include "./withdrawProcess.hpp"
 #include "./TimePredef.hpp"
 #include "./CSVInputManipulations.hpp"
 
 using namespace std;
+
+// FibonacciPQ for 治疗队列
+void forwardToCentralQueue(PeopleLocalQueue &people, FibonacciPQ &centralQueue) {
+  centralQueue.eatPeople(people);
+  return;
+}
 
 // appointment queues functions
 int appointmentQueuesInit(queueManger *localHospital)
@@ -74,13 +80,13 @@ int main()
     sleep(1);
     cout << "This is the presentation code for Computing Assignment 2, with authors Hao BAI, Liyang QIAN, Jiahao WEI and Yihong JIN." << endl;
     sleep(1);
-    system("echo '\033[41m\033[37m\033[1m\033[4m ### The presentation starts in 3 seconds... ### \33[0m' ");
-    sleep(3);
+    system("echo '\033[41m\033[37m\033[1m\033[4m ### The presentation starts in 1 second... ### \33[0m' ");
+    sleep(1);
 
     system("echo '\033[41m\033[37m\033[1m\033[4mReading the input CSV file into People Local Queue...\33[0m' ");
-    sleep(2);
+    sleep(1);
     readTheInputCSVIntoPeople(people);
-    sleep(3);
+    sleep(1);
     
     cout << "Forwarding to central queue." << endl;
     forwardToCentralQueue(people, central_Queue);
@@ -94,9 +100,9 @@ int main()
     system("echo '\033[41m\033[37m\033[1m\033[4mAssigning to the local hospitals...\33[0m' ");
     sleep(1);
     assignToLocalHospital(&localHospitals, &central_Queue);
-    sleep(2);
+    sleep(1);
     system("echo '\33[32mSuccessfully assigned patients to the local hospitals.\33[0m' ");
-    sleep(3);
+    sleep(1);
     
     system("echo '\33[32mReporting Weekly...\33[0m' ");
     Reporting_weekly(personType, sortType, localHospitals.treated_list, central_Queue.returnStorePeople(), localHospitals.assignment_list);
