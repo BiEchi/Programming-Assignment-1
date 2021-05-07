@@ -223,7 +223,7 @@ void BPlusTree::btree_merge_child(btree_node *root, int pos, btree_node *y, btre
 	free(z);
 }
 
-Person *BPlusTree::bPlustree_delete(btree_node *root, string target)
+Person *BPlusTree::bPlustree_delete(btree_node *root, const string target)
 {
 	// 减小树的高度
 	if (1 == root->num)

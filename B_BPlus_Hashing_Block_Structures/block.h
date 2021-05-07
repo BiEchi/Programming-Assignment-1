@@ -1,3 +1,5 @@
+#ifndef BLOCK_H
+#define BLOCK_H
 #include <iostream>
 using namespace std;
 
@@ -7,7 +9,7 @@ public:
     Person() {}
     // temp function !!!
     Person(const Person &src) {ID = src.getID();}
-    int setID(int data) {ID = data; return 0;}
+    int setID(string data) {ID = data; return 0;}
     string getID(void) const {return ID;}
 
 private:
@@ -26,6 +28,8 @@ private:
     int tombstone;
     Person* datum_ptr;
 private:
+    int mark_tombstone(void) {tombstone = 1; return 0;}
+    int unmark_tombstone(void) {tombstone = 0; return 0;}
     /**
      * @brief Construct a new record object.
      * 
@@ -34,8 +38,6 @@ private:
         tombstone{1},
         datum_ptr{NULL}
     {};
-    int mark_tombstone(void) {tombstone = 1; return 0;}
-    int unmark_tombstone(void) {tombstone = 0; return 0;}
 public:
     int get_tombstone(void) const {return tombstone;}
     string get_key(void) const {return datum_ptr->getID();}
@@ -78,7 +80,9 @@ public:
     block* remove(string ID);
     string maximum(void);
     int display(void);
-    // block* get_prev(void) {return prev;}
-    // block* get_next(void) {return next;}
+    block* prevPointer(void) {return prev;}
+    block* nextPointer(void) {return next;}
 };
+
+#endif
 // ---------------------------------

@@ -53,7 +53,7 @@ public:
 	btree_node *returnRoot();
 	// 返回删除后block中最大值的指针（用于动态地更新路径）
 	// 返回删除的人的指针
-	Person *bPlustree_delete(btree_node *root, string target);
+	Person *bPlustree_delete(btree_node *root, const string target);
 	// 返回加入的人的指针
 	Person *bPlustree_insert(btree_node *root, Person *target);
 };

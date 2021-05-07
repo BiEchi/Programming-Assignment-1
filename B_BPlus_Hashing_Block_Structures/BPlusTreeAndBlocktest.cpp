@@ -27,7 +27,7 @@ int main()
     cout << "test for right direction delete " << endl;
     for (int i = 0; i < num; i++)
     {
-        testTree.bPlustree_delete(testTree.returnRoot(), people[i].getID())->getID();
+        testTree.bPlustree_delete(testTree.returnRoot(), people[i].getID());
     }
 
     testTree.linear_print();
