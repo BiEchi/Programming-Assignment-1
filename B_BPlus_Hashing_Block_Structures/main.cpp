@@ -1,7 +1,5 @@
-#include "BPlusTree.h"
-// #include "BPlusTree.cpp" // delete when making
-#include "block.h"
-// #include "block.cpp" // delete when making
+#include "BPlusTree.cpp" // delete when making
+#include "block.cpp" // delete when making
 #include "struct.h"
 #include "Tree.h"
 #include <unistd.h>

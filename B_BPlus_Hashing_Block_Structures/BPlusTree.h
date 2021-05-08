@@ -11,7 +11,7 @@ private:
 	block *begin = nullptr;
 	string dynamicIDForMaintain = "0";
 	 // personIndex is used to record the deleted person 
-    Person *personIndex = nullptr;
+    // Person *personIndex = nullptr;
 protected:
 	virtual btree_node *btree_create();
 	virtual btree_node *btree_node_new();
@@ -26,7 +26,7 @@ protected:
 	// virtual int btree_search_predecessor(btree_node *root);
 
 	Person *bPlustree_insert_nonfull(btree_node *node, Person *target);
-	Person *bPlustree_delete_nonone(btree_node *root, string target);
+	void bPlustree_delete_nonone(btree_node *root, string target);
 
 	// virtual void btree_inorder_print(btree_node *root);
 	virtual void btree_level_display(btree_node *root);
@@ -55,7 +55,7 @@ public:
 	btree_node *returnRoot();
 	// 返回删除后block中最大值的指针（用于动态地更新路径）
 	// 返回删除的人的指针
-	Person *bPlustree_delete(btree_node *root, const string target);
+	void bPlustree_delete(btree_node *root, const string target);
 	// 返回加入的人的指针
 	Person *bPlustree_insert(btree_node *root, Person *target);
 	Person *find(string ID);

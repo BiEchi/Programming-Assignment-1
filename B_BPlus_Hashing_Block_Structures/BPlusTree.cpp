@@ -229,7 +229,7 @@ void BPlusTree::btree_merge_child(btree_node *root, int pos, btree_node *y, btre
 	free(z);
 }
 
-Person *BPlusTree::bPlustree_delete(btree_node *root, const string target)
+void BPlusTree::bPlustree_delete(btree_node *root, const string target)
 {
 	// 减小树的高度
 	if (1 == root->num)
@@ -244,27 +244,30 @@ Person *BPlusTree::bPlustree_delete(btree_node *root, const string target)
 			{
 				roots = y;
 			}
-			return bPlustree_delete_nonone(y, target);
+			bPlustree_delete_nonone(y, target);
+			return; 
 		}
 		else
 		{
-			return bPlustree_delete_nonone(root, target);
+			bPlustree_delete_nonone(root, target);
+			return; 
 		}
 	}
 	else
 	{
-		return bPlustree_delete_nonone(root, target);
+		bPlustree_delete_nonone(root, target);
+		return;
 	}
 }
 
-Person *BPlusTree::bPlustree_delete_nonone(btree_node *root, string target)
+void BPlusTree::bPlustree_delete_nonone(btree_node *root, string target)
 {
 	if (true == root->is_leaf)
 	{
 		int i = 0;
 		while (i < root->num - 1 && target > root->labelArray[i])
 			i++;
-		personIndex = root->BlockPtrarray[i]->find(target);
+		// personIndex = root->BlockPtrarray[i]->find(target);
 		block *indexPtr = root->BlockPtrarray[i]->remove(target);
 		// judge whether the merge happens
 		// merge happens, synchronously merge with block
@@ -294,7 +297,7 @@ Person *BPlusTree::bPlustree_delete_nonone(btree_node *root, string target)
 		}
 		else
 			root->labelArray[i] = dynamicIDForMaintain;
-		return personIndex;
+		return;
 	}
 	else
 	{
@@ -339,21 +342,19 @@ Person *BPlusTree::bPlustree_delete_nonone(btree_node *root, string target)
 			{
 				btree_merge_child(root, i, y, z);
 			}
-			Person *deletePerson = bPlustree_delete_nonone(y, target);
 			if (target == root->labelArray[i])
 			{
 				root->labelArray[i] = dynamicIDForMaintain;
 			}
-			return deletePerson;
+			return;
 		}
 		else
 		{
-			Person *deletePerson = bPlustree_delete_nonone(y, target);
 			if (target == root->labelArray[i])
 			{
 				root->labelArray[i] = dynamicIDForMaintain;
 			}
-			return deletePerson;
+			return;
 		}
 	}
 }
