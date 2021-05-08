@@ -5,6 +5,7 @@
 #include <iostream>
 using namespace std;
 
+/// @brief create a new B Tree node
 btree_node *BPlusTree::btree_node_new()
 {
 	btree_node *node = new btree_node;
@@ -13,7 +14,8 @@ btree_node *BPlusTree::btree_node_new()
 		cout << "fail to allcating a new memory" << endl;
 		return nullptr;
 	}
-	// 数组初始化
+    
+	// initialize vectors
 	node->labelArray = vector<string>(2 * M, "0");
 	node->ptrArray = vector<btree_node *>(2 * M, nullptr);
 	node->BlockPtrarray = vector<block *>(2 * M, nullptr);
@@ -22,13 +24,14 @@ btree_node *BPlusTree::btree_node_new()
 	return node;
 }
 
+/// @brief create a new B Tree (with the return pointer pointing to the root)
 btree_node *BPlusTree::btree_create()
 {
 	btree_node *node = btree_node_new();
 	return node;
 }
 
-// split the interior node in Bplus Tree
+/// @brief split the interior node in B plus Tree
 int BPlusTree::btree_split_child(btree_node *parent, int pos, btree_node *child)
 {
 	btree_node *new_child = btree_node_new();
@@ -162,6 +165,7 @@ Person *BPlusTree::bPlustree_insert_nonfull(btree_node *node, Person *target)
 	}
 }
 
+/// @brief insert one person into the 
 Person *BPlusTree::bPlustree_insert(btree_node *root, Person *target)
 {
 	if (NULL == root)

@@ -1,10 +1,14 @@
 #include "BPlusTree.h"
-// #include "BPlusTree.cpp" // delete when making
+// #include "BPlusTree.cpp" // delete when GNU making
 #include "block.h"
-// #include "block.cpp" // delete when making
+// #include "block.cpp" // delete when GNU making
+#include "BTree.h"
+// #include "BPlusTree.cpp" // delete when GNU making
 #include "struct.h"
 #include "Tree.h"
+
 #include <unistd.h>
+#include <iostream>
 
 // Used for testing.
 int main()
@@ -13,15 +17,16 @@ int main()
     block data;
     BPlusTree testTree = BPlusTree(&data);
     Person people[num];
-    block *sec_block;
    
+    cout << "Now we go into B+ Tree test in 1 second..." << endl;
+    sleep(1);
     for (int i = 0; i < num; i++)
     {
         people[i].setID(to_string(100 + i));
     }
 
-    // Test for insert.
     cout << "Test for insert. " << endl;
+    sleep(1);
     for (int i = 0; i < num; i++)
     {
         usleep(100000);
@@ -29,7 +34,9 @@ int main()
     }
     testTree.linear_print();
     // testTree.level_display();
+    
     cout << "Test for delete. " << endl;
+    sleep(1);
     for (int i = 0; i < num; i++)
     {
         testTree.bPlustree_delete(testTree.returnRoot(), people[i].getID());
@@ -37,6 +44,7 @@ int main()
 
     testTree.linear_print();
     cout << "Test for inverse insert. " << endl;
+    sleep(1);
     for (int i = num - 1; i >= 0; i--)
     {
         usleep(100000);
@@ -44,15 +52,23 @@ int main()
     }
     testTree.linear_print();
     // testTree.level_display();
+    
     cout << "test for inverse delete. " << endl;
+    sleep(1);
     for (int i = num - 1; i >= 0; i--)
     {
         testTree.bPlustree_delete(testTree.returnRoot(), people[i].getID());
     }
     testTree.linear_print();
     cout << endl;
-    cout << "pass the test successfully!!!!!!!" << endl;
+    cout << "Pass the B+ test successfully." << endl;
     cout << endl << endl;
+    
+    cout << "Now we go into B Tree test in 1 second..." << endl;
+    sleep(1);
+    
+    
+    
     return 0;
 }
 
