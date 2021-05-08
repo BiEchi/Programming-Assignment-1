@@ -1,5 +1,5 @@
 #include <iostream>
-#include "block.h"
+#include "block.h" // Change to block.cpp to run F5
 using namespace std;
 
 // Used for testing. 
