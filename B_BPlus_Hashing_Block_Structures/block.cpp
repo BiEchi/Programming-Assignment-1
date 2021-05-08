@@ -224,7 +224,8 @@ block* block::remove(string ID)
             delete toRemove->datum_ptr;
             mainblock_occupied--;
             tombstones_number++;
-            if ((this->mainblock_occupied < merge_threshold) && (nullptr != this->nextPointer()) && (0 < this->nextPointer()->mainblock_occupied))
+            if ((this->mainblock_occupied < merge_threshold)) 
+            // && (nullptr != this->nextPointer()) && (0 < this->nextPointer()->mainblock_occupied))
             {
                 return merge();
             }
@@ -271,7 +272,20 @@ block* block::remove(string ID)
 block* block::merge(void)
 {
     block* neighbour = this->next;
-    if (NULL == this->next) {return NULL;}
+    if (NULL == neighbour) {return NULL;}
+    // Handle the case when the next block is empty. 
+    if (0 == neighbour->mainblock_occupied + neighbour->overflow_occupied) {
+        // Disconnect block.
+        if (neighbour->next) {
+            this->next = neighbour->next;
+            neighbour->next->prev = this;
+        } else {
+            this->next = NULL;
+        }
+        // Delete block. 
+        delete neighbour;
+        return NULL;
+    }
     int total_num_tuples = this->mainblock_occupied + this->overflow_occupied + neighbour->mainblock_occupied + neighbour->overflow_occupied;
     int mid4seperate = total_num_tuples/2;
     record arr4tuples[total_num_tuples];
