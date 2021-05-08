@@ -199,6 +199,44 @@ int test2_merge()
     return 1;
 }
 
+int test3_merge()
+{
+    int num = 10;
+    block block0;
+    Person people[num];
+    for (int i = 0; i < num; i++)
+    {
+        people[i].setID(to_string(i));
+    }
+
+    for (int i = 0; i < 9; i++)
+    {
+        block0.insert(&people[i]);
+    }
+    cout << "Test 3 for merge: remove in reverse order. " << endl;
+    cout << "Block0 before merge. " << endl;
+    block0.display();
+    cout << "Block1 before merge. " << endl;
+    block0.nextPointer()->display();
+    cout << "Block0 and Block1 after remove elements 5, 4, 7, 8, 6 in Block1. " << endl;
+    block0.nextPointer()->remove(to_string(5));
+    block0.nextPointer()->remove(to_string(4));
+    block0.nextPointer()->remove(to_string(7));
+    block0.nextPointer()->remove(to_string(8));
+    block0.nextPointer()->remove(to_string(6));
+    block0.display();
+    block0.nextPointer()->display();
+    cout << "Block0 and Block1 after remove elements 3, 2, 1 in Block0 " << endl;
+    block0.remove(to_string(3));
+    block0.remove(to_string(2));
+    block0.remove(to_string(1));
+    block0.remove(to_string(0));
+    block0.display();
+    if (NULL == block0.nextPointer()) cout << "Block1 has been removed. " << endl;
+
+    return 1;
+}
+
 int test_maximum()
 {
     int num = 10;
@@ -233,6 +271,7 @@ int main() {
     // test_split();
     // test1_merge();
     // test2_merge();
+    test3_merge();
     // test_maximum();
 
     return 0;
