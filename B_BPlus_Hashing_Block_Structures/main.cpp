@@ -4,7 +4,6 @@
 // #include "block.cpp" // delete when GNU making
 // #include "BTree.h"
 // #include "BPlusTree.cpp" // delete when GNU making
-#include "struct.h"
 #include "Tree.h"
 
 #include <unistd.h>
