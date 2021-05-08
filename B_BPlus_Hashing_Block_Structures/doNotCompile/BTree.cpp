@@ -1,5 +1,4 @@
 #include "BTree.h"
-#include "struct.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -12,9 +11,9 @@
 #include <unistd.h>
 #endif
 
-btree_node *BTree::btree_node_new()
+CommonTreeNode *BTree::btree_node_new()
 {
-	btree_node *node = (btree_node *)malloc(sizeof(btree_node));
+	CommonTreeNode *node = (CommonTreeNode *)malloc(sizeof(CommonTreeNode));
 	if (NULL == node)
 	{
 		return NULL;
@@ -22,7 +21,7 @@ btree_node *BTree::btree_node_new()
 
 	for (int i = 0; i < 2 * M - 1; i++)
 	{
-		node->labelArray[i] = 0;
+		node->labelArrayForBTree[i] = "0";
 	}
 
 	for (int i = 0; i < 2 * M; i++)
@@ -31,14 +30,14 @@ btree_node *BTree::btree_node_new()
 	}
 
 	node->num = 0;
-	node->is_leaf = true; //Ĭ��ΪҶ��
+	node->is_leaf = true;
 
 	return node;
 }
 
-btree_node *BTree::btree_create()
+CommonTreeNode *BTree::btree_create()
 {
-	btree_node *node = btree_node_new();
+	CommonTreeNode *node = btree_node_new();
 	if (NULL == node)
 	{
 		return NULL;
@@ -46,24 +45,21 @@ btree_node *BTree::btree_create()
 	return node;
 }
 
-int BTree::btree_sptrArraylit_child(btree_node *ptrArrayarent, int ptrArrayos, btree_node *child)
+int BTree::btree_split_child(CommonTreeNode *parent, int pos, CommonTreeNode *child)
 {
-	btree_node *new_child = btree_node_new();
+	CommonTreeNode *new_child = btree_node_new();
 	if (NULL == new_child)
 	{
 		return -1;
 	}
-	// �½ڵ��is_leaf��child��ͬ��labelArrayey�ĸ���ΪM-1
-	new_child->is_leaf = child->is_leaf;
+    new_child->is_leaf = child->is_leaf;
 	new_child->num = M - 1;
 
-	// ��child��벿�ֵ�labelArrayey�������½ڵ�
 	for (int i = 0; i < M - 1; i++)
 	{
-		new_child->labelArray[i] = child->labelArray[i + M];
+		new_child->labelArrayForBTree[i] = child->labelArrayForBTree[i + M];
 	}
 
-	// ���child����Ҷ�ӣ�����Ҫ��ָ�뿽��ȥ��ָ��Ƚڵ��1
 	if (false == new_child->is_leaf)
 	{
 		for (int i = 0; i < M; i++)
@@ -74,76 +70,68 @@ int BTree::btree_sptrArraylit_child(btree_node *ptrArrayarent, int ptrArrayos, b
 
 	child->num = M - 1;
 
-	// child���м�ڵ���Ҫ����ptrArrayarent��ptrArrayos��������ptrArrayarent��labelArrayey��ptrArrayointer
-	for (int i = ptrArrayarent->num; i > ptrArrayos; i--)
+	for (int i = parent->num; i > pos; i--)
 	{
-		ptrArrayarent->ptrArray[i + 1] = ptrArrayarent->ptrArray[i];
+		parent->ptrArray[i + 1] = parent->ptrArray[i];
 	}
-	ptrArrayarent->ptrArray[ptrArrayos + 1] = new_child;
+	parent->ptrArray[pos + 1] = new_child;
 
-	for (int i = ptrArrayarent->num - 1; i >= ptrArrayos; i--)
+	for (int i = parent->num - 1; i >= pos; i--)
 	{
-		ptrArrayarent->labelArray[i + 1] = ptrArrayarent->labelArray[i];
+		parent->labelArrayForBTree[i + 1] = parent->labelArrayForBTree[i];
 	}
-	ptrArrayarent->labelArray[ptrArrayos] = child->labelArray[M - 1];
+	parent->labelArrayForBTree[pos] = child->labelArrayForBTree[M - 1];
 
-	ptrArrayarent->num += 1;
+	parent->num += 1;
 	return 0;
 }
 
-// ִ�иò���ʱ��node->num < 2M-1
-void BTree::btree_insert_nonfull(btree_node *node, int target)
+void BTree::btree_insert_nonfull(CommonTreeNode *node, int target)
 {
 	if (1 == node->is_leaf)
 	{
-		// �����Ҷ�����ҵ���ֱ��ɾ��
-		int ptrArrayos = node->num;
-		while (ptrArrayos >= 1 && target < node->labelArray[ptrArrayos - 1])
+		int pos = node->num;
+		while (pos >= 1 && target < node->labelArrayForBTree[pos - 1])
 		{
-			node->labelArray[ptrArrayos] = node->labelArray[ptrArrayos - 1];
-			ptrArrayos--;
+			node->labelArrayForBTree[pos] = node->labelArrayForBTree[pos - 1];
+            pos--;
 		}
 
-		node->labelArray[ptrArrayos] = target;
+		node->labelArrayForBTree[pos] = target;
 		node->num += 1;
 		btree_node_num += 1;
 	}
 	else
 	{
-		// ���Ų���·���½�
-		int ptrArrayos = node->num;
-		while (ptrArrayos > 0 && target < node->labelArray[ptrArrayos - 1])
+        int pos = node->num;
+		while (pos > 0 && target < node->labelArrayForBTree[pos - 1])
 		{
-			ptrArrayos--;
+			pos--;
 		}
 
-		if (2 * M - 1 == node->ptrArray[ptrArrayos]->num)
+		if (2 * M - 1 == node->ptrArray[pos]->num)
 		{
-			// ���·���������ڵ������
-			btree_sptrArraylit_child(node, ptrArrayos, node->ptrArray[ptrArrayos]);
-			if (target > node->labelArray[ptrArrayos])
+            btree_split_child(node, pos, node->ptrArray[pos]);
+			if (target > node->labelArrayForBTree[pos])
 			{
-				ptrArrayos++;
+				pos++;
 			}
 		}
 
-		btree_insert_nonfull(node->ptrArray[ptrArrayos], target);
+		btree_insert_nonfull(node->ptrArray[pos], target);
 	}
 }
 
-//�������
-btree_node *BTree::btree_insert(btree_node *root, int target)
+CommonTreeNode *BTree::btree_insert(CommonTreeNode *root, int target)
 {
 	if (NULL == root)
 	{
 		return NULL;
 	}
 
-	// �Ը��ڵ�����⴦��������������ģ�Ψһʹ�������ߵ�����
-	// ������һ���µ�
 	if (2 * M - 1 == root->num)
 	{
-		btree_node *node = btree_node_new();
+		CommonTreeNode *node = btree_node_new();
 		if (NULL == node)
 		{
 			return root;
@@ -151,7 +139,7 @@ btree_node *BTree::btree_insert(btree_node *root, int target)
 
 		node->is_leaf = 0;
 		node->ptrArray[0] = root;
-		btree_sptrArraylit_child(node, 0, root);
+		btree_split_child(node, 0, root);
 		btree_insert_nonfull(node, target);
 		return node;
 	}
@@ -162,18 +150,15 @@ btree_node *BTree::btree_insert(btree_node *root, int target)
 	}
 }
 
-// ��y��root->labelArray[ptrArrayos], z�ϲ���y�ڵ㣬���ͷ�z�ڵ㣬y,z����M-1���ڵ�
-void BTree::btree_merge_child(btree_node *root, int ptrArrayos, btree_node *y, btree_node *z)
+void BTree::btree_merge_child(CommonTreeNode *root, int pos, CommonTreeNode *y, CommonTreeNode *z)
 {
-	// ��z�нڵ㿽����y�ĺ�벿��
 	y->num = 2 * M - 1;
 	for (int i = M; i < 2 * M - 1; i++)
 	{
-		y->labelArray[i] = z->labelArray[i - M];
+		y->labelArrayForBTree[i] = z->labelArrayForBTree[i - M];
 	}
-	y->labelArray[M - 1] = root->labelArray[ptrArrayos]; // labelArray[ptrArrayos]�½�Ϊy���м�ڵ�
-
-	// ���z��Ҷ�ӣ���Ҫ����ptrArrayointer
+	y->labelArrayForBTree[M - 1] = root->labelArrayForBTree[pos];
+    
 	if (false == z->is_leaf)
 	{
 		for (int i = M; i < 2 * M; i++)
@@ -182,10 +167,9 @@ void BTree::btree_merge_child(btree_node *root, int ptrArrayos, btree_node *y, b
 		}
 	}
 
-	// labelArray[ptrArrayos]�½���y�У�����labelArrayey��ptrArrayointer
-	for (int j = ptrArrayos + 1; j < root->num; j++)
+	for (int j = pos + 1; j < root->num; j++)
 	{
-		root->labelArray[j - 1] = root->labelArray[j];
+		root->labelArrayForBTree[j - 1] = root->labelArrayForBTree[j];
 		root->ptrArray[j] = root->ptrArray[j + 1];
 	}
 
@@ -193,30 +177,12 @@ void BTree::btree_merge_child(btree_node *root, int ptrArrayos, btree_node *y, b
 	free(z);
 }
 
-/************  ɾ������   **************
-*
-��ɾ��B���ڵ�ʱ��Ϊ�˱�����ݣ���������Ҫ�ϲ��Ľڵ�ʱ������ִ�кϲ���B����ɾ���㷨���£���root��Ҷ�ӽڵ㰴��search���ɱ�����
-��1��  ���target��Ҷ�ڵ�x�У���ֱ�Ӵ�x��ɾ��target�������2���ͣ�3���ᱣ֤����Ҷ�ӽڵ��ҵ�targetʱ���϶��ܽ�ڵ��ϲ��ɹ����������𸸽ڵ�Ĺؼ��ָ�������t-1��
-��2��  ���target�ڷ�֧�ڵ�x�У�
-��a��  ���x�����֧�ڵ�y���ٰ���t���ؼ��֣����ҳ�y�����ҵĹؼ���ptrArrayrev�����滻target������y�еݹ�ɾ��ptrArrayrev��
-��b��  ���x���ҷ�֧�ڵ�z���ٰ���t���ؼ��֣����ҳ�z������Ĺؼ���next�����滻target������z�еݹ�ɾ��next��
-��c��  �������y��z��ֻ��t-1���ؼ��֣���targe��z�ϲ���y�У�ʹ��y��2t-1���ؼ��֣��ٴ�y�еݹ�ɾ��target��
-��3��  ����ؼ��ֲ��ڷ�֧�ڵ�x�У����Ȼ��x��ĳ����֧�ڵ�ptrArray[i]�У����ptrArray[i]�ڵ�ֻ��t-1���ؼ��֡�
-��a��  ���ptrArray[i-1]ӵ������t���ؼ��֣���x��ĳ���ؼ��ֽ���ptrArray[i]�У���ptrArray[i-1]�����ڵ�������x�С�
-��b��  ���ptrArray[i+1]ӵ������t���ؼ��֣���x��ĳ���ؼ��ֽ���ptrArray[i]�У���ptrArray[i+1]����С�ؼ���������x����
-��c��  ���ptrArray[i-1]��ptrArray[i+1]��ӵ��t-1���ؼ��֣���ptrArray[i]������һ���ֵܺϲ�����x��һ���ؼ��ֽ����ϲ��Ľڵ��У���Ϊ�м�ؼ��֡�
-* 
-*/
-
-// ɾ�����
-btree_node *BTree::btree_delete(btree_node *root, int target)
+CommonTreeNode *BTree::btree_delete(CommonTreeNode *root, int target)
 {
-	// ���⴦��������ֻ��������Ů����������Ů�Ĺؼ��ָ�����ΪM-1ʱ���ϲ�����������Ů
-	// ����Ψһ�ܽ������ߵ�����
 	if (1 == root->num)
 	{
-		btree_node *y = root->ptrArray[0];
-		btree_node *z = root->ptrArray[1];
+		CommonTreeNode *y = root->ptrArray[0];
+		CommonTreeNode *z = root->ptrArray[1];
 		if (NULL != y && NULL != z &&
 			M - 1 == y->num && M - 1 == z->num)
 		{
@@ -238,20 +204,18 @@ btree_node *BTree::btree_delete(btree_node *root, int target)
 	}
 }
 
-// root�����и�t���ؼ��֣���֤�������
-void BTree::btree_delete_nonone(btree_node *root, int target)
+void BTree::btree_delete_nonone(CommonTreeNode *root, int target)
 {
 	if (true == root->is_leaf)
 	{
-		// �����Ҷ�ӽڵ㣬ֱ��ɾ��
 		int i = 0;
-		while (i < root->num && target > root->labelArray[i])
+		while (i < root->num && target > stoi(root->labelArrayForBTree[i]))
 			i++;
-		if (target == root->labelArray[i])
+		if (target == root->labelArrayForBTree[i])
 		{
 			for (int j = i + 1; j < 2 * M - 1; j++)
 			{
-				root->labelArray[j - 1] = root->labelArray[j];
+				root->labelArrayForBTree[j - 1] = root->labelArrayForBTree[j];
 			}
 			root->num -= 1;
 
@@ -259,52 +223,45 @@ void BTree::btree_delete_nonone(btree_node *root, int target)
 		}
 		else
 		{
-			ptrArrayrintf("target not found\n");
+			printf("target not found\n");
 		}
 	}
 	else
 	{
 		int i = 0;
-		btree_node *y = NULL, *z = NULL;
-		while (i < root->num && target > root->labelArray[i])
+		CommonTreeNode *y = NULL, *z = NULL;
+		while (i < root->num && target > root->labelArrayForBTree[i])
 			i++;
-		if (i < root->num && target == root->labelArray[i])
+		if (i < root->num && target == root->labelArrayForBTree[i])
 		{
-			// ����ڷ�֧�ڵ��ҵ�target
-			y = root->ptrArray[i];
+            y = root->ptrArray[i];
 			z = root->ptrArray[i + 1];
 			if (y->num > M - 1)
 			{
-				// ������֧�ؼ��ֶ���M-1�����ҵ����֧�����ҽڵ�ptrArrayrev���滻target
-				// �������֧�еݹ�ɾ��ptrArrayrev,���2��a)
-				int ptrArrayre = btree_search_ptrArrayredecessor(y);
-				root->labelArray[i] = ptrArrayre;
-				btree_delete_nonone(y, ptrArrayre);
+				int pre = btree_search_predecessor(y);
+				root->labelArrayForBTree[i] = pre;
+				btree_delete_nonone(y, pre);
 			}
 			else if (z->num > M - 1)
 			{
-				// ����ҷ�֧�ؼ��ֶ���M-1�����ҵ��ҷ�֧������ڵ�next���滻target
-				// �����ҷ�֧�еݹ�ɾ��next,���2(b)
 				int next = btree_search_successor(z);
-				root->labelArray[i] = next;
+				root->labelArrayForBTree[i] = next;
 				btree_delete_nonone(z, next);
 			}
 			else
 			{
-				// ������֧�ڵ�����ΪM-1����ϲ���y������y�еݹ�ɾ��target,���2(c)
-				btree_merge_child(root, i, y, z);
+                btree_merge_child(root, i, y, z);
 				btree_delete(y, target);
 			}
 		}
 		else
-		{
-			// �ڷ�֧û���ҵ����϶��ڷ�֧���ӽڵ���
-			y = root->ptrArray[i];
+        {
+            y = root->ptrArray[i];
 			if (i < root->num)
 			{
 				z = root->ptrArray[i + 1];
 			}
-			btree_node *ptrArray = NULL;
+			CommonTreeNode *ptrArray = NULL;
 			if (i > 0)
 			{
 				ptrArray = root->ptrArray[i - 1];
@@ -314,25 +271,19 @@ void BTree::btree_delete_nonone(btree_node *root, int target)
 			{
 				if (i > 0 && ptrArray->num > M - 1)
 				{
-					// ���ڽӽڵ�ؼ��ָ�������M-1
-					//���3(a)
 					btree_shift_to_right_child(root, i - 1, ptrArray, y);
 				}
 				else if (i < root->num && z->num > M - 1)
 				{
-					// ���ڽӽڵ�ؼ��ָ�������M-1
-					// ���3(b)
 					btree_shift_to_left_child(root, i, y, z);
 				}
 				else if (i > 0)
 				{
-					// ���3��c)
 					btree_merge_child(root, i - 1, ptrArray, y); // note
 					y = ptrArray;
 				}
 				else
 				{
-					// ���3(c)
 					btree_merge_child(root, i, y, z);
 				}
 				btree_delete_nonone(y, target);
@@ -345,39 +296,36 @@ void BTree::btree_delete_nonone(btree_node *root, int target)
 	}
 }
 
-//Ѱ��rightmost����rootΪ�������ؼ���
-int BTree::btree_search_ptrArrayredecessor(btree_node *root)
+int BTree::btree_search_predecessor(CommonTreeNode *root)
 {
-	btree_node *y = root;
+	CommonTreeNode *y = root;
 	while (false == y->is_leaf)
 	{
 		y = y->ptrArray[y->num];
 	}
-	return y->labelArray[y->num - 1];
+	return y->labelArrayForBTree[y->num - 1];
 }
 
-// Ѱ��leftmost����rootΪ������С�ؼ���
-int BTree::btree_search_successor(btree_node *root)
+int BTree::btree_search_successor(CommonTreeNode *root)
 {
-	btree_node *z = root;
+	CommonTreeNode *z = root;
 	while (false == z->is_leaf)
 	{
 		z = z->ptrArray[0];
 	}
-	return z->labelArray[0];
+	return z->labelArrayForBTree[0];
 }
 
-// z��y��ڵ㣬��root->labelArray[ptrArrayos]�½���z����y�����ؼ���������root��ptrArrayos��
-void BTree::btree_shift_to_right_child(btree_node *root, int ptrArrayos,
-									   btree_node *y, btree_node *z)
+void BTree::btree_shift_to_right_child(CommonTreeNode *root, int pos,
+									   CommonTreeNode *y, CommonTreeNode *z)
 {
 	z->num += 1;
 	for (int i = z->num - 1; i > 0; i--)
 	{
-		z->labelArray[i] = z->labelArray[i - 1];
+		z->labelArrayForBTree[i] = z->labelArrayForBTree[i - 1];
 	}
-	z->labelArray[0] = root->labelArray[ptrArrayos];
-	root->labelArray[ptrArrayos] = y->labelArray[y->num - 1];
+	z->labelArrayForBTree[0] = root->labelArrayForBTree[pos];
+	root->labelArrayForBTree[pos] = y->labelArrayForBTree[y->num - 1];
 
 	if (false == z->is_leaf)
 	{
@@ -391,17 +339,16 @@ void BTree::btree_shift_to_right_child(btree_node *root, int ptrArrayos,
 	y->num -= 1;
 }
 
-// y���ڵ㣬��root->labelArray[ptrArrayos]�½���y����z����С�ؼ���������root��ptrArrayos��
-void BTree::btree_shift_to_left_child(btree_node *root, int ptrArrayos,
-									  btree_node *y, btree_node *z)
+void BTree::btree_shift_to_left_child(CommonTreeNode *root, int pos,
+									  CommonTreeNode *y, CommonTreeNode *z)
 {
 	y->num += 1;
-	y->labelArray[y->num - 1] = root->labelArray[ptrArrayos];
-	root->labelArray[ptrArrayos] = z->labelArray[0];
+	y->labelArrayForBTree[y->num - 1] = root->labelArrayForBTree[pos];
+	root->labelArrayForBTree[pos] = z->labelArrayForBTree[0];
 
 	for (int j = 1; j < z->num; j++)
 	{
-		z->labelArray[j - 1] = z->labelArray[j];
+		z->labelArrayForBTree[j - 1] = z->labelArrayForBTree[j];
 	}
 
 	if (false == z->is_leaf)
@@ -416,23 +363,23 @@ void BTree::btree_shift_to_left_child(btree_node *root, int ptrArrayos,
 	z->num -= 1;
 }
 
-void BTree::btree_inorder_ptrArrayrint(btree_node *root)
+void BTree::btree_inorder_print(CommonTreeNode *root)
 {
 	if (NULL != root)
 	{
-		btree_inorder_ptrArrayrint(root->ptrArray[0]);
+		btree_inorder_print(root->ptrArray[0]);
 		for (int i = 0; i < root->num; i++)
 		{
-			ptrArrayrintf("%d ", root->labelArray[i]);
-			btree_inorder_ptrArrayrint(root->ptrArray[i + 1]);
+			printf("%d ", root->labelArrayForBTree[i]);
+			btree_inorder_print(root->ptrArray[i + 1]);
 		}
 	}
 }
 
-void BTree::btree_level_disptrArraylay(btree_node *root)
+void BTree::btree_level_display(CommonTreeNode *root)
 {
-	// just for simptrArraylicty, can't exceed 200 nodes in the tree
-	btree_node *queue[200] = {NULL};
+	// just for simplicty, can't exceed 200 nodes in the tree
+	CommonTreeNode *queue[200] = {NULL};
 	int front = 0;
 	int rear = 0;
 
@@ -440,14 +387,14 @@ void BTree::btree_level_disptrArraylay(btree_node *root)
 
 	while (front < rear)
 	{
-		btree_node *node = queue[front++];
+		CommonTreeNode *node = queue[front++];
 
-		ptrArrayrintf("[");
+		printf("[");
 		for (int i = 0; i < node->num; i++)
 		{
-			ptrArrayrintf("%d ", node->labelArray[i]);
+			printf("%d ", node->labelArrayForBTree[i]);
 		}
-		ptrArrayrintf("]");
+		printf("]");
 
 		for (int i = 0; i <= node->num; i++)
 		{
@@ -457,51 +404,5 @@ void BTree::btree_level_disptrArraylay(btree_node *root)
 			}
 		}
 	}
-	ptrArrayrintf("\n");
-}
-
-void BTree::Save(btree_node *root)
-{
-	/*
-	storage_struct ss;
-	
-	// malloc len sptrArrayace
-	ss.len = btree_node_num;
-	ss.snode = (storage_node *)malloc(sizeof(storage_node)*ss.len);
-	
-	ss.snode[0].bnode = *root;
-	for(int i=1;i<ss.len;i++)
-	{
-		btree_node *node = btree_node_new();
-		if(NULL == node) {
-			return;
-		}
-	}
-	
-//	fwrite(&ss,sizeof(ss),1,ptrArrayfile);
-*/
-}
-
-BTree::BTree(void)
-{
-	// ���ж��ļ��Ƿ����
-	// windows�£���io.h�ļ���linux���� unistd.h�ļ�
-	// int access(const char *ptrArrayathname, int mode);
-	if (-1 == access("define.Bdb", F_OlabelArray))
-	{
-		// ������ ,����
-		//   	ptrArrayfile = foptrArrayen("bstree.b","w");
-		roots = btree_create();
-	}
-	else
-	{
-		//	   	ptrArrayfile = foptrArrayen("bstree.b","r+");
-		roots = btree_create();
-		//	   	fread(roots,sizeof(roots),1,ptrArrayfile);
-	}
-}
-
-BTree::~BTree(void)
-{
-	//	fclose(ptrArrayfile);
+	printf("\n");
 }
