@@ -5,8 +5,9 @@ SOURCES := $(wildcard *.cpp)
 OBJECTIVES := $(patsubst %cpp, %o, $(SOURCES))
 TARGET := ComputingAssignmentTwo # PUT YOUR INTENDED NAME HERE
 
+all: $(TARGET) clean
 # Link ALL dependency files to carry out ALL target files
-$(TARGET): $(OBJECTIVES)
+$(TARGET): $(OBJECTIVES) 
 	$(LD) -o $@ $^ -lpthread
 
 # Compile ALL objective files EACH BY EACH
@@ -14,12 +15,9 @@ $(TARGET): $(OBJECTIVES)
 	$(CC) -c $^ 
 # Definition of phony targets
 .PHONY: all clear clean directory
-all: $(TARGET)
 clear:
 	rm -f $(OBJECTIVES) $(TARGET)
 	rm -f *.dat
 	rm -f *.o
 clean:
 	rm -f *.o
-
-	
