@@ -250,19 +250,16 @@ Person *BPlusTree::bPlustree_delete(CommonTreeNode *root, const string target)
 			{
 				roots = y;
 			}
-			bPlustree_delete_nonone(y, target);
-			return; 
+			return bPlustree_delete_nonone(y, target);
 		}
 		else
 		{
-			bPlustree_delete_nonone(root, target);
-			return; 
+			return bPlustree_delete_nonone(root, target);
 		}
 	}
 	else
 	{
-		bPlustree_delete_nonone(root, target);
-		return;
+		return bPlustree_delete_nonone(root, target);
 	}
 }
 
@@ -353,7 +350,7 @@ Person *BPlusTree::bPlustree_delete_nonone(CommonTreeNode *root, string target)
 			{
 				root->labelArrayForBPlusTree[i] = dynamicIDForMaintain;
 			}
-			return;
+			return deletePerson;
 		}
 		else
 		{
@@ -362,7 +359,7 @@ Person *BPlusTree::bPlustree_delete_nonone(CommonTreeNode *root, string target)
 			{
 				root->labelArrayForBPlusTree[i] = dynamicIDForMaintain;
 			}
-			return;
+			return deletePerson;
 		}
 	}
 }
