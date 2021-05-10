@@ -19,13 +19,11 @@ protected:
 	// split and merge interior nodes
 	virtual int btree_split_child(CommonTreeNode *parent, int pos, CommonTreeNode *child);
 	virtual void btree_merge_child(CommonTreeNode *root, int pos, CommonTreeNode *y, CommonTreeNode *z);
-
 	virtual void btree_shift_to_left_child(CommonTreeNode *root, int pos, CommonTreeNode *y, CommonTreeNode *z);
 	virtual void btree_shift_to_right_child(CommonTreeNode *root, int pos, CommonTreeNode *y, CommonTreeNode *z);
 	Person *bPlustree_insert_nonfull(CommonTreeNode *node, Person *target);
 	Person *bPlustree_delete_nonone(CommonTreeNode *root, string target);
 	virtual void btree_level_display(CommonTreeNode *root);
-	virtual void Save(CommonTreeNode *root);
 	void btree_linear_print(CommonTreeNode *root);
 
 public:

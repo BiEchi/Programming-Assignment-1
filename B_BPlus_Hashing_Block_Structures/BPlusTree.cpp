@@ -12,7 +12,7 @@ CommonTreeNode *BPlusTree::btree_node_new()
 	CommonTreeNode *node = new CommonTreeNode;
 	if (NULL == node)
 	{
-		cout << "fail to allcating a new memory" << endl;
+		cout << "fail to allocate a new memory" << endl;
 		return nullptr;
 	}
     
@@ -167,12 +167,11 @@ Person *BPlusTree::bPlustree_insert_nonfull(CommonTreeNode *node, Person *target
 }
 
 /// @brief insert one person into the B+ Tree
-/// @param root 
 Person *BPlusTree::bPlustree_insert(CommonTreeNode *root, Person *target)
 {
 	if (NULL == root)
 	{
-		cout << "warning: no such a tree" << endl;
+		cout << "Error: no such a tree" << endl;
 		return NULL;
 	}
 	// 每个结点能存储2M个
@@ -454,11 +453,6 @@ void BPlusTree::btree_linear_print(CommonTreeNode *root)
 	}
 }
 
-void BPlusTree::Save(CommonTreeNode *root)
-{
-	//	fwrite(root,sizeof(root),1,pfile);
-}
-
 void BPlusTree::btree_level_display(CommonTreeNode *root)
 {
 	// just for simplicty, can't exceed 200 nodes in the tree
@@ -494,24 +488,26 @@ void BPlusTree::linear_print()
 	btree_linear_print(roots);
 }
 
+CommonTreeNode *BPlusTree::returnRoot()
+{
+    return roots;
+}
+
 BPlusTree::BPlusTree(void)
 {
-	return;
+    return;
 }
 
 BPlusTree::~BPlusTree(void)
 {
-	return;
+    return;
 }
+
 BPlusTree::BPlusTree(block *doubleBlockHead)
 {
-	roots = btree_create();
-	roots->BlockPtrarray[0] = doubleBlockHead;
-	roots->num++;
-	btree_node_num++;
-	begin = doubleBlockHead;
-}
-CommonTreeNode *BPlusTree::returnRoot()
-{
-	return roots;
+    roots = btree_create();
+    roots->BlockPtrarray[0] = doubleBlockHead;
+    roots->num++;
+    btree_node_num++;
+    begin = doubleBlockHead;
 }

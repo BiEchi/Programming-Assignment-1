@@ -14,12 +14,14 @@ using namespace std;
 /// @brief define the universal arrays for storing the node infomation
 typedef struct CommonTreeNodes
 {
-    vector<Person*> labelArrayForBTree;
-    vector<string> labelArrayForBPlusTree;
+    vector<Person*> labelArrayForBTree; // labels for B Tree
+    vector<string> labelArrayForBPlusTree; // labels for B+ Tree
     vector<CommonTreeNodes*> ptrArray; // for non-leaf nodes
     vector<block*> BlockPtrarray; // for leaf nodes
     
+    // number of children
     int num;
+    // leaf node?
     bool is_leaf;
 } CommonTreeNode;
 
@@ -38,7 +40,6 @@ protected:
 	virtual void btree_shift_to_left_child(CommonTreeNode *root, int pos, CommonTreeNode *y, CommonTreeNode *z) = 0;
 	virtual void btree_shift_to_right_child(CommonTreeNode *root, int pos, CommonTreeNode *y, CommonTreeNode *z) = 0;
 	virtual void btree_level_display(CommonTreeNode *root) = 0;
-	virtual void Save(CommonTreeNode *root) = 0;
     
 public:
 	Tree(void) { btree_node_num = 0; };
