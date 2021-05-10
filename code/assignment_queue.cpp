@@ -1,4 +1,6 @@
 #include "assignment_queue.hpp"
+#include "TimePredef.hpp"
+#include <unistd.h>
 
 // assignmentQueue class functions
 
@@ -123,10 +125,12 @@ int assignmentQueue::display(void)
         {
             aTime = timeSlot[i]->getAssignedTime();
             mktime(&aTime);
+            usleep(100000);
             cout << "       "
                  << "The appointment information of person with ID " << timeSlot[i]->getID() << " : \n";
             if (timeSlot[i]->getReassigned())
             {
+                usleep(100000);
                 cout << "       "
                      << "Since the desired hospital is full, this person has been randomly assigned to another hospital other than the desired hospital " << stoi(timeSlot[i]->getContactDetails()) << ". \n";
             }
@@ -142,7 +146,13 @@ int assignmentQueue::display(void)
 // queueManger class functions
 //--------------------------------------------------------------------------------------------
 
-// Default length of hospital array is 8.
+/**
+ * @brief Initialize the instance. 
+ * Default length of hospital array is 8. length >= 8
+ * 
+ * @param num the capacity of hospital array. 
+ * @return 1 for indication.  
+ */
 int queueManger::init(int num)
 {
     capacity = (num < 8 ? 8 : num);
@@ -155,6 +165,13 @@ int queueManger::init(int num)
     return 1;
 }
 
+/**
+ * @brief Extand the length of hospital array. 
+ * Allocate a new array and copy all the hospital into the new array. 
+ * 
+ * @param hospital a hospital
+ * @return 1 for indication. 
+ */
 int queueManger::extendLocations(int hospital)
 {
     assignmentQueue **temp = new assignmentQueue *[hospital + 1];
@@ -172,7 +189,15 @@ int queueManger::extendLocations(int hospital)
     return 1;
 }
 
-// Before addition, remember to call this function (initHospital).
+/**
+ * @brief Add a new hospital into the 
+ * Before addition, remember to call this initHospital function.
+ * 
+ * @param hospital a hospital
+ * @param hc what's this?
+ * @param wh what's this?
+ * @return int 
+ */
 int queueManger::addHospital(int hospital, int hc, int wh)
 {
     if (hospital >= capacity)
@@ -211,6 +236,7 @@ int queueManger::reassign(FibonacciPQ *PQ)
         // Add new hospital.
         thePerson = PQ->popMin();
         thePerson->setCurrentStage(appointment); // Add for withdraw functionality.
+        usleep(100000);
         cout << "Assigning the person with ID " << thePerson->getID() << " ...... \n";
         int theLocation = stoi(thePerson->getContactDetails());
         int otherLocation = std::rand() % capacity;
@@ -287,17 +313,18 @@ Person* queueManger::isIn(string ID)
 
 int queueManger::displayAll(void)
 {
-    cout << ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" << endl;
     for (int i = 0; i < capacity; i++)
     {
         if (locations[i])
         {
+            usleep(500000);
             cout << endl;
+            system("echo '\33[33mA new hospital is created.\33[0m' ");
             cout << "The hospital " << locations[i]->getTheHospital() << " have the following assigned people: \n";
+            sleep(1);
             locations[i]->display();
         }
     }
-    cout << "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<" << endl;
     cout << endl;
     return 1;
 }

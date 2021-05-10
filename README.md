@@ -1,4 +1,14 @@
-# Programming-Assignment-2
+# CA2 1.0.0 Released
+
+## 1.0.0 Author. Jack BAI
+
+-   Upgraded user interface.
+-   Refined project system.
+-   Decomposed classes and according functions.
+-   Increased `sleep()` funcitonality.
+-   Added robustness check system.
+
+
 
 ## Prerequests.
 - Read (Google C++ Format)[http://www.cppblog.com/converse/archive/2010/05/29/116689.html] first.

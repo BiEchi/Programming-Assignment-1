@@ -5,51 +5,15 @@
 //  Created by Jack's Macbook Pro on 2021/4/4.
 //
 
-#ifndef MULTITHREAD_hpp
-#define MULTITHREAD_hpp
+#ifndef REPORTING_hpp
+#define REPORTING_hpp
 
 #include <stdio.h>
 #include <ctime>
+#include <unistd.h>
 
 #include "blackList.hpp"
-#include "Tools.hpp"
-
-// FibonacciPQ for 治疗队列
-void forwardToCentralQueue(PeopleLocalQueue &people,
-                           FibonacciPQ &centralQueue) {
-  centralQueue.eatPeople(people);
-  return;
-}
-
-/// set up the timer
-/// @param id the id number of the timer
-/// @param msec the number of milli-seconds you want to lapse in one epoch
-void settimerForCentralQueue(unsigned int id, int msec, PeopleLocalQueue &people,
-              FibonacciPQ &centralQueue) {
-  if (msec < 0)  // 判断时间段是否满足 >=0
-  {
-    return;
-  }
-  clock_t start, finish;
-  start = clock();       // 计时函数
-  double totaltime = 0;  // 定义时间变量
-  while (1) {
-    finish = clock();
-    totaltime = (double)(finish - start);
-    if (totaltime > msec) {
-      forwardToCentralQueue(people, centralQueue);
-      break;
-    }
-  }
-
-  return;
-}
-
-void forwardToCentralQueueAtNoonTwiceADay(PeopleLocalQueue &people,
-                                             FibonacciPQ &centralQueue) {
-    while (1) settimerForCentralQueue(1, 5000000, people, centralQueue);
-    return;
-}
+#include "TimePredef.hpp"
 
 void quick_sort_name(vector<Person> people, int l, int r) {
   if (l < r) {
@@ -120,11 +84,11 @@ void quick_sort_age(vector<Person> people, int l, int r) {
 void Reporting_weekly(unsigned int personType, unsigned int sortType,
                       vector<Person> treatedPeople, vector<Person> centralQueue,
                       vector<Person> assignmentQueue) {
-  if (personType > 3 || personType < 0) {
+  if (personType > 2 || personType < 0) {
     cout << "personType ERROR" << endl;
     return;
   }
-  if (sortType > 3 || sortType < 0) {
+  if (sortType > 2 || sortType < 0) {
     cout << "sortType ERROR" << endl;
     return;
   }
@@ -174,6 +138,7 @@ void Reporting_weekly(unsigned int personType, unsigned int sortType,
          iter++) {
       tm TimeRrgister = (*iter).getTimestamp();
       time_t now = time(0);
+      usleep(100000);
       cout << (*iter).getName() << (*iter).getProfession() << " "
            << (*iter).getAgeGroup() << (*iter).getRiskStatus() << " "
            << difftime(mktime(&TimeRrgister), now) << " " << endl;
@@ -184,73 +149,22 @@ void Reporting_weekly(unsigned int personType, unsigned int sortType,
 void Reporting_monthly(vector<Person> treatedPeople,
                        vector<Person> centralQueue,
                        vector<Person> assignmentQueue, blackList blackList) {
+  usleep(100000);
   cout << "There are "
        << treatedPeople.size() + centralQueue.size() + assignmentQueue.size()
        << " people have registered" << endl;
+  usleep(100000);
   cout << "There are " << centralQueue.size() + assignmentQueue.size()
        << " people are waiting" << endl;
+  usleep(100000);
   cout << "There are " << treatedPeople.size() << " treatment have brrn made"
        << endl;
+  usleep(100000);
   cout << "The average waiting time is "
        << "?" << endl;
+  usleep(100000);
   cout << "There are " << blackList.size()
        << " people who withdraw their registration" << endl;
 }
 
-void settimerForReportingWeekly(unsigned int id, int msec, unsigned int personType, unsigned int sortType, vector<Person> treatedPeople, vector<Person> centralQueue, vector<Person> assignmentQueue) {
-  if (msec < 0)  // 判断时间段是否满足 >=0
-  {
-    return;
-  }
-  clock_t start, finish;
-  start = clock();       // 计时函数
-  double totaltime = 0;  // 定义时间变量
-  while (1) {
-    finish = clock();
-    totaltime = (double)(finish - start);
-    if (totaltime > msec) {
-      Reporting_weekly(personType, sortType, treatedPeople, centralQueue, assignmentQueue);
-      break;
-    }
-  }
-
-  return;
-}
-
-void settimerForReportingMonthly(unsigned int id, int msec, vector<Person> treatedPeople, vector<Person> centralQueue, vector<Person> assignmentQueue, blackList blackList) {
-  if (msec < 0)  // 判断时间段是否满足 >= 0
-  {
-    return;
-  }
-  clock_t start, finish;
-  start = clock();       // 计时函数
-  double totaltime = 0;  // 定义时间变量
-  while (1) {
-    finish = clock();
-    totaltime = (double)(finish - start);
-    if (totaltime > msec) {
-        Reporting_monthly(treatedPeople, centralQueue, assignmentQueue, blackList);
-      break;
-    }
-  }
-
-  return;
-}
-
-void reportingWeeklyWrapper(unsigned int id, int msec, unsigned int personType, unsigned int sortType, vector<Person> treatedPeople, vector<Person> centralQueue, vector<Person> assignmentQueue)
-{
-    while (1)
-        settimerForReportingWeekly(id, msec, personType, sortType, treatedPeople, centralQueue, assignmentQueue);
-    
-    return;
-}
-
-void reportingMonthlyWrapper(unsigned int id, int msec, vector<Person> treatedPeople, vector<Person> centralQueue, vector<Person> assignmentQueue, blackList blackList)
-{
-    while (1)
-        settimerForReportingMonthly(id, msec, treatedPeople, centralQueue, assignmentQueue, blackList);
-    
-    return;
-}
-
-#endif /* MULTITHREAD_hpp */
+#endif /* REPORTING_hpp */

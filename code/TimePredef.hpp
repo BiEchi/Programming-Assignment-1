@@ -1,12 +1,12 @@
 //
-//  ConvertTools.hpp
+//  TimePredef.hpp
 //  code
 //
 //  Created by Jack's Macbook Pro on 2021/3/25.
 //
 
-#ifndef Tools_hpp
-#define Tools_hpp
+#ifndef TimePredef_hpp
+#define TimePredef_hpp
 
 #include <iostream>
 #include <cstring>
@@ -16,4 +16,4 @@ using namespace std;
 
 extern time_t startTime;
 
-#endif /* Tools_hpp */
+#endif /* TimePredef_hpp */

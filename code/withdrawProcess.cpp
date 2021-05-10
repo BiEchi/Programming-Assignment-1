@@ -1,5 +1,6 @@
 #include "withdrawProcess.hpp"
 #include <regex>
+#include <unistd.h>
 using namespace std;
 
 // split the string by some signs and store it in the vector object and then return that
@@ -126,6 +127,50 @@ Person *withdrawProcess::findAndReturnPersonPointer(string &ID)
     cout << "We do not find the person " << ID << endl;
     return nullptr;
 }
+<<<<<<< HEAD
+=======
+
+bool withdrawProcess::askUserWithdraw_inPeople(blackList &blackList, PeopleLocalQueue &people, Person *finding_obj)
+{
+    // cout << "================hello people================" << endl;
+    Person *targetPerson = people.isIn(finding_obj->getID());
+    if (nullptr == targetPerson)
+    {
+        // cout << "we do not find the person in people" << endl;
+        return false;
+    }
+    people.doWithdraw(targetPerson);
+    blackList.appendPerson(targetPerson);
+    return true;
+}
+
+bool withdrawProcess::askUserWithdraw_inFibonacciPQ(blackList &blackList, FibonacciPQ &centrallist, Person *finding_obj)
+{
+    // cout << "==========hello central Queue========" << endl;
+    list<Person *> start = centrallist.getRootlist();
+    Person *targetPerson = centrallist.find(finding_obj, start);
+    if (nullptr == targetPerson)
+    {
+        // cout << "sorry we do not find the person in central Queue" << endl;
+        return false;
+    }
+    // Withdraw the person in people central queue.
+    centrallist.withdrawInCentral(targetPerson, blackList);
+    return true;
+}
+
+bool withdrawProcess::askUserWithdraw_inHospital(blackList &blacklist, queueManger &hospital, Person *finding_obj)
+{
+    Person *targetPerson = hospital.isIn(finding_obj->getID());
+    if (nullptr == targetPerson)
+    {
+        return false;
+    }
+    blacklist.appendPerson(targetPerson);
+    return true;
+}
+
+>>>>>>> main
 void withdrawProcess::readFile(string &filename)
 {
     recordDataBase.open(filename, ios::in);
@@ -173,6 +218,7 @@ void withdrawProcess::withdrawDemo(blackList &blackList, PeopleLocalQueue &peopl
             cout << "do not have enough data" << endl;
             break;
         }
+<<<<<<< HEAD
     }
     closeFile(filename);
 
@@ -202,6 +248,16 @@ void withdrawProcess::withdrawDemo(blackList &blackList, PeopleLocalQueue &peopl
         {
             cout << "we don't find the person with id " << (*i) << " in the database" << endl;
             continue;
+=======
+        case 2:
+            cout << "you chooose to quit." << endl;
+            sleep(2);
+            return;
+        default:
+            cout << "please enter the right number." << endl;
+            sleep(1);
+            break;
+>>>>>>> main
         }
         blackList.appendPerson(targetPerson);
     }

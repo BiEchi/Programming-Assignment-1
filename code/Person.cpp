@@ -10,18 +10,18 @@
 using namespace std;
 
 void Person::setID(string data) {
-  ID = data;  // automatically convert char* to string
-  return;
+    ID = data;  // automatically convert char* to string
+    return;
 }
 
 void Person::setName(string data) {
-  name = data;
-  return;
+    name = data;
+    return;
 }
 
 void Person::setContactDetails(string data) {
-  contactDetails = data;
-  return;
+    contactDetails = data;
+    return;
 }
 
 /// set the year of birth
