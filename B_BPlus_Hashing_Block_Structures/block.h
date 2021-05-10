@@ -6,11 +6,13 @@ using namespace std;
 class Person
 {
 public:
-    int setID(string data) {ID = data; return 0;}
-    string getID(void) const {return ID;}
+    void setID(string data) { ID = data; }
+    string getID(void) const { return ID; }
+    void setProfession(string data) { profession = data; }
+    string getProfession(void) const { return profession; }
 
 private:
-    string ID;
+    string ID, profession;
 };
 
 // ---------------------------------

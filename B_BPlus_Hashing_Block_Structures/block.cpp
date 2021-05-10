@@ -42,8 +42,8 @@ record& record::operator=(const record& src)
  * @brief Compare function for std::sort function.
  * Person with marked tombstone is always greater than Person with unmarked tombstone. 
  * 
- * @param record1
- * @param record2 
+ * @param record1 record 1
+ * @param record2  record 2
  * @returns True if the primary key (ID) of record1 is less than the primary key (ID) of record2, false otherwise. 
  */
 bool cmp4sort(const record &record1, const record &record2) 
@@ -88,7 +88,7 @@ int block::sort(void)
 /**
  * @brief Combines binary search in a main block with linear search in the overflow block.
  * 
- * @param ID 
+ * @param ID ID
  * @return A pointer to the Person with the input ID.
  * If there is no such person, return NULL. 
  */
@@ -133,7 +133,7 @@ Person* block::find(string ID) {
  * @brief Inserts a new tuple into the overflow block at the first free space. If the overflow block is full, trigger the sorting. 
  * If after the sorting there are too many tuples in the main block, split the block.
  * 
- * @param tuple 
+ * @param tuple tuple
  * @return The pointer to the new block if split is called, NULL otherwise. 
  */
 block* block::insert(Person* tuple)
@@ -200,7 +200,7 @@ block* block::split(void)
  * @brief Marks a tuple in the main block or the overflow block by a tombstone.
  * If after remove there are too few tuples in the main block, merge the block with the next block if the next block exists.
  * 
- * @param ID 
+ * @param ID ID
  * @return The pointer to this block if merge happens, NULL otherwise. 
  */
 block* block::remove(string ID)
@@ -262,9 +262,7 @@ block* block::remove(string ID)
 /**
  * @brief Merges a block with one neighbouring block and either splits the result more equally or removes one block.
  * This function will create a new separation key. Assume that merge will be called only when the number of this block is less than the merge_threshold.
- * Important: the neighbouring block might be deleted. All the keys in both blocks are pairwise different. 
- * 
- * @param neighbour The pointer to the neighbouring block.  
+ * Important: the neighbouring block might be deleted. All the keys in both blocks are pairwise different.
  * @return The new seperation key such that all the tuples' key in this block are strickly less than the seperation key.
  * If the neighbouring block is deleted, return the maximum key after merge operation.
  */
