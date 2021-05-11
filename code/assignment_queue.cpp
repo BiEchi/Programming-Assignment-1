@@ -35,10 +35,11 @@ void assignmentQueue::clear(vector<Person> *treated)
     return;
 }
 
-/*
- * OUTPUT:
- *  1   when add a person to the queue successfully
- *  0   when the queue is full
+/**
+ * @brief Add a person to the hospital. 
+ * 
+ * @param thePerson pointer to Person type
+ * @return 1 when add a person to the hospital successfully, 0 when the queue is full. 
  */
 int assignmentQueue::addPerson(Person *const thePerson)
 {
@@ -194,9 +195,9 @@ int queueManger::extendLocations(int hospital)
  * Before addition, remember to call this initHospital function.
  * 
  * @param hospital a hospital
- * @param hc what's this?
- * @param wh what's this?
- * @return int 
+ * @param hc hour capacity
+ * @param wh working hour per day
+ * @return 1 for indication.  
  */
 int queueManger::addHospital(int hospital, int hc, int wh)
 {

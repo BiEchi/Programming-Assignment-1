@@ -43,7 +43,7 @@ public:
     vector<Person> treated_list;
     vector<Person> assignment_list;
     int init(int num = 8);
-    int addHospital(int hospital, int hc = 1, int wh = 8);
+    int addHospital(int hospital, int hc = 50, int wh = 8);
     // Handle assignment
     int reassign(FibonacciPQ *PQ);
     // Handle withdraw
