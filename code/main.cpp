@@ -36,7 +36,7 @@ int main()
     queueManger localHospitals; // appointment queues
 
     // process
-    cout << "Please Enter the person type and sort type you want." << endl
+    cout << "Please enter the person type and sort type you want." << endl
          << endl;
     int personType, sortType;
     getReportingWeeklyType(personType, sortType);

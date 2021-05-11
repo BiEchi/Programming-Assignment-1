@@ -1,9 +1,20 @@
 #ifndef MAINHELP_hpp
 #define MAINHELP_hpp
+#include <iostream>
+#include "./Person.hpp"
+#include "./PeopleLocalQueue.hpp"
+#include "./FibonacciPQ.hpp"
+#include "./assignment_queue.hpp"
+#include "./blackList.hpp"
+#include "./Reporting.hpp"
+#include "./withdrawProcess.hpp"
+#include "./TimePredef.hpp"
+#include "./CSVInputManipulations.hpp"
+using namespace std;
 
 void getReportingWeeklyType(int &personType, int &sortType)
 {
-    cout << "Person Type = 0(treated), 1(in queue), 2(with assignment)" << endl;
+    cout << "Person Type = 0(treated), 2(with assignment)" << endl; // Delete choose 1(in queue)
     cin >> personType;
 
     cout << "Sort Type = 0(name), 1(profession), 2(age)" << endl;
