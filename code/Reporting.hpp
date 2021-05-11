@@ -15,6 +15,8 @@
 #include "blackList.hpp"
 #include "TimePredef.hpp"
 
+ofstream report;
+
 void quick_sort_name(vector<Person> people, int l, int r) {
   if (l < r) {
     // Swap(s[l], s[(l + r) / 2]); //将中间的这个数和第一个数交换 参见注1
@@ -92,6 +94,8 @@ void Reporting_weekly(unsigned int personType, unsigned int sortType,
     cout << "sortType ERROR" << endl;
     return;
   }
+  // output to file
+  report.open("report.txt");
   if (personType == 0) {
     if (sortType == 0) {
       quick_sort_name(treatedPeople, 0, int(treatedPeople.size() - 1));
@@ -104,7 +108,7 @@ void Reporting_weekly(unsigned int personType, unsigned int sortType,
          iter++) {
       tm TimeRrgister = (*iter).getTimestamp();
       tm TimeAssigned = (*iter).getAssignedTime();
-      cout << (*iter).getName() << (*iter).getProfession() << " "
+      report << (*iter).getName() << (*iter).getProfession() << " "
            << (*iter).getAgeGroup() << (*iter).getRiskStatus() << " "
            << difftime(mktime(&TimeRrgister), mktime(&TimeAssigned)) << " "
            << endl;
@@ -121,7 +125,7 @@ void Reporting_weekly(unsigned int personType, unsigned int sortType,
     for (auto iter = centralQueue.begin(); iter != centralQueue.end(); iter++) {
       tm TimeRrgister = (*iter).getTimestamp();
       time_t now = time(0);
-      cout << (*iter).getName() << (*iter).getProfession() << " "
+      report << (*iter).getName() << (*iter).getProfession() << " "
            << (*iter).getAgeGroup() << (*iter).getRiskStatus() << " "
            << difftime(mktime(&TimeRrgister), now) << " " << endl;
     }
@@ -138,33 +142,31 @@ void Reporting_weekly(unsigned int personType, unsigned int sortType,
          iter++) {
       tm TimeRrgister = (*iter).getTimestamp();
       time_t now = time(0);
-      usleep(100000);
-      cout << (*iter).getName() << (*iter).getProfession() << " "
+      report << (*iter).getName() << (*iter).getProfession() << " "
            << (*iter).getAgeGroup() << (*iter).getRiskStatus() << " "
            << difftime(mktime(&TimeRrgister), now) << " " << endl;
     }
   }
+  report.close();
 }
 
 void Reporting_monthly(vector<Person> treatedPeople,
                        vector<Person> centralQueue,
                        vector<Person> assignmentQueue, blackList blackList) {
-  usleep(100000);
-  cout << "There are "
+  // output to file
+  report.open("report.txt");
+  report << "There are "
        << treatedPeople.size() + centralQueue.size() + assignmentQueue.size()
        << " people have registered" << endl;
-  usleep(100000);
-  cout << "There are " << centralQueue.size() + assignmentQueue.size()
+  report << "There are " << centralQueue.size() + assignmentQueue.size()
        << " people are waiting" << endl;
-  usleep(100000);
-  cout << "There are " << treatedPeople.size() << " treatment have brrn made"
+  report << "There are " << treatedPeople.size() << " treatment have been made"
        << endl;
-  usleep(100000);
-  cout << "The average waiting time is "
+  report << "The average waiting time is "
        << "?" << endl;
-  usleep(100000);
-  cout << "There are " << blackList.size()
+  report << "There are " << blackList.size()
        << " people who withdraw their registration" << endl;
+  report.close();
 }
 
 #endif /* REPORTING_hpp */

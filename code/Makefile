@@ -22,5 +22,6 @@ clear:
 	rm -f *.o
 clean:
 	rm -f *.o
+	rm report.txt
 
 	

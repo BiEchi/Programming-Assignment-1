@@ -131,9 +131,9 @@ int assignmentQueue::display(void)
                  << "The appointment information of person with ID " << timeSlot[i]->getID() << " : \n";
             if (timeSlot[i]->getReassigned())
             {
-                usleep(100000);
+                // usleep(100000);
                 cout << "       "
-                     << "Since the desired hospital is full, this person has been randomly assigned to another hospital other than the desired hospital " << stoi(timeSlot[i]->getContactDetails()) << ". \n";
+                     << "The desired hospital is full, this person has been randomly assigned to hospital " << stoi(timeSlot[i]->getContactDetails()) << ". \n";
             }
             cout << "       "
                  << "location:   Hospital " << timeSlot[i]->getAssignedLocation() << "\n";
@@ -237,7 +237,7 @@ int queueManger::reassign(FibonacciPQ *PQ)
         // Add new hospital.
         thePerson = PQ->popMin();
         thePerson->setCurrentStage(appointment); // Add for withdraw functionality.
-        usleep(100000);
+        // usleep(100000);
         cout << "Assigning the person with ID " << thePerson->getID() << " ...... \n";
         int theLocation = stoi(thePerson->getContactDetails());
         int otherLocation = std::rand() % capacity;
@@ -318,7 +318,7 @@ int queueManger::displayAll(void)
     {
         if (locations[i])
         {
-            usleep(500000);
+            // usleep(500000);
             cout << endl;
             system("echo '\33[33mA new hospital is created.\33[0m' ");
             cout << "The hospital " << locations[i]->getTheHospital() << " have the following assigned people: \n";

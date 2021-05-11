@@ -240,7 +240,7 @@ int queueManger::reassign(FibonacciPQ *PQ)
         // Add new hospital.
         thePerson = PQ->popMin();
         thePerson->setCurrentStage(appointment); // Add for withdraw functionality.
-        usleep(100000);
+        // usleep(100000);
         cout << "Assigning the person with ID " << thePerson->getID() << " ...... \n";
         int theLocation = stoi(thePerson->getContactDetails());
         int otherLocation = std::rand() % capacity;
