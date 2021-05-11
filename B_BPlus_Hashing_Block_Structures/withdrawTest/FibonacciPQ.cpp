@@ -298,11 +298,9 @@ Person *FibonacciPQ::find(string ID, list<Person *> &findinglist)
 // __withdrawingPerson: the person who wants withdraw
 // __blackList: the black where the person will be added
 // success:return the pointer to the withdrawing person, else return nullptr
-Person *FibonacciPQ::withdrawInCentral(Person *withdrawingPerson, blackList &blacklistObjective)
+Person *FibonacciPQ::withdrawInCentral(Person *withdrawingPerson)
 {
-    blacklistObjective.appendPerson(withdrawingPerson);
     removeNode(withdrawingPerson);
-    cout << "Person " << withdrawingPerson->getName() << " withdraw successfully, but will be added into the blacklist" << endl;
     return withdrawingPerson;
 }
 

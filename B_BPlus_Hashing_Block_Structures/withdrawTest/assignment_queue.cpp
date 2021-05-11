@@ -2,6 +2,7 @@
 #include "TimePredef.hpp"
 #include <unistd.h>
 
+
 // assignmentQueue class functions
 
 int assignmentQueue::init(int hc, int wh, int thePlace)
@@ -79,7 +80,7 @@ void assignmentQueue::assignTimeAndLocation(void)
     int increment = 60 / hourCapacity;
 
     time(&currentTime);
-    diffday = difftime(currentTime, startTime)/10; // Compute the difference between start time and current system time.
+    diffday = difftime(currentTime, startTime) / 10; // Compute the difference between start time and current system time.
     baseTime = localtime(&startTime);
     baseTime->tm_sec = 0;
     baseTime->tm_min = 0;
@@ -104,13 +105,16 @@ void assignmentQueue::assignTimeAndLocation(void)
     }
 }
 
-Person* assignmentQueue::isIn(string ID)
+Person *assignmentQueue::isIn(string ID)
 {
     for (int i = 0; i < this->length; i++)
     {
-        if(timeSlot[i])
+        if (timeSlot[i])
         {
-            if (timeSlot[i]->getID() == ID) {return timeSlot[i];}
+            if (timeSlot[i]->getID() == ID)
+            {
+                return timeSlot[i];
+            }
         }
     }
     return NULL;
@@ -297,15 +301,18 @@ int queueManger::doWithdraw(Person *thePerson)
     return 1;
 }
 
-Person* queueManger::isIn(string ID)
+Person *queueManger::isIn(string ID)
 {
-    Person* temp;
+    Person *temp;
     for (int i = 0; i < this->capacity; i++)
     {
-        if (locations[i]) 
+        if (locations[i])
         {
             temp = locations[i]->isIn(ID);
-            if (temp) {return temp;}
+            if (temp)
+            {
+                return temp;
+            }
         }
     }
     return NULL;

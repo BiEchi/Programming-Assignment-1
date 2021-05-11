@@ -23,7 +23,7 @@ public:
     bool isEmpty();
     bool inSert(Person *handle);
     bool eatPeople(PeopleLocalQueue &local_queue);
-    Person *withdrawInCentral(Person *withdrawingPerson, blackList &blacklistObjective);
+    Person *withdrawInCentral(Person *withdrawingPerson);
     Person *popMin();
     Person *changeStatus(Person *changingPatient, string profession_status, string riskStatus_status);
     Person* find(string ID, list<Person *> &findingList);

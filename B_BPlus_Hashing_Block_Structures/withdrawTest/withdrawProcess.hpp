@@ -11,35 +11,19 @@
 #include "blackList.hpp"
 #include "PeopleLocalQueue.hpp"
 
-
 // 分阶段演示，分阶段pop！
 class withdrawProcess
 {
 public:
-    void LoadingDemoData(string &filename);
-    void PeopleWithdrawDemo(blackList &blackList, PeopleLocalQueue &people, string &ID);
-    void CentraListWithdrawDemo(blackList &blackList, FibonacciPQ &centrallist, string &ID);
-    void HospitalWithdrawDemo(blackList &blacklist, queueManger &hospital, string &ID);
-    // private:
-    enum dataClass
-    {
-        id,
-        name,
-        Address,
-        Profession,
-        YOB,
-        MOB,
-        DOB,
-        MAR
-    };
-    ifstream recordDataBase;
-    // void loadFileAndFindData(string &filename, string ID, ifstream &recordfile, Person *target_person);
-    void readFile(string &filename);
-    void closeFile(string &filename);
-    Person *loadFileAndFindData(string &filename, string ID, ifstream &recordfile);
-    Person *findAndReturnPersonPointer(string &ID, ifstream &recordfile);
-    vector<string> s_split(const string &in, const string &delim);
-    vector<string>IDStoreDatabase;
+    void LoadingDemoData(PeopleLocalQueue &people);
+    void PeopleWithdrawDemo(blackList &blackList, PeopleLocalQueue &people);
+    void CentraListWithdrawDemo(blackList &blackList, FibonacciPQ &centrallist);
+    void HospitalWithdrawDemo(blackList &blacklist, queueManger &hospital);
+
+private:
+    void returnLastID();
+    vector<string> IDStoreDatabase;
+    string ID = "0";
 };
 
 #endif

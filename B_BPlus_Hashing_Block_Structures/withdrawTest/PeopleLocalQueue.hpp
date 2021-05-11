@@ -27,11 +27,14 @@ public:
         return length;
     }
     int init(void);
+    bool display(void);
+    
     int pushBack(Person *const ptr);
     Person *popFront(void);
-    int doWithdraw(Person *thePerson);
+
+    string returnID(int pos);
     Person* isIn(string ID);
-    bool display(void);
+    int doWithdraw(Person *thePerson);
 };
 
 #endif
