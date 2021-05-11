@@ -10,9 +10,11 @@ public:
     string getID(void) const { return ID; }
     void setProfession(string data) { profession = data; }
     string getProfession(void) const { return profession; }
+    void setName(string data) { name = data; }
+    string getName(void) const { return name; }
 
 private:
-    string ID, profession;
+    string ID, profession, name;
 };
 
 // ---------------------------------

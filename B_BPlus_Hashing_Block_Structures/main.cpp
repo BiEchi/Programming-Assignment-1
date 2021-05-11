@@ -21,7 +21,6 @@ int main()
     BTree testBTree = BTree();
     Person people[num];
     
-    sleep(2);
     for (int i = 0; i < num; i++)
     {
         people[i].setID(to_string(100 + i));
@@ -29,24 +28,19 @@ int main()
     srand(1);
     for (int i = 0; i < num; i++)
     {
-        people[i].setProfession(to_string(rand() % 9));
+        people[i].setName(to_string(i));
     }
    
     cout << "Now we go into B+ Tree test in 1 second..." << endl;
-    sleep(1);
 
     cout << "Test for insert. " << endl;
     for (int i = 0; i < num; i++)
-    {
         testBPlusTree.bPlustree_insert(testBPlusTree.returnRoot(), &people[i]);
-    }
     testBPlusTree.linear_print();
     
     cout << "Test for delete. " << endl;
     for (int i = 0; i < num; i++)
-    {
         testBPlusTree.bPlustree_delete(testBPlusTree.returnRoot(), people[i].getID());
-    }
 
     testBPlusTree.linear_print();
     cout << "Test for inverse insert. " << endl;
@@ -68,16 +62,20 @@ int main()
     cout << endl << endl;
     
     cout << "Now we go into B Tree test in 1 second..." << endl;
-    sleep(1);
     
     cout << "Test for insert." << endl;
-    sleep(1);
     for (int i = 0; i < num; i++) {
-        usleep(100000);
-        testBTree.btree_insert(testBTree.returnRoot(), &people[i]);
+        testBTree.insert(&people[i]);
     }
     testBTree.level_display();
+    cout << "Test for insert passed." << endl;
     
+    cout << "Test for delete." << endl;
+    for (int i = 0; i < num; i++)
+        testBTree.del(&people[i]);
+    testBTree.level_display();
+
+    cout << "Test for delete passed." << endl;
     
     return 0;
 }

@@ -56,13 +56,14 @@ int main()
     forwardToCentralQueue(people, central_Queue);
     sleep(1);
 
-    // system("echo '\033[41m\033[37m\033[1m\033[4mChoose whether you want to withdraw...\33[0m' ");
-    // withdrawProm.withdrawAdvanced(blackListRegister, people, central_Queue, localHospitals, searchFile);
-    // sleep(1);
-
     appointmentQueuesInit(&localHospitals);
     system("echo '\033[41m\033[37m\033[1m\033[4mAssigning to the local hospitals...\33[0m' ");
     sleep(1);
+    
+    // system("echo '\033[41m\033[37m\033[1m\033[4mChoose whether you want to withdraw...\33[0m' ");
+    // withdrawProm.withdrawAdvanced(blackListRegister, people, central_Queue, localHospitals, searchFile);
+    // sleep(1);
+    
     assignToLocalHospital(&localHospitals, &central_Queue);
     sleep(1);
     system("echo '\33[32mSuccessfully assigned patients to the local hospitals.\33[0m' ");

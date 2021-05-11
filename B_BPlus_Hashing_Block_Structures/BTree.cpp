@@ -23,8 +23,8 @@ CommonTreeNode *BTree::btree_node_new()
 		return nullptr;
 	}
 
-    node->labelArrayForBTree = vector<Person*>(2 * M, nullptr);
-    node->ptrArray = vector<CommonTreeNode*>(2 * M, nullptr);
+    node->labelArrayForBTree = vector<Person*>(2*M - 1, nullptr);
+    node->ptrArray = vector<CommonTreeNode*>(2*M, nullptr);
 	node->num = 0;
 	node->is_leaf = true;
 
@@ -43,37 +43,25 @@ int BTree::btree_split_child(CommonTreeNode *parent, int pos, CommonTreeNode *ch
 {
 	CommonTreeNode *new_child = btree_node_new();
 	if (NULL == new_child)
-	{
 		return -1;
-	}
     new_child->is_leaf = child->is_leaf;
 	new_child->num = M - 1;
 
 	for (int i = 0; i < M - 1; i++)
-	{
 		new_child->labelArrayForBTree[i] = child->labelArrayForBTree[i + M];
-	}
 
 	if (false == new_child->is_leaf)
-	{
 		for (int i = 0; i < M; i++)
-		{
-			new_child->ptrArray[i] = child->ptrArray[i + M];
-		}
-	}
+            new_child->ptrArray[i] = child->ptrArray[i + M];
 
 	child->num = M - 1;
 
 	for (int i = parent->num; i > pos; i--)
-	{
 		parent->ptrArray[i + 1] = parent->ptrArray[i];
-	}
-	parent->ptrArray[pos + 1] = new_child;
+    parent->ptrArray[pos + 1] = new_child;
 
 	for (int i = parent->num - 1; i >= pos; i--)
-	{
 		parent->labelArrayForBTree[i + 1] = parent->labelArrayForBTree[i];
-	}
 	parent->labelArrayForBTree[pos] = child->labelArrayForBTree[M - 1];
 
 	parent->num += 1;
@@ -85,20 +73,20 @@ void BTree::btree_insert_nonfull(CommonTreeNode *node, Person* target)
 	if (node->is_leaf)
 	{
 		int pos = node->num;
-		while (pos >= 1 && target->getProfession() < node->labelArrayForBTree[pos - 1]->getProfession())
+        while (pos >= 1 && target->getName() <= node->labelArrayForBTree[pos - 1]->getName())
 		{
 			node->labelArrayForBTree[pos] = node->labelArrayForBTree[pos - 1];
             pos--;
 		}
 
 		node->labelArrayForBTree[pos] = target;
-		node->num += 1;
+		node->num++;
 		btree_node_num += 1;
 	}
 	else
 	{
         int pos = node->num;
-		while (pos > 0 && target->getProfession() < node->labelArrayForBTree[pos - 1]->getProfession())
+		while (pos > 0 && target->getName() < node->labelArrayForBTree[pos - 1]->getName())
 		{
 			pos--;
 		}
@@ -116,7 +104,7 @@ void BTree::btree_insert_nonfull(CommonTreeNode *node, Person* target)
 	}
 }
 
-CommonTreeNode *BTree::btree_insert(CommonTreeNode *root, Person* target)
+CommonTreeNode* BTree::btree_insert(CommonTreeNode *root, Person* target)
 {
 	if (NULL == root)
 	{
@@ -124,7 +112,9 @@ CommonTreeNode *BTree::btree_insert(CommonTreeNode *root, Person* target)
 	 	return NULL;
 	}
 
-    // each node can store M childs
+    // If 2M, split.
+    // If two M-1, merge.
+    // Others, single movement.
 	if (2 * M - 1 == root->num)
 	{
 		CommonTreeNode *node = btree_node_new();
@@ -132,18 +122,12 @@ CommonTreeNode *BTree::btree_insert(CommonTreeNode *root, Person* target)
 		{
             cout << "fail to allocate a new memory" << endl;
 			return root;
-		}
-        btree_node_num++;
-
+        }
 		node->is_leaf = false;
 		node->ptrArray[0] = root;
-        node->num++;
 		btree_split_child(node, 0, root);
-        if (root == roots) {
-            roots = node;
-        }
         btree_insert_nonfull(node, target);
-        return root;
+        return node;
 	}
 	else
 	{
@@ -179,21 +163,18 @@ void BTree::btree_merge_child(CommonTreeNode *root, int pos, CommonTreeNode *y, 
     free(z);
 }
 
-void BTree::btree_delete_nonone(CommonTreeNode *root, string target)
+void BTree::btree_delete_nonone(CommonTreeNode *root, Person* target)
 {
     if (true == root->is_leaf)
     {
         int i = 0;
-        while (i < root->num && target > root->labelArrayForBTree[i]->getProfession())
+        while (i < root->num && target->getName() > root->labelArrayForBTree[i]->getName())
             i++;
-        if (target == root->labelArrayForBTree[i]->getProfession())
+        if (target->getName() == root->labelArrayForBTree[i]->getName())
         {
             for (int j = i + 1; j < 2 * M - 1; j++)
-            {
                 root->labelArrayForBTree[j - 1] = root->labelArrayForBTree[j];
-            }
             root->num -= 1;
-            
             btree_node_num -= 1;
         }
         else
@@ -205,22 +186,22 @@ void BTree::btree_delete_nonone(CommonTreeNode *root, string target)
     {
         int i = 0;
         CommonTreeNode *y = NULL, *z = NULL;
-        while (i < root->num && target > root->labelArrayForBTree[i]->getProfession())
+        while (i < root->num && target->getName() > root->labelArrayForBTree[i]->getName())
             i++;
-        if (i < root->num && target == root->labelArrayForBTree[i]->getProfession())
+        if (i < root->num && target->getName() == root->labelArrayForBTree[i]->getName())
         {
             y = root->ptrArray[i];
             z = root->ptrArray[i + 1];
             if (y->num > M - 1)
             {
-                string pre = btree_search_predecessor(y);
-                root->labelArrayForBTree[i]->setProfession(pre);
+                Person* pre = btree_search_predecessor(y);
+                root->labelArrayForBTree[i]->setName(pre->getName());
                 btree_delete_nonone(y, pre);
             }
             else if (z->num > M - 1)
             {
-                string next = btree_search_successor(z);
-                root->labelArrayForBTree[i]->setProfession(next);
+                Person* next = btree_search_successor(z);
+                root->labelArrayForBTree[i]->setName(next->getName());
                 btree_delete_nonone(z, next);
             }
             else
@@ -271,7 +252,7 @@ void BTree::btree_delete_nonone(CommonTreeNode *root, string target)
     }
 }
 
-CommonTreeNode *BTree::btree_delete(CommonTreeNode *root, string target)
+CommonTreeNode* BTree::btree_delete(CommonTreeNode *root, Person* target)
 {
     if (1 == root->num)
     {
@@ -298,24 +279,24 @@ CommonTreeNode *BTree::btree_delete(CommonTreeNode *root, string target)
     }
 }
 
-string BTree::btree_search_predecessor(CommonTreeNode *root)
+Person* BTree::btree_search_predecessor(CommonTreeNode *root)
 {
 	CommonTreeNode *y = root;
 	while (false == y->is_leaf)
 	{
 		y = y->ptrArray[y->num];
 	}
-	return y->labelArrayForBTree[y->num - 1]->getProfession();
+	return y->labelArrayForBTree[y->num - 1];
 }
 
-string BTree::btree_search_successor(CommonTreeNode *root)
+Person* BTree::btree_search_successor(CommonTreeNode *root)
 {
 	CommonTreeNode *z = root;
 	while (false == z->is_leaf)
 	{
 		z = z->ptrArray[0];
 	}
-	return z->labelArrayForBTree[0]->getProfession();
+	return z->labelArrayForBTree[0];
 }
 
 void BTree::btree_shift_to_right_child(CommonTreeNode *root, int pos,
@@ -365,7 +346,7 @@ void BTree::btree_shift_to_left_child(CommonTreeNode *root, int pos,
 	z->num -= 1;
 }
 
-/// @brief print the profession strings in the B Tree
+/// @brief print the Name strings in the B Tree
 void BTree::btree_inorder_print(CommonTreeNode *root)
 {
 	if (NULL != root)
@@ -373,13 +354,13 @@ void BTree::btree_inorder_print(CommonTreeNode *root)
 		btree_inorder_print(root->ptrArray[0]);
 		for (int i = 0; i < root->num; i++)
 		{
-            cout << root->labelArrayForBTree[i]->getProfession() << endl;;
+            cout << root->labelArrayForBTree[i]->getName() << endl;;
 			btree_inorder_print(root->ptrArray[i + 1]);
 		}
 	}
 }
 
-/// @brief level display the profession strings in the B Tree
+/// @brief level display the Name strings in the B Tree
 void BTree::btree_level_display(CommonTreeNode *root)
 {
 	// just for simplicty, can't exceed 200 nodes in the tree
@@ -396,7 +377,7 @@ void BTree::btree_level_display(CommonTreeNode *root)
 		printf("[");
 		for (int i = 0; i < node->num; i++)
 		{
-			cout << node->labelArrayForBTree[i]->getProfession() << endl;
+			cout << node->labelArrayForBTree[i]->getName() << " ";
 		}
 		printf("]");
 
@@ -408,7 +389,7 @@ void BTree::btree_level_display(CommonTreeNode *root)
 			}
 		}
 	}
-	printf("\n");
+    cout << endl;
 }
 
 CommonTreeNode* BTree::returnRoot()
@@ -419,8 +400,6 @@ CommonTreeNode* BTree::returnRoot()
 BTree::BTree(void)
 {
     roots = btree_create();
-    roots->num++;
-    btree_node_num++;
 }
 
 BTree::~BTree(void)
