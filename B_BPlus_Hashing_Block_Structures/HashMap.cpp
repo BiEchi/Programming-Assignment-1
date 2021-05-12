@@ -5,7 +5,9 @@
 //  Created by Jack's Macbook Pro on 2021/5/12.
 //
 
+#include <vector>
 #include "HashMap.hpp"
+using namespace std;
 
 void HashMapForProfession::insert(Person *person)
 {
@@ -38,6 +40,19 @@ void HashMapForProfession::findAll(string profession)
             cout << "Profession: " << profession << ", ID: " << ite->second->getID() << endl;
         }
     }
+}
+
+vector<Person *> HashMapForProfession::query(int address)
+{
+    vector<Person*> people;
+    string normalizedAddress = to_string(address);
+    for (auto iter = hmap.begin(); iter != hmap.end(); iter++) {
+        if (iter->first == to_string(address)) {
+            people.push_back(iter->second);
+        }
+    }
+    
+    return people;
 }
 
 HashMapForProfession::HashMapForProfession() { }

@@ -25,9 +25,10 @@ public:
     void del(Person* person);
     void findAll(string profession);
     void display(void);
+    vector<Person *> query(int address);
+    
     HashMapForProfession(void);
     ~HashMapForProfession(void);
-    
 };
 
 
