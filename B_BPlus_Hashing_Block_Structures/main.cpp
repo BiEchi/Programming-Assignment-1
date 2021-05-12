@@ -1,10 +1,8 @@
 #include "BPlusTree.h"
-// #include "BPlusTree.cpp" // delete when GNU making
 #include "block.h"
-// #include "block.cpp" // delete when GNU making
 #include "BTree.h"
-// #include "BTree.cpp" // delete when GNU making
 #include "Tree.h"
+#include "HashMap.hpp"
 
 #include <unistd.h>
 #include <iostream>
@@ -17,54 +15,15 @@ int main()
     
     int num = 40;
     block data;
-    BPlusTree testBPlusTree = BPlusTree(&data);
     BTree testBTree = BTree();
+    HashMapForProfession testHashMap = HashMapForProfession();
     Person people[num];
     
-    for (int i = 0; i < num; i++)
-    {
-        people[i].setID(to_string(100 + i));
-    }
-    srand(1);
-    for (int i = 0; i < num; i++)
-    {
-        people[i].setName(to_string(i));
-    }
-   
-    cout << "Now we go into B+ Tree test in 1 second..." << endl;
-
-    cout << "Test for insert. " << endl;
-    for (int i = 0; i < num; i++)
-        testBPlusTree.bPlustree_insert(testBPlusTree.returnRoot(), &people[i]);
-    testBPlusTree.linear_print();
-    
-    cout << "Test for delete. " << endl;
-    for (int i = 0; i < num; i++)
-        testBPlusTree.bPlustree_delete(testBPlusTree.returnRoot(), people[i].getID());
-
-    testBPlusTree.linear_print();
-    cout << "Test for inverse insert. " << endl;
-    for (int i = num - 1; i >= 0; i--)
-    {
-        testBPlusTree.bPlustree_insert(testBPlusTree.returnRoot(), &people[i]);
-    }
-    testBPlusTree.linear_print();
-    
-    cout << "test for inverse delete." << endl;
-    sleep(1);
-    for (int i = num - 1; i >= 0; i--)
-    {
-        testBPlusTree.bPlustree_delete(testBPlusTree.returnRoot(), people[i].getID());
-    }
-    testBPlusTree.linear_print();
-    cout << endl;
-    cout << "Pass the B+ test successfully." << endl;
-    cout << endl << endl;
-    
-    cout << "Now we go into B Tree test in 1 second..." << endl;
+    cout << "### Now we go into B Tree test ###" << endl;
     
     cout << "Test for insert." << endl;
     for (int i = 0; i < num; i++) {
+        people[i].setName(to_string(i));
         testBTree.insert(&people[i]);
     }
     testBTree.level_display();
@@ -76,6 +35,31 @@ int main()
     testBTree.level_display();
 
     cout << "Test for delete passed." << endl;
+    
+    cout << "Tests for B Tree passed." << endl;
+    
+    cout << "### Now we go to hash table test ###" << endl;
+    
+    cout << "Test for insert." << endl;
+    
+    srand(1);
+    for (int i = 0; i < num; i++) {
+        people[i].setProfession(to_string(rand() % 9));
+        people[i].setID(to_string(rand() % 1280));
+        testHashMap.insert(&people[i]);
+    }
+    
+    testHashMap.display();
+    testHashMap.findAll("4");
+    
+    cout << "Test for delete." << endl;
+    
+    for (int i = 0; i < num; i++) {
+        people[i].setProfession(to_string(rand() % 9));
+        testHashMap.del(&people[i]);
+    }
+    
+    testHashMap.display();
     
     return 0;
 }
