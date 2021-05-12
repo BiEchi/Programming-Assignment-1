@@ -8,13 +8,20 @@
 #include <thread>
 #include <mutex>
 
+// To run F5
+/* #include "./Person.cpp"
+#include "./PeopleLocalQueue.cpp"
+#include "./FibonacciPQ.cpp"
+#include "./assignment_queue.cpp"
+#include "./blackList.cpp"
+#include "./withdrawProcess.cpp" */
 #include "./Person.hpp"
 #include "./PeopleLocalQueue.hpp"
 #include "./FibonacciPQ.hpp"
 #include "./assignment_queue.hpp"
 #include "./blackList.hpp"
-#include "./Reporting.hpp"
 #include "./withdrawProcess.hpp"
+#include "./Reporting.hpp"
 #include "./TimePredef.hpp"
 #include "./CSVInputManipulations.hpp"
 #include "mainHelp.hpp"
@@ -36,10 +43,10 @@ int main()
     queueManger localHospitals; // appointment queues
 
     // process
-    cout << "Please enter the person type and sort type you want." << endl
-         << endl;
-    int personType, sortType;
-    getReportingWeeklyType(personType, sortType);
+    // cout << "Please enter the person type and sort type you want." << endl
+    //      << endl;
+    // int personType, sortType;
+    // getReportingWeeklyType(personType, sortType);
 
     sleep(1);
     cout << "This is the presentation code for Computing Assignment 2, with authors Hao BAI, Liyang QIAN, Jiahao WEI and Yihong JIN." << endl;
@@ -65,11 +72,11 @@ int main()
     system("echo '\33[32mSuccessfully assigned patients to the local hospitals.\33[0m' ");
     sleep(1);
     
-    system("echo '\33[32mReporting Weekly...\33[0m' ");
-    Reporting_weekly(personType, sortType, localHospitals.treated_list, central_Queue.returnStorePeople(), localHospitals.assignment_list);
-    sleep(1);
+    // system("echo '\33[32mGenerating weekly report to report.txt ...\33[0m' ");
+    // Reporting_weekly(personType, sortType, localHospitals.treated_list, central_Queue.returnStorePeople(), localHospitals.assignment_list);
+    // sleep(1);
     
-    system("echo '\33[32mReporting Monthly...\33[0m' ");
+    system("echo '\33[32mGenerating monthly report to report.txt ...\33[0m' ");
     Reporting_monthly(localHospitals.treated_list, central_Queue.returnStorePeople(), localHospitals.assignment_list, blackListRegister);
     sleep(1);
     
