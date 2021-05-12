@@ -12,6 +12,7 @@
 #include <unordered_map>
 #include <map>
 #include <cstring>
+#include <vector>
 #include "block.h"
 using namespace std;
 
