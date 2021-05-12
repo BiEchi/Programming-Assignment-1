@@ -1,9 +1,14 @@
 #include "BPlusTree.h"
+#include "BPlusTree.cpp"
 #include "block.h"
+#include "block.cpp"
 #include "BTree.h"
+#include "BTree.cpp"
 #include "Tree.h"
 #include "HashMap.hpp"
-
+#include "HashMap.cpp"
+#include "Database.hpp"
+#include "Database.cpp"
 #include <unistd.h>
 #include <iostream>
 #include <stdlib.h>
@@ -12,33 +17,37 @@
 int main()
 {
     cout << "Initializing people data..." << endl;
-    
+
     int num = 40;
     block data;
+    BPlusTree testBplusTree(&data);
     BTree testBTree = BTree();
     HashMapForProfession testHashMap = HashMapForProfession();
+    hospitalDatabase databaseTest(testBplusTree, testBTree, testHashMap);
     Person people[num];
-    
+
     cout << "### Now we go into B Tree test ###" << endl;
-    
+
     cout << "Test for insert." << endl;
-    for (int i = 0; i < num; i++) {
+    for (int i = 0; i < num; i++)
+    {
         people[i].setName(to_string(i));
-        testBTree.insert(&people[i]);
+        people[i].setID(to_string(100+i));
+        databaseTest.DatabaseInsert(&people[i]);
     }
     testBTree.print();
-    
+
     cout << "Test for insert passed." << endl;
-    
+
     cout << "Test for delete." << endl;
     for (int i = 0; i < num; i++)
-        testBTree.del(&people[i]);
+        databaseTest.DatabaseDelete(people[i].getID());
     testBTree.print();
 
     cout << "Test for delete passed." << endl;
-    
+
     cout << "Tests for B Tree passed." << endl;
-    
+
     /*
     
     cout << "### Now we go to hash table test ###" << endl;
@@ -65,6 +74,6 @@ int main()
     testHashMap.display();
     
     */
-     
+
     return 0;
 }

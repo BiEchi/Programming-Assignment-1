@@ -1,37 +1,37 @@
 #include "blackList.hpp"
 
 // hash finding
-Person *blackList::popPersonWithID(Person *popped_person)
+void blackList::popPersonWithID(string ID)
 {
-    int index = hash_for_id(popped_person->getID()) % length;
-    Person *poppedPersonPtr = nullptr;
+    int index = hash_for_id(ID) % length;
+    string returnID = "0";
     for (auto pos = blackList_Hashing_table[index].begin(); pos != blackList_Hashing_table[index].end(); pos++)
     {
-        if ((*pos)->getID() == popped_person->getID())
+        if ((*pos) == ID)
         {
-            poppedPersonPtr = (*pos);
+            returnID = (*pos);
             blackList_Hashing_table[index].erase(pos);
             break;
         }
     }
-    if (nullptr == poppedPersonPtr)
+    if ("0" == returnID)
         cout << "there is not such a person!" << endl;
-    else {
-        cout << "successfully delete " << popped_person->getID() << endl;
+    else
+    {
+        cout << "successfully delete " << ID << endl;
         num--;
     }
-    return poppedPersonPtr;
+    return;
 }
 
 // add new person
-Person *blackList::appendPerson(Person *Withdraw_person)
+void blackList::appendPerson(string ID)
 {
-    int index = hash_for_id(Withdraw_person->getID()) % length;
-    blackList_Hashing_table[index].push_back(Withdraw_person);
-    Withdraw_person->setCurrentStage(nonebuffer);
-    cout << "successfully add a person" << endl;
+    int index = hash_for_id(ID) % length;
+    blackList_Hashing_table[index].push_back(ID);
+    cout << "successfully add the person " << ID << endl;
     num++;
-    return Withdraw_person;
+    return;
 }
 
 void blackList::display(void)
@@ -42,7 +42,7 @@ void blackList::display(void)
     {
         for (auto itor2 = (*itor).begin(); itor2 != (*itor).end(); itor2++)
         {
-            cout << "The person with ID " << (*itor2)->getID() << " is in the black list. " << endl;
+            cout << "The person with ID " << (*itor2) << " is in the black list. " << endl;
         }
     }
     cout << "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<" << endl;

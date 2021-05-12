@@ -5,27 +5,28 @@
 
 #include "Person.hpp"
 
-
 // 通过指针加入person和通过弹出person
-class blackList {
- public:
-  blackList() {
+class blackList
+{
+public:
+  blackList()
+  {
     length = 5;
-    blackList_Hashing_table = vector<list<Person *>>(length, list<Person *>());
+    blackList_Hashing_table = vector<list<string>>(length, list<string>());
   }
 
   // API
-  Person *popPersonWithID(Person *popped_person);
-  Person *appendPerson(Person *Withdraw_person);
+  void popPersonWithID(string ID);
+  void appendPerson(string ID);
   // print the list
   void display(void);
   // need to be added
-  int size(){return num;};
+  int size() { return num; };
 
- private:
+private:
   int num = 0;
-  int length;
-  vector<list<Person *>> blackList_Hashing_table;
+  int length = 0;
+  vector<list<string>> blackList_Hashing_table;
   hash<string> hash_for_id;
 };
 

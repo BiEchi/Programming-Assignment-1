@@ -69,7 +69,6 @@ class Person {
   bool init();
   // yi_hong
   bool isLargerThan(Person person);
-  int treatmentType;
 
  private:
   string ID;

@@ -5,13 +5,13 @@
 // #include "withdrawProcess.cpp"
 // #include "assignment_queue.cpp"
 
-#include "assignment_queue.hpp"
-#include "Person.hpp"
-#include "FibonacciPQ.hpp"
-#include "PeopleLocalQueue.hpp"
-#include "blackList.hpp"
-#include "withdrawProcess.hpp"
-#include "TimePredef.hpp"
+#include "../assignment_queue.hpp"
+#include "../Person.hpp"
+#include "../FibonacciPQ.hpp"
+#include "../PeopleLocalQueue.hpp"
+#include "../blackList.hpp"
+#include "../withdrawProcess.hpp"
+#include "../TimePredef.hpp"
 
 using namespace std;
 time_t startTime = time(NULL);

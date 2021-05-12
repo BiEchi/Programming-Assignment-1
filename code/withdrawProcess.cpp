@@ -1,154 +1,96 @@
 #include "withdrawProcess.hpp"
-#include <regex>
 #include <unistd.h>
 using namespace std;
 
-// split the string by some signs and store it in the vector object and then return that
-// in: the string object
-// delim: spliting sings
-vector<string> withdrawProcess::s_split(const string &in, const string &delim)
+void withdrawProcess::LoadingDemoData(PeopleLocalQueue &people)
 {
-    regex re{delim};
-    return vector<string>{
-        sregex_token_iterator(in.begin(), in.end(), re, -1),
-        sregex_token_iterator()};
-}
-
-string withdrawProcess::askForID()
-{
-    string ID;
-    cout << "please enter the ID to be withdrawed " << endl;
-    cin >> ID;
-    return ID;
-}
-
-// 从perment文件中读取数据并存储到内存中
-Person *withdrawProcess::findAndReturnPersonPointer(string &ID, ifstream &recordFile)
-{
-    Person *blacklistMember = new Person;
-    vector<string> recordinfo;
-    // string newID, newName, newContactDetails,newBirthYear,newBirthMonth,newBirthDay,newProfession,newRiskStatus;
-    string patientRecord;
-    if (!recordFile.is_open())
-        return nullptr;
-    while (getline(recordFile, patientRecord))
+    for (int i = 0; i < 5; i++)
     {
-        int pos = int(patientRecord.find(ID));
-        if (pos > -1)
+        string ID = people.returnID(i);
+        if ("0" == ID)
         {
-            cout << "succefully find the patient " << ID << " in the database" << endl;
-            // 从一行中读取数据
-            recordinfo = s_split(patientRecord, " ");
-            blacklistMember->setID(recordinfo[id]);
-            blacklistMember->setName(recordinfo[name]);
-            blacklistMember->setContactDetails(recordinfo[Address]);
-            blacklistMember->setProfession(recordinfo[Profession]);
-            blacklistMember->setBirthYear(recordinfo[YOB]);
-            blacklistMember->setBirthMonth(recordinfo[MOB]);
-            blacklistMember->setBirthDay(recordinfo[DOB]);
-            blacklistMember->setRiskStatus(recordinfo[MAR]);
-            cout << "finish loading the data" << endl;
-            return blacklistMember;
+            cout << "all the data have been loaded into the database " << endl;
+            break;
+        }
+        else
+        {
+            IDStoreDatabase.push_back(ID);
         }
     }
-    cout << "We do not find the person " << ID << endl;
-    return nullptr;
+
+    return;
 }
 
-bool withdrawProcess::askUserWithdraw_inPeople(blackList &blackList, PeopleLocalQueue &people, Person *finding_obj)
+void withdrawProcess::PeopleWithdrawDemo(blackList &blackList, PeopleLocalQueue &people)
 {
-    // cout << "================hello people================" << endl;
-    Person *targetPerson = people.isIn(finding_obj->getID());
+    cout << ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" << endl;
+    cout << "this is demo for withdraw in People" << endl;
+    cout << "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<" << endl;
+
+    returnLastID();
+
+    Person *targetPerson = people.isIn(ID);
     if (nullptr == targetPerson)
     {
-        // cout << "we do not find the person in people" << endl;
-        return false;
-    }
-    people.doWithdraw(targetPerson);
-    blackList.appendPerson(targetPerson);
-    return true;
-}
-
-bool withdrawProcess::askUserWithdraw_inFibonacciPQ(blackList &blackList, FibonacciPQ &centrallist, Person *finding_obj)
-{
-    // cout << "==========hello central Queue========" << endl;
-    list<Person *> start = centrallist.getRootlist();
-    Person *targetPerson = centrallist.find(finding_obj, start);
-    if (nullptr == targetPerson)
-    {
-        // cout << "sorry we do not find the person in central Queue" << endl;
-        return false;
-    }
-    // Withdraw the person in people central queue.
-    centrallist.withdrawInCentral(targetPerson, blackList);
-    return true;
-}
-
-bool withdrawProcess::askUserWithdraw_inHospital(blackList &blacklist, queueManger &hospital, Person *finding_obj)
-{
-    Person *targetPerson = hospital.isIn(finding_obj->getID());
-    if (nullptr == targetPerson)
-    {
-        return false;
-    }
-    blacklist.appendPerson(targetPerson);
-    return true;
-}
-
-void withdrawProcess::readFile(string &filename)
-{
-    recordDataBase.open(filename, ios::in);
-    if (!recordDataBase.is_open())
-    {
-        cout << "open file in withdraw operation failed" << endl;
+        cout << "not find the person " << ID << endl;
         return;
     }
-    return;
-}
-
-void withdrawProcess::closeFile(string &filename)
-{
-    recordDataBase.close();
-    return;
-}
-
-Person *withdrawProcess::loadFileAndFindData(string &filename, string ID, ifstream &recordfile)
-{
-    Person *targetPerson = nullptr;
-    readFile(filename);
-    targetPerson = findAndReturnPersonPointer(ID, recordDataBase);
-    closeFile(filename);
-    return targetPerson;
-}
-
-void withdrawProcess::withdrawAdvanced(blackList &blackList, PeopleLocalQueue &people, FibonacciPQ &centralList, queueManger &hospital, string &filename)
-{
-    int choice;
-    do
+    else
     {
-        cout << "do you want to withdraw ?" << endl;
-        cout << "1:yes 2:no" << endl;
-        cin >> choice;
-        switch (choice)
-        {
-        case 1:
-        {
-            Person *target_Person = loadFileAndFindData(filename, askForID(), recordDataBase);
-            if(nullptr == target_Person)
-                break;
-            askUserWithdraw_inFibonacciPQ(blackList, centralList, target_Person);
-            askUserWithdraw_inPeople(blackList, people, target_Person);
-            askUserWithdraw_inHospital(blackList, hospital, target_Person);
-            break;
-        }
-        case 2:
-            cout << "you chooose to quit." << endl;
-            sleep(2);
-            return;
-        default:
-            cout << "please enter the right number." << endl;
-            sleep(1);
-            break;
-        }
-    } while (choice != 2);
+        blackList.appendPerson(targetPerson->getID());
+        people.doWithdraw(targetPerson);
+        return;
+    }
+}
+
+void withdrawProcess::CentraListWithdrawDemo(blackList &blackList, FibonacciPQ &centralist)
+{
+    cout << ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" << endl;
+    cout << "this is demo for withdraw in Centrallist" << endl;
+    cout << "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<" << endl;
+
+    returnLastID();
+
+    list<Person *> start = centralist.getRootlist();
+    Person *targetPerson = centralist.find(ID, start);
+    if (nullptr == targetPerson)
+    {
+        cout << "not find the person " << ID << endl;
+        return;
+    }
+    else
+    {
+        blackList.appendPerson(ID);
+        centralist.withdrawInCentral(targetPerson);
+        return;
+    }
+}
+
+void withdrawProcess::HospitalWithdrawDemo(blackList &blacklist, queueManger &hospital)
+{
+    cout << ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" << endl;
+    cout << "this is demo for withdraw in Centrallist" << endl;
+    cout << "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<" << endl;
+
+    returnLastID();
+
+    Person *targetPerson = hospital.isIn(ID);
+    if (nullptr == targetPerson)
+    {
+        cout << "not find the person " << ID << endl;
+        return;
+    }
+    else
+    {
+        blacklist.appendPerson(ID);
+        hospital.doWithdraw(targetPerson);
+        return;
+    }
+}
+
+void withdrawProcess::returnLastID()
+{
+    ID = IDStoreDatabase[IDStoreDatabase.size()-1];
+    IDStoreDatabase.pop_back();
+    return;
 }

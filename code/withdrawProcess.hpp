@@ -3,39 +3,27 @@
 
 #include <iostream>
 #include <fstream>
+#include <string>
+#include <vector>
 #include "FibonacciPQ.hpp"
 #include "assignment_queue.hpp"
 #include "Person.hpp"
 #include "blackList.hpp"
 #include "PeopleLocalQueue.hpp"
 
+// 分阶段演示，分阶段pop！
 class withdrawProcess
 {
 public:
-    bool askUserWithdraw_inPeople(blackList &blackList, PeopleLocalQueue &people, Person *finding_obj);
-    bool askUserWithdraw_inFibonacciPQ(blackList &blackList, FibonacciPQ &centrallist, Person *finding_obj);
-    bool askUserWithdraw_inHospital(blackList &blacklist, queueManger &hospital, Person *finding_obj);
-    void withdrawAdvanced(blackList &blackList, PeopleLocalQueue &people, FibonacciPQ &centralList, queueManger &hospital, string &filename);
-    // private:
-    enum dataClass
-    {
-        id,
-        name,
-        Address,
-        Profession,
-        YOB,
-        MOB,
-        DOB,
-        MAR
-    };
-    ifstream recordDataBase;
-    string askForID();
-    // void loadFileAndFindData(string &filename, string ID, ifstream &recordfile, Person *target_person);
-    void readFile(string &filename);
-    void closeFile(string &filename);
-    Person *loadFileAndFindData(string &filename, string ID, ifstream &recordfile);
-    Person *findAndReturnPersonPointer(string &ID, ifstream &recordfile);
-    vector<string> s_split(const string &in, const string &delim);
+    void LoadingDemoData(PeopleLocalQueue &people);
+    void PeopleWithdrawDemo(blackList &blackList, PeopleLocalQueue &people);
+    void CentraListWithdrawDemo(blackList &blackList, FibonacciPQ &centrallist);
+    void HospitalWithdrawDemo(blackList &blacklist, queueManger &hospital);
+
+private:
+    void returnLastID();
+    vector<string> IDStoreDatabase;
+    string ID = "0";
 };
 
 #endif
