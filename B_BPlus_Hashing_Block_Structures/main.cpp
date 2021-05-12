@@ -26,17 +26,20 @@ int main()
         people[i].setName(to_string(i));
         testBTree.insert(&people[i]);
     }
-    testBTree.level_display();
+    testBTree.print();
+    
     cout << "Test for insert passed." << endl;
     
     cout << "Test for delete." << endl;
     for (int i = 0; i < num; i++)
         testBTree.del(&people[i]);
-    testBTree.level_display();
+    testBTree.print();
 
     cout << "Test for delete passed." << endl;
     
     cout << "Tests for B Tree passed." << endl;
+    
+    /*
     
     cout << "### Now we go to hash table test ###" << endl;
     
@@ -61,5 +64,7 @@ int main()
     
     testHashMap.display();
     
+    */
+     
     return 0;
 }
