@@ -42,7 +42,9 @@ int main()
     }
     withdrawDemo.LoadingDemoData(loadingList);
     withdrawDemo.PeopleWithdrawDemo(demoBlackList,loadingList);
+    // centralist loads data
     centralist.eatPeople(loadingList);
+    
     withdrawDemo.CentraListWithdrawDemo(demoBlackList,centralist);
     /*  */
     // hospital.reassign(&centralist);
