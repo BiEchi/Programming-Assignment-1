@@ -1,6 +1,6 @@
 #include "Person.hpp"
 #include "config.hpp"
-#include "HashMapForProfession"
+#include "HashMap.hpp"
 /**
  * @brief Compare the distance of two people, decide whether the distance is
  * within the threshold.
@@ -13,7 +13,7 @@
  * @return true if the distance is less or equal than the threshold, false
  * otherwise.
  */
-bool withInThreshold(int *address, int *center, int threshold, HashMapForProfession addressIndex) {
+bool withInThreshold(int *address, int *center, int threshold) {
   double compare_x, compare_y, center_x, center_y;
   double distanceS;
   compare_x = address[0];
@@ -26,7 +26,7 @@ bool withInThreshold(int *address, int *center, int threshold, HashMapForProfess
 }
 
 int *center = forwardtable.at(nodeNum);
-void query() {
+void query(HashMapForProfession addressIndex) {
   vector<int> nodeWithInThreshold1;
   vector<int> nodeWithInThreshold2;
   vector<int> nodeWithInThreshold3;
@@ -57,9 +57,9 @@ void query() {
     int temp = *iter;
     personList = addressIndex.query(temp);
     for (auto iter = personList.begin(); iter != personList.end(); iter++) {
-      if ((*iter)->treatmentType == 1) {
+      if ((*iter)->getTreatmentType() == 1) {
         treatmentType1++;
-      } else if ((*iter)->treatmentType == 2) {
+      } else if ((*iter)->getTreatmentType() == 2) {
         treatmentType2++;
       } else {
         treatmentType3++;
@@ -80,9 +80,9 @@ void query() {
        iter != nodeWithInThreshold2.end(); iter++) {
     personList = addressIndex.query(*iter);
     for (auto iter = personList.begin(); iter != personList.end(); iter++) {
-      if ((*iter)->treatmentType == 1) {
+      if ((*iter)->getTreatmentType() == 1) {
         treatmentType1++;
-      } else if ((*iter)->treatmentType == 2) {
+      } else if ((*iter)->getTreatmentType() == 2) {
         treatmentType2++;
       } else {
         treatmentType3++;
@@ -103,9 +103,9 @@ void query() {
        iter != nodeWithInThreshold3.end(); iter++) {
     personList = addressIndex.query(*iter);
     for (auto iter = personList.begin(); iter != personList.end(); iter++) {
-      if ((*iter)->treatmentType == 1) {
+      if ((*iter)->getTreatmentType() == 1) {
         treatmentType1++;
-      } else if ((*iter)->treatmentType == 2) {
+      } else if ((*iter)->getTreatmentType() == 2) {
         treatmentType2++;
       } else {
         treatmentType3++;
