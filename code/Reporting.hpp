@@ -162,8 +162,12 @@ void Reporting_monthly(vector<Person> treatedPeople,
        << " people are waiting" << endl;
   report << "There are " << treatedPeople.size() << " treatment have been made"
        << endl;
-  report << "The average waiting time is "
-       << "?" << endl;
+  // for test
+  /* cout << "Size of central queue: " << centralQueue.size() << endl;
+  cout << "Size of treated people: " << treatedPeople.size() << endl;
+  cout << "Size of assignment queue: " << assignmentQueue.size() << endl; */
+  // report << "The average waiting time is "
+  //      << "?" << endl;
   report << "There are " << blackList.size()
        << " people who withdraw their registration" << endl;
   report.close();
