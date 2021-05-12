@@ -9,12 +9,12 @@
 #include "HashMap.hpp"
 using namespace std;
 
-void HashMapForProfession::insert(Person *person)
+void HashMap::insert(Person *person)
 {
     hmap.insert(pair<string, Person*>(to_string(person->getProfession()), person));
 }
 
-void HashMapForProfession::del(Person *person)
+void HashMap::del(Person *person)
 {
     for (auto ite = hmap.begin(); ite != hmap.end(); ite++) {
         if (ite->second == person) {
@@ -23,7 +23,7 @@ void HashMapForProfession::del(Person *person)
     }
 }
 
-void HashMapForProfession::display()
+void HashMap::display()
 {
     cout << "Displaying all elements in the hashing multimap." << endl;
     for (auto ite = hmap.begin(); ite != hmap.end(); ite++) {
@@ -31,7 +31,7 @@ void HashMapForProfession::display()
     }
 }
 
-void HashMapForProfession::findAll(string profession)
+void HashMap::findAll(string profession)
 {
     cout << "there are " << hmap.count(profession)
       << " people with profession " << profession << "." << endl;
@@ -42,7 +42,7 @@ void HashMapForProfession::findAll(string profession)
     }
 }
 
-vector<Person *> HashMapForProfession::query(int address)
+vector<Person *> HashMap::query(int address)
 {
     vector<Person*> people;
     string normalizedAddress = to_string(address);
@@ -55,5 +55,5 @@ vector<Person *> HashMapForProfession::query(int address)
     return people;
 }
 
-HashMapForProfession::HashMapForProfession() { }
-HashMapForProfession::~HashMapForProfession() { }
+HashMap::HashMap() { }
+HashMap::~HashMap() { }

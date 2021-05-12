@@ -17,7 +17,7 @@
 #include "Person.hpp"
 using namespace std;
 
-class HashMapForProfession
+class HashMap
 {
 private:
     unordered_multimap<string, Person*> hmap;
@@ -29,8 +29,8 @@ public:
     void display(void);
     vector<Person *> query(int address);
     
-    HashMapForProfession(void);
-    ~HashMapForProfession(void);
+    HashMap(void);
+    ~HashMap(void);
 };
 
 #endif /* HashMap_hpp */

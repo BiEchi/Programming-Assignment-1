@@ -6,7 +6,6 @@
 #include <cstdlib>
 #include <cstring>
 #include <thread>
-#include <mutex>
 
 #include "./Person.hpp"
 #include "./PeopleLocalQueue.hpp"
@@ -19,12 +18,17 @@
 #include "./CSVInputManipulations.hpp"
 #include "./mainHelp.hpp"
 #include "./Database.hpp"
-
+#include "./DatabaseManipulation.hpp"
 
 using namespace std;
 
 // global variables
 time_t startTime = time(NULL);
+block blockList;
+BPlusTree bPlusTree(&blockList);
+BTree bTree;
+HashMap hashMap;
+hospitalDatabase database(bPlusTree,bTree,hashMap);
 blackList blackListRegister = blackList();
 FibonacciPQ central_Queue = FibonacciPQ();
 PeopleLocalQueue people;
@@ -51,7 +55,16 @@ int main()
 
     system("echo '\033[41m\033[37m\033[1m\033[4mReading the input CSV file into People Local Queue...\33[0m' ");
     sleep(1);
-    readTheInputCSVIntoPeople(people);
+    
+    // thread thread_readCSVEmergency();
+    // for first one
+    
+    readTheInputCSVIntoPeople(people, "RegistrationEmergency1.csv");
+    sleep(1);
+    
+    readPeopleIntoDatabase(people, database);
+    withdrawProm.LoadingDemoData(people);
+    withdrawProm.PeopleWithdrawDemo(blackListRegister, people);
     sleep(1);
     
     cout << "Forwarding to central queue." << endl;

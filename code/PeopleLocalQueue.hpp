@@ -5,6 +5,7 @@
 #include <iostream>
 #include <stdint.h>
 #include <stdio.h>
+#include <vector>
 
 // class for each node
 class PeopleLocalNode
@@ -17,15 +18,13 @@ class PeopleLocalNode
 // class for each queue
 class PeopleLocalQueue
 {
+private:
     PeopleLocalNode *front = NULL;
     PeopleLocalNode *back = NULL;
     int32_t length = 0;
 
 public:
-    int32_t getLength(void)
-    {
-        return length;
-    }
+    int32_t getLength(void) { return length; }
     int init(void);
     bool display(void);
     
@@ -35,6 +34,8 @@ public:
     string returnID(int pos);
     Person* isIn(string ID);
     int doWithdraw(Person *thePerson);
+    
+    vector<Person*>* converter();
 };
 
 #endif
