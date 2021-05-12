@@ -35,7 +35,7 @@ int main()
     people.init();
     queueManger localHospitals; // appointment queues
 
-    // process
+// loading data stage
     cout << "Please enter the person type and sort type you want." << endl
          << endl;
     int personType, sortType;
@@ -51,7 +51,8 @@ int main()
     sleep(1);
     readTheInputCSVIntoPeople(people);
     sleep(1);
-    
+
+// data Processing stage
     cout << "Forwarding to central queue." << endl;
     forwardToCentralQueue(people, central_Queue);
     sleep(1);
@@ -64,7 +65,9 @@ int main()
     sleep(1);
     system("echo '\33[32mSuccessfully assigned patients to the local hospitals.\33[0m' ");
     sleep(1);
-    
+
+
+// report stage
     system("echo '\33[32mReporting Weekly...\33[0m' ");
     Reporting_weekly(personType, sortType, localHospitals.treated_list, central_Queue.returnStorePeople(), localHospitals.assignment_list);
     sleep(1);
