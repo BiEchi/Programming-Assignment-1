@@ -138,7 +138,6 @@ Person *BPlusTree::bPlustree_insert_nonfull(CommonTreeNode *node, Person *target
 				if (target->getID() >= node->BlockPtrarray[pos]->maximum())
 					node->labelArrayForBPlusTree[pos] = target->getID();
 			}
-			cout << "successfully insert the person with ID " << target->getID() << endl;
 			return target;
 		}
 	}
@@ -531,8 +530,6 @@ Person *BPlusTree::find(string ID)
 	{
 		if (ID <= temp->labelArrayForBPlusTree[i])
 			return temp->BlockPtrarray[i]->find(ID);
-		else
-			return nullptr;
 	}
 	cout << "block finding fails!" << endl;
 	return nullptr;
