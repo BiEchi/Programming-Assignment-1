@@ -2,6 +2,7 @@
 #include "TimePredef.hpp"
 #include <unistd.h>
 
+
 // assignmentQueue class functions
 
 int assignmentQueue::init(int hc, int wh, int thePlace)
@@ -19,7 +20,11 @@ int assignmentQueue::init(int hc, int wh, int thePlace)
     return 1;
 }
 
-// Clear the timeSlot array.
+/**
+ * @brief Clear the timeSlot array and push treated people into treated list. 
+ * 
+ * @param treated pointer to the treated list.  
+ */
 void assignmentQueue::clear(vector<Person> *treated)
 {
     for (int i = 0; i < workingHour * hourCapacity; i++)
@@ -35,11 +40,10 @@ void assignmentQueue::clear(vector<Person> *treated)
     return;
 }
 
-/**
- * @brief Add a person to the hospital. 
- * 
- * @param thePerson pointer to Person type
- * @return 1 when add a person to the hospital successfully, 0 when the queue is full. 
+/*
+ * OUTPUT:
+ *  1   when add a person to the queue successfully
+ *  0   when the queue is full
  */
 int assignmentQueue::addPerson(Person *const thePerson)
 {
@@ -80,7 +84,7 @@ void assignmentQueue::assignTimeAndLocation(void)
     int increment = 60 / hourCapacity;
 
     time(&currentTime);
-    diffday = difftime(currentTime, startTime)/10; // Compute the difference between start time and current system time.
+    diffday = difftime(currentTime, startTime) / 10; // Compute the difference between start time and current system time.
     baseTime = localtime(&startTime);
     baseTime->tm_sec = 0;
     baseTime->tm_min = 0;
@@ -105,13 +109,16 @@ void assignmentQueue::assignTimeAndLocation(void)
     }
 }
 
-Person* assignmentQueue::isIn(string ID)
+Person *assignmentQueue::isIn(string ID)
 {
     for (int i = 0; i < this->length; i++)
     {
-        if(timeSlot[i])
+        if (timeSlot[i])
         {
-            if (timeSlot[i]->getID() == ID) {return timeSlot[i];}
+            if (timeSlot[i]->getID() == ID)
+            {
+                return timeSlot[i];
+            }
         }
     }
     return NULL;
@@ -126,7 +133,7 @@ int assignmentQueue::display(void)
         {
             aTime = timeSlot[i]->getAssignedTime();
             mktime(&aTime);
-            usleep(100000);
+            // usleep(100000);
             cout << "       "
                  << "The appointment information of person with ID " << timeSlot[i]->getID() << " : \n";
             if (timeSlot[i]->getReassigned())
@@ -196,8 +203,8 @@ int queueManger::extendLocations(int hospital)
  * 
  * @param hospital a hospital
  * @param hc hour capacity
- * @param wh working hour per day
- * @return 1 for indication.  
+ * @param wh working hours per day
+ * @return int 
  */
 int queueManger::addHospital(int hospital, int hc, int wh)
 {
@@ -218,17 +225,7 @@ int queueManger::addHospital(int hospital, int hc, int wh)
 int queueManger::reassign(FibonacciPQ *PQ)
 {
     Person *thePerson;
-    for (int i = 0; i < capacity; i++)
-    {
-        if (locations[i])
-        {
-            locations[i]->clear(&treated_list);
-        }
-    }
-    for (int i = 0; i < assignment_list.size(); i++)
-    {
-        assignment_list.pop_back();
-    }
+    doTreat();
 
     int noSpace = 0;
     // Distribute Person into each assignment list.
@@ -283,6 +280,28 @@ int queueManger::reassign(FibonacciPQ *PQ)
     return 1;
 }
 
+/**
+ * @brief Treat people by calling clear function. 
+ * 
+ * @return 1 for indication. 
+ */
+int queueManger::doTreat(void)
+{
+    int total_num = assignment_list.size();
+    for (int i = 0; i < capacity; i++)
+    {
+        if (locations[i])
+        {
+            locations[i]->clear(&treated_list);
+        }
+    }
+    for (int i = 0; i < total_num; i++)
+    {
+        assignment_list.pop_back();
+    }  
+    return 1;
+}
+
 int queueManger::doWithdraw(Person *thePerson)
 {
     if (NULL == thePerson)
@@ -298,15 +317,18 @@ int queueManger::doWithdraw(Person *thePerson)
     return 1;
 }
 
-Person* queueManger::isIn(string ID)
+Person *queueManger::isIn(string ID)
 {
-    Person* temp;
+    Person *temp;
     for (int i = 0; i < this->capacity; i++)
     {
-        if (locations[i]) 
+        if (locations[i])
         {
             temp = locations[i]->isIn(ID);
-            if (temp) {return temp;}
+            if (temp)
+            {
+                return temp;
+            }
         }
     }
     return NULL;

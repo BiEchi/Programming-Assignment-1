@@ -12,6 +12,7 @@ private:
 	string dynamicIDForMaintain = "0";
 	 // personIndex is used to record the deleted person 
     Person *personIndex = nullptr;
+	// vector
     
 protected:
 	virtual CommonTreeNode *btree_create();
@@ -33,6 +34,7 @@ public:
 
 	void linear_print();
 	CommonTreeNode *returnRoot();
+	
 	Person *bPlustree_delete(CommonTreeNode *root, const string target);
 	Person *bPlustree_insert(CommonTreeNode *root, Person *target);
 	Person *find(string ID);

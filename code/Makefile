@@ -20,8 +20,9 @@ clear:
 	rm -f $(OBJECTIVES) $(TARGET)
 	rm -f *.dat
 	rm -f *.o
+	rm -f *.txt
 clean:
 	rm -f *.o
-	rm report.txt
+	rm -f *.txt
 
 	

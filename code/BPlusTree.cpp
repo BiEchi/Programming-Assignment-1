@@ -15,7 +15,7 @@ CommonTreeNode *BPlusTree::btree_node_new()
 		cout << "fail to allocate a new memory" << endl;
 		return nullptr;
 	}
-    
+
 	// initialize vectors
 	node->labelArrayForBPlusTree = vector<string>(2 * M, "0");
 	node->ptrArray = vector<CommonTreeNode *>(2 * M, nullptr);
@@ -124,8 +124,8 @@ Person *BPlusTree::bPlustree_insert_nonfull(CommonTreeNode *node, Person *target
 				while (arrayIndexPtr > pos + 1)
 				{
 					node->labelArrayForBPlusTree[arrayIndexPtr] = node->labelArrayForBPlusTree[arrayIndexPtr - 1];
-					node->BlockPtrarray[arrayIndexPtr] = node->BlockPtrarray[arrayIndexPtr - 1];	
-					arrayIndexPtr -- ;
+					node->BlockPtrarray[arrayIndexPtr] = node->BlockPtrarray[arrayIndexPtr - 1];
+					arrayIndexPtr--;
 				}
 				node->labelArrayForBPlusTree[arrayIndexPtr] = blockPtr->maximum();
 				node->BlockPtrarray[arrayIndexPtr] = blockPtr;
@@ -138,7 +138,6 @@ Person *BPlusTree::bPlustree_insert_nonfull(CommonTreeNode *node, Person *target
 				if (target->getID() >= node->BlockPtrarray[pos]->maximum())
 					node->labelArrayForBPlusTree[pos] = target->getID();
 			}
-			cout << "successfully insert the person with ID " << target->getID() << endl;
 			return target;
 		}
 	}
@@ -289,7 +288,7 @@ Person *BPlusTree::bPlustree_delete_nonone(CommonTreeNode *root, string target)
 		if ("" == dynamicIDForMaintain)
 		{
 			block *previous = root->BlockPtrarray[i]->prevPointer();
-			if(nullptr != previous)
+			if (nullptr != previous)
 			{
 				dynamicIDForMaintain = previous->maximum();
 				root->BlockPtrarray[i] = nullptr;
@@ -490,24 +489,48 @@ void BPlusTree::linear_print()
 
 CommonTreeNode *BPlusTree::returnRoot()
 {
-    return roots;
+	return roots;
 }
 
 BPlusTree::BPlusTree(void)
 {
-    return;
+	return;
 }
 
 BPlusTree::~BPlusTree(void)
 {
-    return;
+	return;
 }
 
 BPlusTree::BPlusTree(block *doubleBlockHead)
 {
-    roots = btree_create();
-    roots->BlockPtrarray[0] = doubleBlockHead;
-    roots->num++;
-    btree_node_num++;
-    begin = doubleBlockHead;
+	roots = btree_create();
+	roots->BlockPtrarray[0] = doubleBlockHead;
+	roots->num++;
+	btree_node_num++;
+	begin = doubleBlockHead;
+}
+
+Person *BPlusTree::find(string ID)
+{
+	CommonTreeNode *temp = roots;
+	while (temp->is_leaf != true)
+	{
+		for (int i = 0; i < temp->num; i++)
+		{
+			if (ID <= temp->labelArrayForBPlusTree[i])
+			{
+				temp = temp->ptrArray[i];
+				break;
+			}
+		}
+	}
+	// ergodic in blocklist
+	for (int i = 0; i < temp->num; i++)
+	{
+		if (ID <= temp->labelArrayForBPlusTree[i])
+			return temp->BlockPtrarray[i]->find(ID);
+	}
+	cout << "block finding fails!" << endl;
+	return nullptr;
 }

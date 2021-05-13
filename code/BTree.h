@@ -21,15 +21,17 @@ protected:
     void btree_delete_nonone(CommonTreeNode *root, Person* target);
     Person* btree_search_successor(CommonTreeNode *root);
     Person* btree_search_predecessor(CommonTreeNode *root);
-    void btree_inorder_print(CommonTreeNode *root);
-    void btree_level_display(CommonTreeNode *root);
     CommonTreeNode *btree_insert(CommonTreeNode *root, Person* target);
     CommonTreeNode *btree_delete(CommonTreeNode *root, Person* target);
+    void btree_inorder_print(CommonTreeNode *root);
+    void btree_level_display(CommonTreeNode *root);
 
 public:
-    CommonTreeNode *returnRoot();
     void del(Person* target) { roots = btree_delete(roots, target); };
     void insert(Person* target) { roots = btree_insert(roots, target); };
+    void find(string name);
+    void print() { btree_inorder_print(roots); };
+    
     BTree(void);
     ~BTree(void);
 };

@@ -31,11 +31,12 @@ CommonTreeNode *BTree::btree_node_new()
 	return node;
 }
 
-
-
 CommonTreeNode *BTree::btree_create()
 {
 	CommonTreeNode *node = btree_node_new();
+    if (node == nullptr) {
+        return nullptr;
+    }
 	return node;
 }
 
@@ -54,6 +55,7 @@ int BTree::btree_split_child(CommonTreeNode *parent, int pos, CommonTreeNode *ch
 		for (int i = 0; i < M; i++)
             new_child->ptrArray[i] = child->ptrArray[i + M];
 
+    // left child label number updating
 	child->num = M - 1;
 
 	for (int i = parent->num; i > pos; i--)
@@ -73,18 +75,15 @@ void BTree::btree_insert_nonfull(CommonTreeNode *node, Person* target)
 	if (node->is_leaf)
 	{
 		int pos = node->num;
-        while (pos >= 1 && target->getName() <= node->labelArrayForBTree[pos - 1]->getName())
+        while (pos >= 1 && target->getName() < node->labelArrayForBTree[pos - 1]->getName())
 		{
 			node->labelArrayForBTree[pos] = node->labelArrayForBTree[pos - 1];
             pos--;
 		}
-
 		node->labelArrayForBTree[pos] = target;
 		node->num++;
 		btree_node_num += 1;
-	}
-	else
-	{
+    } else {
         int pos = node->num;
 		while (pos > 0 && target->getName() < node->labelArrayForBTree[pos - 1]->getName())
 		{
@@ -94,10 +93,8 @@ void BTree::btree_insert_nonfull(CommonTreeNode *node, Person* target)
 		if (2 * M - 1 == node->ptrArray[pos]->num)
 		{
             btree_split_child(node, pos, node->ptrArray[pos]);
-			if (target > node->labelArrayForBTree[pos])
-			{
+			if (target->getName() > node->labelArrayForBTree[pos]->getName())
 				pos++;
-			}
 		}
 
 		btree_insert_nonfull(node->ptrArray[pos], target);
@@ -392,9 +389,9 @@ void BTree::btree_level_display(CommonTreeNode *root)
     cout << endl;
 }
 
-CommonTreeNode* BTree::returnRoot()
+void find(string name)
 {
-    return roots;
+    
 }
 
 BTree::BTree(void)

@@ -6,6 +6,7 @@
 #include <cstring>
 
 #include "block.h"
+#include "Person.hpp"
 
 using namespace std;
 
@@ -53,7 +54,7 @@ public:
 	{
 		btree_level_display(roots);
 	};
-
+    
 	void NodeNum_print()
 	{
 		printf("%d\n", btree_node_num);

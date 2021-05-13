@@ -21,8 +21,8 @@ int PeopleLocalQueue::pushBack(Person *const ptr)
     {
         temp->next = NULL;
         temp->person_ptr = new Person;
-        *temp->person_ptr = *ptr; // Use = to assign value!
-        ptr->setCurrentStage(buffer); // Add for withdraw functionality. 
+        *temp->person_ptr = *ptr;     // Use = to assign value!
+        ptr->setCurrentStage(buffer); // Add for withdraw functionality.
         front = temp;
         back = temp;
         length++;
@@ -58,7 +58,6 @@ Person *PeopleLocalQueue::popFront(void)
     {
         front = temp->next;
     }
-    // cout << "The removed person (at front) has ID " << ptr->getID() << "." << endl;
     delete temp;
     length--;
     return ptr;
@@ -79,7 +78,7 @@ int PeopleLocalQueue::doWithdraw(Person *thePerson)
     PeopleLocalNode *itor;
     PeopleLocalNode *temp;
     int i;
-    Person* aPerson;
+    Person *aPerson;
     itor = front;
 
     if (itor->person_ptr->getID() == thePerson->getID())
@@ -123,13 +122,13 @@ int PeopleLocalQueue::doWithdraw(Person *thePerson)
     return 0;
 }
 
-Person* PeopleLocalQueue::isIn(string ID)
+Person *PeopleLocalQueue::isIn(string ID)
 {
     int i;
-    PeopleLocalNode* itor;
+    PeopleLocalNode *itor;
     for (i = 0, itor = front; i < length; i++, itor = itor->next)
     {
-        if(itor->person_ptr->getID() == ID)
+        if (itor->person_ptr->getID() == ID)
         {
             return itor->person_ptr;
         }
@@ -147,11 +146,44 @@ bool PeopleLocalQueue::display(void)
     }
     cout << "The length of the people local queue is " << length << ". \n";
 
-    PeopleLocalNode* temp;
+    PeopleLocalNode *temp;
     int i;
     for (i = 0, temp = front; i < length; i++, temp = temp->next)
     {
         cout << "The " << i << "th person has the ID " << temp->person_ptr->getID() << ". \n";
     }
     return true;
+}
+
+string PeopleLocalQueue::returnID(int pos)
+{
+    if (length == 0 || pos < 0)
+    {
+        return "0";
+    }
+    else
+    {
+        int i = 0;
+        PeopleLocalNode *temp = front;
+        while (i != pos)
+        {
+            temp = temp->next;
+            i++;
+        }
+        return temp->person_ptr->getID();
+    }
+}
+
+vector<Person*>* PeopleLocalQueue::converter()
+{
+    vector<Person*>* convertedPeopleQueue = new vector<Person*>;
+    if(nullptr != front)
+    {
+        PeopleLocalNode *temp = front;
+        while (temp != back) {
+            convertedPeopleQueue->push_back(temp->person_ptr);
+            temp = temp->next;
+        }
+    }
+    return convertedPeopleQueue;
 }

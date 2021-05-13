@@ -9,7 +9,7 @@
 
 class assignmentQueue
 {
-friend class queueManger;
+    friend class queueManger;
 
 private:
     int theHospital;
@@ -19,7 +19,7 @@ private:
     int32_t length;
     int32_t occupied;
 
-private: 
+private:
     int init(int hc, int wh, int thePlace);
     void clear(vector<Person> *treated_list);
     int isFull(void) { return (occupied == length ? 1 : 0); }
@@ -27,7 +27,7 @@ private:
     int deletePerson(Person *thePerons);
     void assignTimeAndLocation(void);
     int getTheHospital(void) { return theHospital; }
-    Person* isIn(string ID);
+    Person *isIn(string ID);
     int display(void);
 };
 
@@ -37,8 +37,10 @@ private:
     assignmentQueue **locations;
     int capacity;
     int length;
+
 private:
     int extendLocations(int hospital);
+
 public:
     vector<Person> treated_list;
     vector<Person> assignment_list;
@@ -46,9 +48,10 @@ public:
     int addHospital(int hospital, int hc = 10, int wh = 8);
     // Handle assignment
     int reassign(FibonacciPQ *PQ);
+    int doTreat(void);
     // Handle withdraw
     int doWithdraw(Person *thePerson);
-    Person* isIn(string ID);
+    Person *isIn(string ID);
     int displayAll(void);
 };
 

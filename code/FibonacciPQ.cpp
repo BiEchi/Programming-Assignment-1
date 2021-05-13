@@ -279,17 +279,17 @@ Person *FibonacciPQ::stand_in(Person *copy_person_ptr)
     return stand;
 }
 
-Person *FibonacciPQ::find(Person *checkObject, list<Person *> &findinglist)
+Person *FibonacciPQ::find(string ID, list<Person *> &findinglist)
 {
     if (findinglist.size() == 0)
         return nullptr;
     for (auto i = findinglist.begin(); i != findinglist.end(); i++)
     {
-        if ((*i)->getID() == checkObject->getID())
+        if ((*i)->getID() == ID)
         {
             return (*i);
         }
-        find(checkObject, (*i)->Son);
+        find(ID, (*i)->Son);
     }
     return nullptr;
 }
@@ -298,11 +298,9 @@ Person *FibonacciPQ::find(Person *checkObject, list<Person *> &findinglist)
 // __withdrawingPerson: the person who wants withdraw
 // __blackList: the black where the person will be added
 // success:return the pointer to the withdrawing person, else return nullptr
-Person *FibonacciPQ::withdrawInCentral(Person *withdrawingPerson, blackList &blacklistObjective)
+Person *FibonacciPQ::withdrawInCentral(Person *withdrawingPerson)
 {
-    blacklistObjective.appendPerson(withdrawingPerson);
     removeNode(withdrawingPerson);
-    cout << "Person " << withdrawingPerson->getName() << " withdraw successfully, but will be added into the blacklist" << endl;
     return withdrawingPerson;
 }
 
