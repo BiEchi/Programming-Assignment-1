@@ -45,6 +45,7 @@ class Person {
   void setProfession(string data);
   void setRiskStatus(string data);
   void setCurrentStage(processStage data);
+    void setTreatmentType(string treatmentType);
 
   void display();
 
@@ -81,6 +82,7 @@ class Person {
   int ageGroup;
   int profession, riskStatus;
   // Jiahao
+  int treatmentType;
   tm appointmentTime;
   int appointmentLocation;
   int reassigned;  // Indicate that whether a person has been assigned to
@@ -93,6 +95,5 @@ class Person {
   Person *Parent = nullptr;
   // added by Liyang
   processStage currentStage;
-    int treatmentType;
 };
 #endif

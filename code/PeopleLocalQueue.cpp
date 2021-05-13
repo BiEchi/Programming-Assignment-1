@@ -58,7 +58,6 @@ Person *PeopleLocalQueue::popFront(void)
     {
         front = temp->next;
     }
-    // cout << "The removed person (at front) has ID " << ptr->getID() << "." << endl;
     delete temp;
     length--;
     return ptr;
@@ -173,4 +172,18 @@ string PeopleLocalQueue::returnID(int pos)
         }
         return temp->person_ptr->getID();
     }
+}
+
+vector<Person*>* PeopleLocalQueue::converter()
+{
+    vector<Person*>* convertedPeopleQueue = new vector<Person*>;
+    if(nullptr != front)
+    {
+        PeopleLocalNode *temp = front;
+        while (temp != back) {
+            convertedPeopleQueue->push_back(temp->person_ptr);
+            temp = temp->next;
+        }
+    }
+    return convertedPeopleQueue;
 }

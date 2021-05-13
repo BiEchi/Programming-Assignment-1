@@ -6,25 +6,36 @@
 #include <cstdlib>
 #include <cstring>
 #include <thread>
-#include <mutex>
 
+// To run F5
+/* #include "./Person.cpp"
+#include "./PeopleLocalQueue.cpp"
+#include "./FibonacciPQ.cpp"
+#include "./assignment_queue.cpp"
+#include "./blackList.cpp"
+#include "./withdrawProcess.cpp" */
 #include "./Person.hpp"
 #include "./PeopleLocalQueue.hpp"
 #include "./FibonacciPQ.hpp"
 #include "./assignment_queue.hpp"
 #include "./blackList.hpp"
-#include "./Reporting.hpp"
 #include "./withdrawProcess.hpp"
+#include "./Reporting.hpp"
 #include "./TimePredef.hpp"
 #include "./CSVInputManipulations.hpp"
 #include "./mainHelp.hpp"
 #include "./Database.hpp"
-
+#include "./DatabaseManipulation.hpp"
 
 using namespace std;
 
 // global variables
 time_t startTime = time(NULL);
+block blockList;
+BPlusTree bPlusTree(&blockList);
+BTree bTree;
+HashMap hashMap;
+hospitalDatabase database(bPlusTree,bTree,hashMap);
 blackList blackListRegister = blackList();
 FibonacciPQ central_Queue = FibonacciPQ();
 PeopleLocalQueue people;
@@ -37,11 +48,11 @@ int main()
     people.init();
     queueManger localHospitals; // appointment queues
 
-// loading data stage
-    cout << "Please enter the person type and sort type you want." << endl
-         << endl;
-    int personType, sortType;
-    getReportingWeeklyType(personType, sortType);
+    // process
+    // cout << "Please enter the person type and sort type you want." << endl
+    //      << endl;
+    // int personType, sortType;
+    // getReportingWeeklyType(personType, sortType);
 
     sleep(1);
     cout << "This is the presentation code for Computing Assignment 2, with authors Hao BAI, Liyang QIAN, Jiahao WEI and Yihong JIN." << endl;
@@ -51,7 +62,16 @@ int main()
 
     system("echo '\033[41m\033[37m\033[1m\033[4mReading the input CSV file into People Local Queue...\33[0m' ");
     sleep(1);
-    readTheInputCSVIntoPeople(people);
+    
+    // thread thread_readCSVEmergency();
+    // for first one
+    
+    readTheInputCSVIntoPeople(people, "RegistrationEmergency1.csv");
+    sleep(1);
+    
+    readPeopleIntoDatabase(people, database);
+    withdrawProm.LoadingDemoData(people);
+    withdrawProm.PeopleWithdrawDemo(blackListRegister, people);
     sleep(1);
 
 // data Processing stage
@@ -67,14 +87,12 @@ int main()
     sleep(1);
     system("echo '\33[32mSuccessfully assigned patients to the local hospitals.\33[0m' ");
     sleep(1);
-
-
-// report stage
-    system("echo '\33[32mReporting Weekly...\33[0m' ");
-    Reporting_weekly(personType, sortType, localHospitals.treated_list, central_Queue.returnStorePeople(), localHospitals.assignment_list);
-    sleep(1);
     
-    system("echo '\33[32mReporting Monthly...\33[0m' ");
+    // system("echo '\33[32mGenerating weekly report to report.txt ...\33[0m' ");
+    // Reporting_weekly(personType, sortType, localHospitals.treated_list, central_Queue.returnStorePeople(), localHospitals.assignment_list);
+    // sleep(1);
+    
+    system("echo '\33[32mGenerating monthly report to report.txt ...\33[0m' ");
     Reporting_monthly(localHospitals.treated_list, central_Queue.returnStorePeople(), localHospitals.assignment_list, blackListRegister);
     sleep(1);
     

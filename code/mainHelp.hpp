@@ -14,11 +14,19 @@ using namespace std;
 
 void getReportingWeeklyType(int &personType, int &sortType)
 {
-    cout << "Person Type = 0(treated), 2(with assignment)" << endl; // Delete choose 1(in queue)
-    cin >> personType;
+    do
+    {
+        cout << "Please choose a valid Person Type ;)" << endl;
+        cout << "Person Type: 0 (treated), 1 (with assignment)" << endl; // Choice (in queue) has been deleted. 
+        cin >> personType;
+    } while (personType > 1 || personType < 0);
 
-    cout << "Sort Type = 0(name), 1(profession), 2(age)" << endl;
-    cin >> sortType;
+    do
+    {
+        cout << "Please choose a valid Sort Type ;)" << endl;
+        cout << "Sort Type: 0 (name), 1 (profession), 2 (age)" << endl;
+        cin >> sortType;
+    } while (sortType > 2 || sortType < 0);
 
     return;
 }
@@ -43,6 +51,7 @@ int assignToLocalHospital(queueManger *localHospital, FibonacciPQ *centralQueue)
 {
     localHospital->reassign(centralQueue);
     localHospital->displayAll();
+    localHospital->doTreat();
     return 1;
 }
 

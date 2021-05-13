@@ -77,6 +77,11 @@ void Person::display() {
   cout << "The person's Risk Status is " << getRiskStatus() << endl;
 }
 
+void Person::setTreatmentType(string data)
+{
+    treatmentType = stoi(data);
+}
+
 // 优先级更高
 bool Person::isLargerThan(Person person) {
   if (this->riskStatus == 3 && person.riskStatus != 3) {

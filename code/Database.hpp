@@ -11,10 +11,10 @@ class hospitalDatabase
 private:
     BPlusTree *BplusDatabase = nullptr;
     BTree*  BTreeDatabase = nullptr;
-    HashMapForProfession *HashMapDatabase = nullptr;
+    HashMap *HashMapDatabase = nullptr;
 public:
     hospitalDatabase(){return;}
-    hospitalDatabase(BPlusTree &bplus, BTree &btree, HashMapForProfession &hashMap)
+    hospitalDatabase(BPlusTree &bplus, BTree &btree, HashMap &hashMap)
     {
         BplusDatabase = &bplus;
         BTreeDatabase = &btree;
@@ -22,5 +22,8 @@ public:
     }
     Person *DatabaseInsert(Person *target);
     void DatabaseDelete(string ID);
+    BPlusTree *returnBplus(){return BplusDatabase;}
+    BTree *returnBtree(){return BTreeDatabase;}
+    HashMap *returnHash(){return HashMapDatabase;}
 };
 #endif

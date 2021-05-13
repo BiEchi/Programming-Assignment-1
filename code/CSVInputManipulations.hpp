@@ -24,11 +24,11 @@ string Trim(string& str)
     return str;
 }
 
-void readTheInputCSVIntoPeople(PeopleLocalQueue& people)
+void readTheInputCSVIntoPeople(PeopleLocalQueue& people, string type)
 {
-    cout << "Opening ../database/People.csv" << endl;
+    cout << "Opening ../database/" << type << endl;
     sleep(1);
-    ifstream inFile("../database/People.csv");
+    ifstream inFile("../database/" + type);
     string line;
     
     cout << "Writing information to the Registration Relation..." << endl;
@@ -65,9 +65,10 @@ void readTheInputCSVIntoPeople(PeopleLocalQueue& people)
         person.setBirthMonth(Trim(fields[5]));
         person.setBirthDay(Trim(fields[6]));
         person.setRiskStatus(Trim(fields[7]));
+        person.setTreatmentType(Trim(fields[8]));
         
         usleep(10000);
-        cout << endl << "Printed the " << i << "/500 person's info:" << endl;
+        cout << endl << "Printed the " << i << " person's info:" << endl;
         person.display();
         people.pushBack(&person);
     }
