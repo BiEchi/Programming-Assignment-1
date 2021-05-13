@@ -86,14 +86,6 @@ void quick_sort_age(vector<Person> people, int l, int r) {
 void Reporting_weekly(unsigned int personType, unsigned int sortType,
                       vector<Person> treatedPeople, vector<Person> centralQueue,
                       vector<Person> assignmentQueue) {
-  if (personType > 2 || personType < 0) {
-    cout << "personType ERROR" << endl;
-    return;
-  }
-  if (sortType > 2 || sortType < 0) {
-    cout << "sortType ERROR" << endl;
-    return;
-  }
   // output to file
   report.open("report.txt");
   if (personType == 0) {

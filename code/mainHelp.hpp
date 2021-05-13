@@ -19,14 +19,14 @@ void getReportingWeeklyType(int &personType, int &sortType)
         cout << "Please choose a valid Person Type ;)" << endl;
         cout << "Person Type: 0 (treated), 1 (with assignment)" << endl; // Choice (in queue) has been deleted. 
         cin >> personType;
-    } while (personType > 1 || personType < 0);
+    } while (personType != 0 && personType != 1);
 
     do
     {
         cout << "Please choose a valid Sort Type ;)" << endl;
         cout << "Sort Type: 0 (name), 1 (profession), 2 (age)" << endl;
         cin >> sortType;
-    } while (sortType > 2 || sortType < 0);
+    } while (sortType != 0 && sortType != 1 && sortType != 2);
 
     return;
 }
