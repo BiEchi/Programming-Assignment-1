@@ -92,7 +92,12 @@ void withdrawProcess::HospitalWithdrawDemo(blackList &blacklist, queueManger &ho
 
 void withdrawProcess::returnLastID()
 {
-    ID = IDStoreDatabase[IDStoreDatabase.size()-1];
-    IDStoreDatabase.pop_back();
+    if(0== IDStoreDatabase.size())
+        cout << "no person" << endl;
+    else
+    {
+        ID = IDStoreDatabase[IDStoreDatabase.size()-1];
+        IDStoreDatabase.pop_back();
+    }
     return;
 }

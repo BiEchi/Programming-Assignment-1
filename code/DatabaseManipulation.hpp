@@ -17,25 +17,23 @@
 
 using namespace std;
 
-void readPeopleIntoDatabase(PeopleLocalQueue& people, hospitalDatabase database)
+void readPeopleIntoDatabase(PeopleLocalQueue &people, hospitalDatabase database)
 {
     cout << "Adding People into Database..." << endl;
     sleep(1);
     int receiver;
-    vector<Person*> peopleVector = *people.converter();
-    // cout << peopleVector.size() << endl;
+    vector<Person *> peopleVector = *people.converter();
     cout << "the insert Process will start in 3 seconds" << endl;
     sleep(3);
-    for (int i = 0; i < people.getLength(); i++) {
+    for (int i = 0; i < people.getLength(); i++)
+    {
         database.DatabaseInsert(peopleVector[i]);
     }
     cout << "Insert successfully, display the information of BPlusTree" << endl;
-    cout << "enter random key to print the list" << endl;
+    cout << "enter random key to print the block list" << endl;
     cin >> receiver;
     database.returnBplus()->linear_print();
-    cout << "following is the level display of BPlusTree (we do not seperate the node by height)" <<endl;
-    database.returnBplus()->level_display();
-    cout << "please enther random key to continue" << endl;
+    cout << "please enther random key to print hash table" << endl;
     cin >> receiver;
     cout << "display the information of HashTable" << endl;
     database.returnHash()->display();
@@ -43,7 +41,5 @@ void readPeopleIntoDatabase(PeopleLocalQueue& people, hospitalDatabase database)
     cin >> receiver;
     return;
 }
-
-
 
 #endif /* DatabaseManipulation_hpp */
