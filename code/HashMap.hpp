@@ -12,7 +12,9 @@
 #include <unordered_map>
 #include <map>
 #include <cstring>
+#include <vector>
 #include "block.h"
+#include "Person.hpp"
 using namespace std;
 
 class HashMapForProfession
@@ -30,12 +32,5 @@ public:
     HashMapForProfession(void);
     ~HashMapForProfession(void);
 };
-
-
-
-
-
-
-
 
 #endif /* HashMap_hpp */

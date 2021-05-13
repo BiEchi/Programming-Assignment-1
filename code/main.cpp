@@ -17,7 +17,9 @@
 #include "./withdrawProcess.hpp"
 #include "./TimePredef.hpp"
 #include "./CSVInputManipulations.hpp"
-#include "mainHelp.hpp"
+#include "./mainHelp.hpp"
+#include "./Database.hpp"
+
 
 using namespace std;
 

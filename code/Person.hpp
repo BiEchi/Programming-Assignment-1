@@ -65,6 +65,7 @@ class Person {
   int getReassigned(void) { return reassigned; }
   int getAssignedLocation(void) { return appointmentLocation; }
   tm getAssignedTime(void) { return appointmentTime; }
+    int getTreatmentType(void) { return treatmentType; }
   // baihao
   bool init();
   // yi_hong
@@ -92,5 +93,6 @@ class Person {
   Person *Parent = nullptr;
   // added by Liyang
   processStage currentStage;
+    int treatmentType;
 };
 #endif
