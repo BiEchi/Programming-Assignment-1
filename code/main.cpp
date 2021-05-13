@@ -70,8 +70,8 @@ int main()
     sleep(1);
     
     readPeopleIntoDatabase(people, database);
-    withdrawProm.LoadingDemoData(people);
-    withdrawProm.PeopleWithdrawDemo(blackListRegister, people);
+    // withdrawProm.LoadingDemoData(people);
+    // withdrawProm.PeopleWithdrawDemo(blackListRegister, people);
     sleep(1);
     
     cout << "Forwarding to central queue." << endl;

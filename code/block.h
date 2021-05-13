@@ -12,22 +12,16 @@ using namespace std;
 class record
 {
 friend class block;
+// compare for sorting
 friend bool cmp4sort(const record &record1, const record &record2);
 private:
-    int tombstone;
+    int tombstone; // either 1 or 0, refering to true or false
     Person* datum_ptr;
     string key;
 private:
+    record(): tombstone{1}, datum_ptr{NULL} {};
     int mark_tombstone(void) {tombstone = 1; return 0;}
     int unmark_tombstone(void) {tombstone = 0; return 0;}
-    /**
-     * @brief Construct a new record object.
-     * 
-     */
-    record(): 
-        tombstone{1},
-        datum_ptr{NULL}
-    {};
     static string compute_key(Person *tuple) {return tuple->getID();}
     int get_tombstone(void) const {return tombstone;}
     string get_key(void) const {return key;}
@@ -36,29 +30,30 @@ public:
 };
 
 /**
- * @brief Use ID as primary key. Assumption: all tuple has unique ID. 
- * 
+ * @brief Use ID as primary key.
+ * @note We assume that all tuples have unique ID.
  */
 class block
 {
 private:
     int mainblock_occupied = 0;
     int overflow_occupied = 0;
-    // tombstones_number indicate the number of tombstones in mainblock
+    // #tombstones in mainblock
+    // Note that no tombstones are allowed in overflow block
     int tombstones_number = 0;
+    // the maximum size of mainblock is 10
+    static int const mainblock_size = 40; //  change this!
     // fill factor between 1/2 and 2/3. Choose 6/10 after testing.
     // fill_threshold + overflow_size <= mainblock_size
-    int const fill_threshold = 7; 
-    // Choose 1/10 after testing. 
-    int const merge_threshold = 2;
-    // mainblock_size = 10;
-    int const mainblock_size = 10;
-    record mainblock[10];
+    int const fill_threshold = mainblock_size*6/10 + 1;
+    // Choose 1/10 after testing.
+    int const merge_threshold = mainblock_size*1/10 + 1;
+    record mainblock[mainblock_size];
     
-    // overflow_size = 3. Choose 1/10 after testing.
-    int const overflow_size = 3;
-    record overflow[3]; 
-
+    // overflow_size = 3. Choose 1/10 of all after testing.
+    int const overflow_size = mainblock_size*1/10 + 1;
+    record overflow[3];
+    
     block* prev = NULL;
     block* next = NULL;
 private:
@@ -76,5 +71,4 @@ public:
     block* nextPointer(void) {return next;}
 };
 
-// ---------------------------------
 #endif
