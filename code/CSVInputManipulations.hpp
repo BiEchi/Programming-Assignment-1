@@ -14,6 +14,7 @@
 #include <string>
 #include <vector>
 #include <unistd.h>
+#include "./PeopleLocalQueue.hpp"
 
 using namespace std;
 
@@ -24,22 +25,11 @@ string Trim(string& str)
     return str;
 }
 
-void readTheInputCSVIntoPeople(PeopleLocalQueue& people)
+void readTheInputCSVIntoPeople(PeopleLocalQueue& localpeople, string type)
 {
-    cout << "Opening ../database/People.csv" << endl;
-    sleep(1);
-    ifstream inFile("../database/People.csv");
+    cout << "Opening database/" << type << endl;
+    ifstream inFile("database/RegistrationEmergency1.csv");
     string line;
-    
-    cout << "Writing information to the Registration Relation..." << endl;
-    system("cp ../database/People.csv ../database/Registration.csv");
-    sleep(2);
-    
-    system("echo '\33[32mSuccessfully wrote information to the Registration Relation.\33[0m' ");
-    sleep(1);
-    
-    cout << "You can now go to ../database to find the updated version of Registration.csv file" << endl;
-    sleep(1);
 
     cout << "Retrieving tuples in database into programme in 3 seconds..." << endl;
     sleep(3);
@@ -65,11 +55,12 @@ void readTheInputCSVIntoPeople(PeopleLocalQueue& people)
         person.setBirthMonth(Trim(fields[5]));
         person.setBirthDay(Trim(fields[6]));
         person.setRiskStatus(Trim(fields[7]));
+        person.setTreatmentType(Trim(fields[8]));
         
         usleep(10000);
-        cout << endl << "Printed the " << i << "/500 person's info:" << endl;
+        cout << endl << "Printed the " << i << " person's info:" << endl;
         person.display();
-        people.pushBack(&person);
+        localpeople.pushBack(&person);
     }
 
     sleep(1);

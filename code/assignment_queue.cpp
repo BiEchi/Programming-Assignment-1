@@ -289,16 +289,10 @@ int queueManger::doTreat(void)
 {
     int total_num = assignment_list.size();
     for (int i = 0; i < capacity; i++)
-    {
         if (locations[i])
-        {
             locations[i]->clear(&treated_list);
-        }
-    }
     for (int i = 0; i < total_num; i++)
-    {
         assignment_list.pop_back();
-    }  
     return 1;
 }
 

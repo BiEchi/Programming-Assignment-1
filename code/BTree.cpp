@@ -86,9 +86,8 @@ void BTree::btree_insert_nonfull(CommonTreeNode *node, Person* target)
     } else {
         int pos = node->num;
 		while (pos > 0 && target->getName() < node->labelArrayForBTree[pos - 1]->getName())
-		{
-			pos--;
-		}
+            pos--;
+		
 
 		if (2 * M - 1 == node->ptrArray[pos]->num)
 		{

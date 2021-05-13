@@ -26,21 +26,23 @@ void withdrawProcess::PeopleWithdrawDemo(blackList &blackList, PeopleLocalQueue 
     cout << ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" << endl;
     cout << "this is demo for withdraw in People" << endl;
     cout << "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<" << endl;
-
+    int receiver;
     returnLastID();
-
+    cout << "Before delete, there are " << people.getLength() << " Person in the loading list" << endl;
     Person *targetPerson = people.isIn(ID);
     if (nullptr == targetPerson)
     {
         cout << "not find the person " << ID << endl;
-        return;
     }
     else
     {
         blackList.appendPerson(targetPerson->getID());
         people.doWithdraw(targetPerson);
-        return;
     }
+    cout << "After delete, there are " << people.getLength() << " Person in the loading list" << endl;
+    cout << "press random key to terminate Withdraw People Demo" << endl;
+    cin >> receiver;
+    return;
 }
 
 void withdrawProcess::CentraListWithdrawDemo(blackList &blackList, FibonacciPQ &centralist)
@@ -90,7 +92,12 @@ void withdrawProcess::HospitalWithdrawDemo(blackList &blacklist, queueManger &ho
 
 void withdrawProcess::returnLastID()
 {
-    ID = IDStoreDatabase[IDStoreDatabase.size()-1];
-    IDStoreDatabase.pop_back();
+    if(0== IDStoreDatabase.size())
+        cout << "no person" << endl;
+    else
+    {
+        ID = IDStoreDatabase[IDStoreDatabase.size()-1];
+        IDStoreDatabase.pop_back();
+    }
     return;
 }

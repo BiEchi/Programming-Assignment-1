@@ -10,7 +10,7 @@
 
 using namespace std;
 
-#define M 2
+#define M 4
 
 /// @brief define the universal arrays for storing the node infomation
 typedef struct CommonTreeNodes

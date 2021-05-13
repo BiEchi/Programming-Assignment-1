@@ -26,7 +26,7 @@ bool withInThreshold(int *address, int *center, int threshold) {
 }
 
 int *center = forwardtable.at(nodeNum);
-void query(HashMapForProfession addressIndex) {
+void query(HashMap addressIndex) {
   vector<int> nodeWithInThreshold1;
   vector<int> nodeWithInThreshold2;
   vector<int> nodeWithInThreshold3;

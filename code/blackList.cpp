@@ -29,7 +29,7 @@ void blackList::appendPerson(string ID)
 {
     int index = hash_for_id(ID) % length;
     blackList_Hashing_table[index].push_back(ID);
-    cout << "successfully add the person " << ID << endl;
+    cout << "successfully add the person " << ID << "in the blackList" << endl;
     num++;
     return;
 }
