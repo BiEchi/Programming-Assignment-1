@@ -2,42 +2,44 @@
 
 #include <stdio.h>
 
-#include <string>
 #include <ctime>
 #include <iostream>
+#include <string>
 #include <vector>
 
 using namespace std;
 
 void Person::setID(string data) {
-    ID = data;
-    return;
+  ID = data;
+  return;
 }
 
 void Person::setName(string data) {
-    name = data;
-    return;
+  name = data;
+  return;
 }
 
 void Person::setContactDetails(string data) {
-    contactDetails = data;
-    return;
+  contactDetails = data;
+  return;
 }
 
 /// set the year of birth
 /// @param data char* YYYY
 void Person::setBirthYear(string data) {
-    birthDate.tm_year = stoi(data);
-    int age = 2021 - birthDate.tm_year;
-    
-    if (age < 12) ageGroup = 0;
-    if (age < 18) ageGroup = 1;
-    if (age < 35) ageGroup = 2;
-    if (age < 50) ageGroup = 3;
-    if (age < 65) ageGroup = 4;
-    if (age < 75) ageGroup = 5;
-    else ageGroup = 6;
-    
+  birthDate.tm_year = stoi(data);
+  int age = 2021 - birthDate.tm_year;
+
+  if (age < 12) ageGroup = 0;
+  if (age < 18) ageGroup = 1;
+  if (age < 35) ageGroup = 2;
+  if (age < 50) ageGroup = 3;
+  if (age < 65) ageGroup = 4;
+  if (age < 75)
+    ageGroup = 5;
+  else
+    ageGroup = 6;
+
   return;
 }
 
@@ -78,60 +80,155 @@ void Person::display() {
   cout << "The person's Treatment Type is " << getTreatmentType() << endl;
 }
 
-void Person::setTreatmentType(string data)
-{
-    treatmentType = stoi(data);
-}
+void Person::setTreatmentType(string data) { treatmentType = stoi(data); }
 
 // 优先级更高
 bool Person::isLargerThan(Person person) {
-  if (this->riskStatus == 3 && person.riskStatus != 3) {
-    return false;
-  }
+  if (person.getTreatmentType() == 1) {
+    if (this->riskStatus == 3 && person.riskStatus != 3) {
+      return false;
+    }
 
-  if (this->profession <= person.profession) {
-    return false;
-  } else if (this->profession > person.profession) {
+    if (this->profession <= person.profession) {
+      return false;
+    } else if (this->profession > person.profession) {
+      return true;
+    }
+
+    if (this->ageGroup <= person.ageGroup) {
+      return false;
+    } else if (this->ageGroup > person.ageGroup) {
+      return true;
+    }
+
+    if (this->timeStamp.tm_year <= person.timeStamp.tm_year) {
+      return false;
+    } else if (this->timeStamp.tm_year > person.timeStamp.tm_year) {
+      return true;
+    }
+
+    if (this->timeStamp.tm_mon <= person.timeStamp.tm_mon) {
+      return false;
+    } else if (this->timeStamp.tm_mon > person.timeStamp.tm_mon) {
+      return true;
+    }
+
+    if (this->timeStamp.tm_mday <= person.timeStamp.tm_mday) {
+      return false;
+    } else if (this->timeStamp.tm_mday > person.timeStamp.tm_mday) {
+      return true;
+    }
+
+    if (this->timeStamp.tm_min <= person.timeStamp.tm_min) {
+      return false;
+    } else if (this->timeStamp.tm_min > person.timeStamp.tm_min) {
+      return true;
+    }
+
+    if (this->timeStamp.tm_sec <= person.timeStamp.tm_sec) {
+      return false;
+    } else if (this->timeStamp.tm_sec > person.timeStamp.tm_sec) {
+      return true;
+    }
+
+    return true;
+  } else if (person.getTreatmentType() == 2) {
+    if (this->riskStatus == 3 && person.riskStatus != 3) {
+      return false;
+    }
+
+    if (this->profession <= person.profession) {
+      return false;
+    } else if (this->profession > person.profession) {
+      return true;
+    }
+    // The proority of agegroup has been adjusted
+    if (this->ageGroup <= person.ageGroup) {
+      return true;
+    } else if (this->ageGroup > person.ageGroup) {
+      return false;
+    }
+
+    if (this->timeStamp.tm_year <= person.timeStamp.tm_year) {
+      return false;
+    } else if (this->timeStamp.tm_year > person.timeStamp.tm_year) {
+      return true;
+    }
+
+    if (this->timeStamp.tm_mon <= person.timeStamp.tm_mon) {
+      return false;
+    } else if (this->timeStamp.tm_mon > person.timeStamp.tm_mon) {
+      return true;
+    }
+
+    if (this->timeStamp.tm_mday <= person.timeStamp.tm_mday) {
+      return false;
+    } else if (this->timeStamp.tm_mday > person.timeStamp.tm_mday) {
+      return true;
+    }
+
+    if (this->timeStamp.tm_min <= person.timeStamp.tm_min) {
+      return false;
+    } else if (this->timeStamp.tm_min > person.timeStamp.tm_min) {
+      return true;
+    }
+
+    if (this->timeStamp.tm_sec <= person.timeStamp.tm_sec) {
+      return false;
+    } else if (this->timeStamp.tm_sec > person.timeStamp.tm_sec) {
+      return true;
+    }
+
+    return true;
+  } else {
+    if (this->riskStatus == 3 && person.riskStatus != 3) {
+      return false;
+    }
+    // The priority of profession has been adjusted
+    if (this->profession <= person.profession) {
+      return true;
+    } else if (this->profession > person.profession) {
+      return false;
+    }
+
+    if (this->ageGroup <= person.ageGroup) {
+      return false;
+    } else if (this->ageGroup > person.ageGroup) {
+      return true;
+    }
+
+    if (this->timeStamp.tm_year <= person.timeStamp.tm_year) {
+      return false;
+    } else if (this->timeStamp.tm_year > person.timeStamp.tm_year) {
+      return true;
+    }
+
+    if (this->timeStamp.tm_mon <= person.timeStamp.tm_mon) {
+      return false;
+    } else if (this->timeStamp.tm_mon > person.timeStamp.tm_mon) {
+      return true;
+    }
+
+    if (this->timeStamp.tm_mday <= person.timeStamp.tm_mday) {
+      return false;
+    } else if (this->timeStamp.tm_mday > person.timeStamp.tm_mday) {
+      return true;
+    }
+
+    if (this->timeStamp.tm_min <= person.timeStamp.tm_min) {
+      return false;
+    } else if (this->timeStamp.tm_min > person.timeStamp.tm_min) {
+      return true;
+    }
+
+    if (this->timeStamp.tm_sec <= person.timeStamp.tm_sec) {
+      return false;
+    } else if (this->timeStamp.tm_sec > person.timeStamp.tm_sec) {
+      return true;
+    }
+
     return true;
   }
-
-  if (this->ageGroup <= person.ageGroup) {
-    return false;
-  } else if (this->ageGroup > person.ageGroup) {
-    return true;
-  }
-
-  if (this->timeStamp.tm_year <= person.timeStamp.tm_year) {
-    return false;
-  } else if (this->timeStamp.tm_year > person.timeStamp.tm_year) {
-    return true;
-  }
-
-  if (this->timeStamp.tm_mon <= person.timeStamp.tm_mon) {
-    return false;
-  } else if (this->timeStamp.tm_mon > person.timeStamp.tm_mon) {
-    return true;
-  }
-
-  if (this->timeStamp.tm_mday <= person.timeStamp.tm_mday) {
-    return false;
-  } else if (this->timeStamp.tm_mday > person.timeStamp.tm_mday) {
-    return true;
-  }
-
-  if (this->timeStamp.tm_min <= person.timeStamp.tm_min) {
-    return false;
-  } else if (this->timeStamp.tm_min > person.timeStamp.tm_min) {
-    return true;
-  }
-
-  if (this->timeStamp.tm_sec <= person.timeStamp.tm_sec) {
-    return false;
-  } else if (this->timeStamp.tm_sec > person.timeStamp.tm_sec) {
-    return true;
-  }
-
-  return true;
 }
 
 void Person::setCurrentStage(processStage data) {
