@@ -17,7 +17,6 @@ class Person {
   Person() {
     name = string();
     contactDetails = string();
-    // location = 0;
     profession = 0;
     ageGroup = 0;
     riskStatus = 0;

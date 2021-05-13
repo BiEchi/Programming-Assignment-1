@@ -2,7 +2,7 @@
 
 #include <stdio.h>
 
-#include <cstring>
+#include <string>
 #include <ctime>
 #include <iostream>
 #include <vector>
@@ -10,7 +10,7 @@
 using namespace std;
 
 void Person::setID(string data) {
-    ID = data;  // automatically convert char* to string
+    ID = data;
     return;
 }
 
@@ -75,6 +75,7 @@ void Person::display() {
        << getBirthdate().tm_mon << ":" << getBirthdate().tm_mday << endl;
   cout << "The person's Profession is " << getProfession() << endl;
   cout << "The person's Risk Status is " << getRiskStatus() << endl;
+  cout << "The person's Treatment Type is " << getTreatmentType() << endl;
 }
 
 void Person::setTreatmentType(string data)

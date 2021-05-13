@@ -27,21 +27,9 @@ string Trim(string& str)
 
 void readTheInputCSVIntoPeople(PeopleLocalQueue& localpeople, string type)
 {
-    cout << "Opening ../database/" << type << endl;
-    // sleep(1);
-    ifstream inFile("../database/" + type);
+    cout << "Opening database/" << type << endl;
+    ifstream inFile("database/RegistrationEmergency1.csv");
     string line;
-    
-    cout << "Writing information to the Registration Relation..." << endl;
-    // error: cp: cannot stat '../database/People.csv': No such file or directory
-    system("cp ../database/People.csv ../database/Registration.csv");
-    sleep(2);
-    
-    system("echo '\33[32mSuccessfully wrote information to the Registration Relation.\33[0m' ");
-    sleep(1);
-    
-    cout << "You can now go to ../database to find the updated version of Registration.csv file" << endl;
-    sleep(1);
 
     cout << "Retrieving tuples in database into programme in 3 seconds..." << endl;
     sleep(3);

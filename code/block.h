@@ -42,7 +42,7 @@ private:
     // Note that no tombstones are allowed in overflow block
     int tombstones_number = 0;
     // the maximum size of mainblock is 10
-    static int const mainblock_size = 40; //  change this!
+    static int const mainblock_size = 10; //  change this!
     // fill factor between 1/2 and 2/3. Choose 6/10 after testing.
     // fill_threshold + overflow_size <= mainblock_size
     int const fill_threshold = mainblock_size*6/10 + 1;
@@ -51,7 +51,7 @@ private:
     record mainblock[mainblock_size];
     
     // overflow_size = 3. Choose 1/10 of all after testing.
-    int const overflow_size = mainblock_size*1/10 + 1;
+    int const overflow_size = mainblock_size*2/10 + 1;
     record overflow[3];
     
     block* prev = NULL;

@@ -49,16 +49,8 @@ withdrawProcess withdrawProm;
 
 int main()
 {
-    // data variable
-    // string searchFile = "../database/People.csv";
     people.init();
     queueManger localHospitals; // appointment queues
-
-    // process
-    // cout << "Please enter the person type and sort type you want." << endl
-    //      << endl;
-    // int personType, sortType;
-    // getReportingWeeklyType(personType, sortType);
 
     sleep(1);
     cout << "This is the presentation code for Computing Assignment 2, with authors Hao BAI, Liyang QIAN, Jiahao WEI and Yihong JIN." << endl;
@@ -75,6 +67,7 @@ int main()
     readTheInputCSVIntoPeople(people, "RegistrationEmergency1.csv");
     sleep(1);
     
+    system("echo '\033[41m\033[37m\033[1m\033[4m ### Database operations starting... ### \33[0m' ");
     cout << people.getLength() << " people in list " <<endl;
     readPeopleIntoDatabase(people, database);
     
@@ -94,10 +87,6 @@ int main()
     sleep(1);
     system("echo '\33[32mSuccessfully assigned patients to the local hospitals.\33[0m' ");
     sleep(1);
-    
-    // system("echo '\33[32mGenerating weekly report to report.txt ...\33[0m' ");
-    // Reporting_weekly(personType, sortType, localHospitals.treated_list, central_Queue.returnStorePeople(), localHospitals.assignment_list);
-    // sleep(1);
     
     system("echo '\33[32mGenerating monthly report to report.txt ...\33[0m' ");
     Reporting_monthly(localHospitals.treated_list, central_Queue.returnStorePeople(), localHospitals.assignment_list, blackListRegister);
