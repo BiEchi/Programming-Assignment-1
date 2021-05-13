@@ -14,6 +14,7 @@
 #include <string>
 #include <vector>
 #include <unistd.h>
+#include "./PeopleLocalQueue.hpp"
 
 using namespace std;
 
@@ -24,14 +25,15 @@ string Trim(string& str)
     return str;
 }
 
-void readTheInputCSVIntoPeople(PeopleLocalQueue& people, string type)
+void readTheInputCSVIntoPeople(PeopleLocalQueue& localpeople, string type)
 {
     cout << "Opening ../database/" << type << endl;
-    sleep(1);
+    // sleep(1);
     ifstream inFile("../database/" + type);
     string line;
     
     cout << "Writing information to the Registration Relation..." << endl;
+    // error: cp: cannot stat '../database/People.csv': No such file or directory
     system("cp ../database/People.csv ../database/Registration.csv");
     sleep(2);
     
@@ -70,7 +72,7 @@ void readTheInputCSVIntoPeople(PeopleLocalQueue& people, string type)
         usleep(10000);
         cout << endl << "Printed the " << i << " person's info:" << endl;
         person.display();
-        people.pushBack(&person);
+        localpeople.pushBack(&person);
     }
 
     sleep(1);

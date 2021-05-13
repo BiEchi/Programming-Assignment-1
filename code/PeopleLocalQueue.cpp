@@ -101,7 +101,7 @@ int PeopleLocalQueue::doWithdraw(Person *thePerson)
                 back = itor;
                 back->next = NULL;
                 aPerson = temp->person_ptr;
-                // cout << "The removed person (at back) has ID " << aPerson->getID() << "." << endl;
+                cout << "The removed person (at back) has ID " << aPerson->getID() << "." << endl;
                 delete temp;
                 length--;
                 return 1;
@@ -111,7 +111,7 @@ int PeopleLocalQueue::doWithdraw(Person *thePerson)
                 temp = itor->next;
                 itor->next = temp->next;
                 aPerson = temp->person_ptr;
-                // cout << "The removed person has ID " << aPerson->getID() << "." << endl;
+                cout << "The removed person has ID " << aPerson->getID() << "." << endl;
                 delete temp;
                 length--;
                 return 1;
@@ -180,7 +180,7 @@ vector<Person*>* PeopleLocalQueue::converter()
     if(nullptr != front)
     {
         PeopleLocalNode *temp = front;
-        while (temp != back) {
+        while (temp != nullptr) {
             convertedPeopleQueue->push_back(temp->person_ptr);
             temp = temp->next;
         }
