@@ -5,7 +5,7 @@
 #include <vector>
 #include <cstring>
 
-#include "block.h"
+#include "block.hpp"
 #include "Person.hpp"
 
 using namespace std;

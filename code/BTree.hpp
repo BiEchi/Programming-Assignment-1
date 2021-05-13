@@ -1,7 +1,7 @@
 #ifndef BTREE_H
 #define BTREE_H
 
-#include "Tree.h"
+#include "Tree.hpp"
 #include <cstring>
 using namespace std;
 

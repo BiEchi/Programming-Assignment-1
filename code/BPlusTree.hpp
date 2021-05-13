@@ -1,8 +1,8 @@
 #ifndef BPLUSTREE_H
 #define BPLUSTREE_H
 
-#include "block.h"
-#include "Tree.h"
+#include "block.hpp"
+#include "Tree.hpp"
 #include <string>
 
 class BPlusTree : public Tree
