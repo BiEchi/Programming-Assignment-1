@@ -2,9 +2,7 @@
 #include "block.h"
 
 /**
- * @brief Clear all the date in the block by marking all tuples' tombstones.
- * Set mainblock_occupied = 0, overflow_occupied = 0, tombstones_number = 0.
- * 
+ * @brief Clear ALL the data in the block (incl. overflow data) by marking all tuples' tombstones.
  * @return 1 for indication
  */
 int block::clear()
@@ -14,21 +12,16 @@ int block::clear()
     tombstones_number = 0;
     
     for (int i = 0; i < mainblock_size; i++)
-    {
         mainblock[i].mark_tombstone();
-    }
     for (int i = 0; i < overflow_size; i++)
-    {
         overflow[i].mark_tombstone();
-    }
     return 1;
 }
 
 /**
- * @brief Overload operator=
- * 
- * @param src the right hand side of =
- * @return record& 
+ * @brief Overload operator= (deep copy, viz. deecopy)
+ * @param src rvalue of =
+ * @return address of record
  */
 record& record::operator=(const record& src)
 {
@@ -41,7 +34,7 @@ record& record::operator=(const record& src)
 /**
  * @brief Compare function for std::sort function.
  * Person with marked tombstone is always greater than Person with unmarked tombstone. 
- * 
+ *
  * @param record1 record 1
  * @param record2  record 2
  * @returns True if the primary key (ID) of record1 is less than the primary key (ID) of record2, false otherwise. 
@@ -68,11 +61,13 @@ int block::sort(void)
     int i, indicator;
     for (i = 0, indicator = 0; i < overflow_size && indicator < overflow_occupied; i++) 
     {
-        if (overflow[i].get_tombstone()) {continue;} // Ignore Person with marked tombstone.
+        if (overflow[i].get_tombstone()) // Ignore Person with marked tombstone.
+            {continue;}
         for (int j = first_empty; j < mainblock_size; j++) 
         {
             // Find the first empty space in main block.
-            if (mainblock[j].get_tombstone()) {first_empty = j; break;}
+            if (mainblock[j].get_tombstone())
+                {first_empty = j; break;}
         }
         mainblock[first_empty] = overflow[i]; // copy the record !!!
         (overflow + i)->mark_tombstone(); // Remove tuple in the overflow block by marking the tombstone after copy. 
@@ -132,15 +127,14 @@ Person* block::find(string ID) {
 /**
  * @brief Inserts a new tuple into the overflow block at the first free space. If the overflow block is full, trigger the sorting. 
  * If after the sorting there are too many tuples in the main block, split the block.
- * 
  * @param tuple tuple
  * @return The pointer to the new block if split is called, NULL otherwise. 
  */
 block* block::insert(Person* tuple)
 {
-    // Assume that there is always space left in overflow block.
+    /// @note Assume that there is always space left in overflow block.
+    // we insert into tombstones first
     for (int i = 0; i < overflow_size; i++)
-    {
         if (overflow[i].get_tombstone())
         {
             overflow[i].datum_ptr = new Person;
@@ -149,25 +143,19 @@ block* block::insert(Person* tuple)
             overflow[i].unmark_tombstone();
             break;
         }
-    }
     overflow_occupied++;
     if (overflow_size == overflow_occupied)
-    {
         sort();
-    }
-    // When split is called, all the tuples are in mainblock, and there is no tombstone. 
+    // After split is called, all the tuples are in mainblock, and there is no tombstone.
     if (mainblock_occupied > fill_threshold)
-    {
         return split();
-    }
-    return NULL;
+    else return NULL;
 }
 
 /**
  * @brief Creates a new block and splits the tuples equally. 
- * split will be called by insert only.
- * 
- * @return The pointer to the newly created block. 
+ * @note split will be called by insert only.
+ * @return The pointer to the NEW block.
  */
 block* block::split(void)
 {
@@ -176,8 +164,8 @@ block* block::split(void)
     // Connect new_block
     if (NULL == this->next)
     {
-    this->next = new_block;
-    new_block->prev = this;
+        this->next = new_block;
+        new_block->prev = this; // double-linked list
     } else {
         block* temp = this->next;
         this->next = new_block;
@@ -186,7 +174,7 @@ block* block::split(void)
         new_block->prev = this;
     }
 
-
+    // move content to the new block by half
     for (int i = mid; i < mainblock_occupied; i++)
     {
         new_block->mainblock[(new_block->mainblock_occupied)++] = this->mainblock[i];
@@ -198,25 +186,30 @@ block* block::split(void)
 
 /**
  * @brief Marks a tuple in the main block or the overflow block by a tombstone.
- * If after remove there are too few tuples in the main block, merge the block with the next block if the next block exists.
- * 
+ *  If after remove there are too few tuples in the main block, merge the block with the next block if the next block exists.
  * @param ID ID
  * @return The pointer to this block if merge happens, NULL otherwise. 
  */
 block* block::remove(string ID)
 {
     record* toRemove;
-    int low = 0, high = tombstones_number + mainblock_occupied - 1;
+    int lowPos = 0,
+        highPos = tombstones_number + mainblock_occupied - 1; // all data in block
     int mid, shift;
-    while (high >= low && mainblock_occupied != 0)
+    while (highPos >= lowPos && mainblock_occupied != 0)
     {
-        shift = mid = high - (high - low)/2;
-        while (mainblock[shift].get_tombstone() && shift <= high)
+        // assign value to mid first, then assign mid to shift
+        shift = mid = highPos - (highPos - lowPos)/2;
+        
+        // tombstone detected, skip
+        while (mainblock[shift].get_tombstone() && shift <= highPos)
         {
             shift++;
-            if (shift > high) {high = mid - 1;}
+            if (shift > highPos) {highPos = mid - 1;}
         }
-        if (shift > high) {continue;}
+        if (shift > highPos) {continue;}
+        
+        // target found, execute delete routine
         if (mainblock[shift].get_key() == ID)
         {
             toRemove = mainblock + shift;
@@ -230,22 +223,26 @@ block* block::remove(string ID)
             }
             else {return NULL;}
         }
+        
+        // continue to search for the target
         if (mainblock[shift].get_key() < ID)
         {
-            low = shift + 1;
+            lowPos = shift + 1;
             continue;
         }
         if (mainblock[shift].get_key() > ID)
         {
-            if (shift == high) {high = mid - 1; continue;}
-            high = shift - 1;
+            if (shift == highPos) {highPos = mid - 1; continue;}
+            highPos = shift - 1;
             continue;
         }
     }
+    
+    // ?
     int i, indicator;
     for (i = 0, indicator = 0; i < overflow_size && indicator < overflow_occupied; i++)
     {
-        if (overflow[i].get_tombstone()) {continue;} // Ignore Person with marked tombstone.
+        if (overflow[i].get_tombstone()) { continue; }
         toRemove = overflow + i;
         if (toRemove->get_key() == ID) 
         {
@@ -261,9 +258,10 @@ block* block::remove(string ID)
 
 /**
  * @brief Merges a block with one neighbouring block and either splits the result more equally or removes one block.
- * This function will create a new separation key. Assume that merge will be called only when the number of this block is less than the merge_threshold.
- * Important: the neighbouring block might be deleted. All the keys in both blocks are pairwise different.
- * @return The new seperation key such that all the tuples' key in this block are strickly less than the seperation key.
+ * This function will create a new separation key.
+ * @note Assume that merge will be called only when the number of this block is less than the merge_threshold.
+ * @WARNING the neighbouring block might be deleted. All the keys in both blocks are pairwise different.
+ * @return The new seperation key such that all the tuples' key in this block are strictly less than the seperation key.
  * If the neighbouring block is deleted, return the maximum key after merge operation.
  */
 block* block::merge(void)
@@ -337,8 +335,7 @@ block* block::merge(void)
 }
 
 /**
- * @brief Find the maximum primary key (ID) in the block. 
- * 
+ * @brief Find the maximum primary key (ID) in the block.
  * @return The maximum ID. 
  */
 string block::maximum(void)

@@ -8,17 +8,17 @@
 #include <thread>
 
 // To run F5
-// #include "./Person.cpp"
-// #include "./PeopleLocalQueue.cpp"
-// #include "./FibonacciPQ.cpp"
-// #include "./assignment_queue.cpp"
-// #include "./blackList.cpp"
-// #include "./withdrawProcess.cpp" 
-// #include "./Database.cpp"
-// #include "./BPlusTree.cpp"
-// #include "./BTree.cpp"
-// #include "./HashMap.cpp"
-// #include "./block.cpp"
+#include "./Person.cpp"
+#include "./PeopleLocalQueue.cpp"
+#include "./FibonacciPQ.cpp"
+#include "./assignment_queue.cpp"
+#include "./blackList.cpp"
+#include "./withdrawProcess.cpp" 
+#include "./Database.cpp"
+#include "./BPlusTree.cpp"
+#include "./BTree.cpp"
+#include "./HashMap.cpp"
+#include "./block.cpp"
 
 #include "./Person.hpp"
 #include "./PeopleLocalQueue.hpp"
@@ -60,27 +60,25 @@ int main()
     // int personType, sortType;
     // getReportingWeeklyType(personType, sortType);
 
-    sleep(1);
-    cout << "This is the presentation code for Computing Assignment 2, with authors Hao BAI, Liyang QIAN, Jiahao WEI and Yihong JIN." << endl;
-    sleep(1);
-    system("echo '\033[41m\033[37m\033[1m\033[4m ### The presentation starts in 1 second... ### \33[0m' ");
-    sleep(1);
+    // sleep(1);
+    // cout << "This is the presentation code for Computing Assignment 2, with authors Hao BAI, Liyang QIAN, Jiahao WEI and Yihong JIN." << endl;
+    // sleep(1);
+    // system("echo '\033[41m\033[37m\033[1m\033[4m ### The presentation starts in 1 second... ### \33[0m' ");
+    // sleep(1);
 
-    system("echo '\033[41m\033[37m\033[1m\033[4mReading the input CSV file into People Local Queue...\33[0m' ");
-    sleep(1);
+    // system("echo '\033[41m\033[37m\033[1m\033[4mReading the input CSV file into People Local Queue...\33[0m' ");
+    // sleep(1);
     
     // thread thread_readCSVEmergency();
     // for first one
     
-    readTheInputCSVIntoPeople(people, "RegistrationEmergency1.csv");
-    sleep(1);
+    readTheInputCSVIntoPeople(people, "RegistrationEmergency1Copy.csv");
+    // sleep(1);
     
-    cout << people.getLength() << " people in list " <<endl;
     readPeopleIntoDatabase(people, database);
-    
-    withdrawProm.LoadingDemoData(people);
-    withdrawProm.PeopleWithdrawDemo(blackListRegister, people);
-    sleep(3);
+    // withdrawProm.LoadingDemoData(people);
+    // withdrawProm.PeopleWithdrawDemo(blackListRegister, people);
+    // sleep(1);
     
     cout << "Forwarding to central queue." << endl;
     forwardToCentralQueue(people, central_Queue);
