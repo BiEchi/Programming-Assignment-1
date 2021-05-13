@@ -37,6 +37,7 @@ int main()
     for (int i = 0; i < num; i++)
         testBPlusTree.bPlustree_insert(testBPlusTree.returnRoot(), &people[i]);
     testBPlusTree.linear_print();
+    testBPlusTree.level_display();
     
     cout << "Test for delete. " << endl;
     for (int i = 0; i < num; i++)
