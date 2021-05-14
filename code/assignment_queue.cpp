@@ -21,9 +21,9 @@ int assignmentQueue::init(int hc, int wh, int thePlace)
 }
 
 /**
- * @brief Clear the timeSlot array and push treated people into treated list. 
- * 
- * @param treated pointer to the treated list.  
+ * @brief Clear the timeSlot array and push treated people into treated list.
+ *
+ * @param treated pointer to the treated list.
  */
 void assignmentQueue::clear(vector<Person> *treated)
 {
@@ -32,6 +32,7 @@ void assignmentQueue::clear(vector<Person> *treated)
         if (timeSlot[i])
         {
             treated->push_back(*timeSlot[i]);
+            // cout << timeSlot[i]->getID() << endl;
             // delete timeSlot[i];
         }
         timeSlot[i] = NULL;
@@ -82,7 +83,7 @@ void assignmentQueue::assignTimeAndLocation(void)
     struct tm aTime;
     int addHour, addMin;
     int increment = 60 / hourCapacity;
-
+    
     time(&currentTime);
     diffday = difftime(currentTime, startTime) / 10; // Compute the difference between start time and current system time.
     baseTime = localtime(&startTime);
@@ -135,17 +136,17 @@ int assignmentQueue::display(void)
             mktime(&aTime);
             // usleep(100000);
             cout << "       "
-                 << "The appointment information of person with ID " << timeSlot[i]->getID() << " : \n";
+            << "The appointment information of person with ID " << timeSlot[i]->getID() << " : \n";
             if (timeSlot[i]->getReassigned())
             {
                 // usleep(100000);
                 cout << "       "
-                     << "The desired hospital is full, this person has been randomly assigned to hospital " << stoi(timeSlot[i]->getContactDetails()) << ". \n";
+                << "The desired hospital is full, this person has been randomly assigned to hospital " << stoi(timeSlot[i]->getContactDetails()) << ". \n";
             }
             cout << "       "
-                 << "location:   Hospital " << timeSlot[i]->getAssignedLocation() << "\n";
+            << "location:   Hospital " << timeSlot[i]->getAssignedLocation() << "\n";
             cout << "       "
-                 << "time:       " << asctime(&aTime) << "\n";
+            << "time:       " << asctime(&aTime) << "\n";
         }
     }
     return 1;
@@ -155,11 +156,11 @@ int assignmentQueue::display(void)
 //--------------------------------------------------------------------------------------------
 
 /**
- * @brief Initialize the instance. 
+ * @brief Initialize the instance.
  * Default length of hospital array is 8. length >= 8
- * 
- * @param num the capacity of hospital array. 
- * @return 1 for indication.  
+ *
+ * @param num the capacity of hospital array.
+ * @return 1 for indication.
  */
 int queueManger::init(int num)
 {
@@ -174,11 +175,11 @@ int queueManger::init(int num)
 }
 
 /**
- * @brief Extand the length of hospital array. 
- * Allocate a new array and copy all the hospital into the new array. 
- * 
+ * @brief Extand the length of hospital array.
+ * Allocate a new array and copy all the hospital into the new array.
+ *
  * @param hospital a hospital
- * @return 1 for indication. 
+ * @return 1 for indication.
  */
 int queueManger::extendLocations(int hospital)
 {
@@ -198,13 +199,13 @@ int queueManger::extendLocations(int hospital)
 }
 
 /**
- * @brief Add a new hospital into the 
+ * @brief Add a new hospital into the
  * Before addition, remember to call this initHospital function.
- * 
+ *
  * @param hospital a hospital
  * @param hc hour capacity
  * @param wh working hours per day
- * @return int 
+ * @return int
  */
 int queueManger::addHospital(int hospital, int hc, int wh)
 {
@@ -226,7 +227,7 @@ int queueManger::reassign(FibonacciPQ *PQ)
 {
     Person *thePerson;
     doTreat();
-
+    
     int noSpace = 0;
     // Distribute Person into each assignment list.
     while (!PQ->isEmpty() && !noSpace)
@@ -244,7 +245,7 @@ int queueManger::reassign(FibonacciPQ *PQ)
             // fprintf(stderr, "The hospital %d to which the person will be assigned has not been initialized. \n", theLocation);
             // continue;
         }
-
+        
         if (!locations[theLocation]->addPerson(thePerson))
         {
             thePerson->markReassigned();
@@ -254,7 +255,7 @@ int queueManger::reassign(FibonacciPQ *PQ)
             }
             locations[otherLocation]->addPerson(thePerson);
         }
-
+        
         assignment_list.push_back(*thePerson);
         // Checkout whether there is empty space.
         noSpace = 1;
@@ -281,9 +282,9 @@ int queueManger::reassign(FibonacciPQ *PQ)
 }
 
 /**
- * @brief Treat people by calling clear function. 
- * 
- * @return 1 for indication. 
+ * @brief Treat people by calling clear function.
+ *
+ * @return 1 for indication.
  */
 int queueManger::doTreat(void)
 {
@@ -334,7 +335,6 @@ int queueManger::displayAll(void)
     {
         if (locations[i])
         {
-            // usleep(500000);
             cout << endl;
             system("echo '\33[33mA new hospital is created.\33[0m' ");
             cout << "The hospital " << locations[i]->getTheHospital() << " have the following assigned people: \n";

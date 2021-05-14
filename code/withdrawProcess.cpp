@@ -17,7 +17,7 @@ void withdrawProcess::LoadingDemoData(PeopleLocalQueue &people)
             IDStoreDatabase.push_back(ID);
         }
     }
-
+    
     return;
 }
 
@@ -49,9 +49,9 @@ void withdrawProcess::CentraListWithdrawDemo(blackList &blackList, FibonacciPQ &
     cout << ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" << endl;
     cout << "this is demo for withdraw in Centrallist" << endl;
     cout << "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<" << endl;
-
+    
     returnLastID();
-
+    
     list<Person *> start = centralist.getRootlist();
     Person *targetPerson = centralist.find(ID, start);
     if (nullptr == targetPerson)
@@ -72,9 +72,9 @@ void withdrawProcess::HospitalWithdrawDemo(blackList &blacklist, queueManger &ho
     cout << ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" << endl;
     cout << "this is demo for withdraw in Centrallist" << endl;
     cout << "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<" << endl;
-
+    
     returnLastID();
-
+    
     Person *targetPerson = hospital.isIn(ID);
     if (nullptr == targetPerson)
     {

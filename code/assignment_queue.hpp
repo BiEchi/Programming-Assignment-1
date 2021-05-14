@@ -10,7 +10,7 @@
 class assignmentQueue
 {
     friend class queueManger;
-
+    
 private:
     int theHospital;
     Person **timeSlot;
@@ -18,7 +18,7 @@ private:
     int32_t workingHour;
     int32_t length;
     int32_t occupied;
-
+    
 private:
     int init(int hc, int wh, int thePlace);
     void clear(vector<Person> *treated_list);
@@ -37,10 +37,10 @@ private:
     assignmentQueue **locations;
     int capacity;
     int length;
-
+    
 private:
     int extendLocations(int hospital);
-
+    
 public:
     vector<Person> treated_list;
     vector<Person> assignment_list;

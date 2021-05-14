@@ -30,7 +30,7 @@ void readTheInputCSVIntoPeople(PeopleLocalQueue& localpeople, string type)
     cout << "Opening database/" << type << endl;
     ifstream inFile("database/Registration" + type);
     string line;
-
+    
     cout << "Retrieving tuples in database into programme in 3 seconds..." << endl;
     sleep(3);
     
@@ -62,7 +62,7 @@ void readTheInputCSVIntoPeople(PeopleLocalQueue& localpeople, string type)
         person.display();
         localpeople.pushBack(&person);
     }
-
+    
     sleep(1);
     cout << endl;
     system("echo '\33[32mSuccessfully retrieved tuples in database into programme.\33[0m' ");

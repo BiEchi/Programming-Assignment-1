@@ -62,12 +62,12 @@ int block::sort(void)
     for (i = 0, indicator = 0; i < overflow_size && indicator < overflow_occupied; i++) 
     {
         if (overflow[i].get_tombstone()) // Ignore Person with marked tombstone.
-            {continue;}
+        {continue;}
         for (int j = first_empty; j < mainblock_size; j++) 
         {
             // Find the first empty space in main block.
             if (mainblock[j].get_tombstone())
-                {first_empty = j; break;}
+            {first_empty = j; break;}
         }
         mainblock[first_empty] = overflow[i]; // copy the record !!!
         (overflow + i)->mark_tombstone(); // Remove tuple in the overflow block by marking the tombstone after copy. 
@@ -173,7 +173,7 @@ block* block::split(void)
         temp->prev = new_block;
         new_block->prev = this;
     }
-
+    
     // move content to the new block by half
     for (int i = mid; i < mainblock_occupied; i++)
     {
@@ -194,7 +194,7 @@ block* block::remove(string ID)
 {
     record* toRemove;
     int lowPos = 0,
-        highPos = tombstones_number + mainblock_occupied - 1; // all data in block
+    highPos = tombstones_number + mainblock_occupied - 1; // all data in block
     int mid, shift;
     while (highPos >= lowPos && mainblock_occupied != 0)
     {
@@ -299,7 +299,7 @@ block* block::merge(void)
         arr4tuples[index4arr++] = neighbour->overflow[i];
         indicator++;
     }
-
+    
     std::sort(arr4tuples, arr4tuples + total_num_tuples, cmp4sort);
     this->clear();
     neighbour->clear();
