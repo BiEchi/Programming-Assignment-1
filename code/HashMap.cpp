@@ -6,6 +6,7 @@
 //
 
 #include <vector>
+#include <unistd.h>
 #include "HashMap.hpp"
 using namespace std;
 
@@ -31,13 +32,15 @@ void HashMap::display()
     }
 }
 
-void HashMap::findAll(string profession)
+void HashMap::findAll(string address)
 {
-    cout << "there are " << hmap.count(profession)
-      << " people with profession " << profession << "." << endl;
+    cout << "there are " << hmap.count(address)
+      << " people with address " << address << "." << endl;
     for (auto ite = hmap.begin(); ite != hmap.end(); ite++) {
-        if (ite->first == profession) {
-            cout << "Profession: " << profession << ", ID: " << ite->second->getID() << endl;
+        if (ite->first == address) {
+            ite->second->display();
+            usleep(50000);
+            cout << endl;
         }
     }
 }

@@ -50,7 +50,7 @@ int main() {
                      , blackListRegister, central_Queue, people
                      , withdrawProm, localHospitals, "Vaccine3.csv");
     
-    system("echo '\33[32mGenerating monthly report to report.txt ...\33[0m' ");
+    cout << "Generating monthly report to report.txt..." << endl;
     Reporting_monthly(localHospitals.treated_list,
                       central_Queue,
                       localHospitals.assignment_list, blackListRegister);
@@ -60,7 +60,29 @@ int main() {
            "Go to ./report.txt to check.\33[0m' ");
     sleep(1);
     
-    /* Query Operations */
+    system(
+           "echo '\033[41m\033[37m\033[1m\033[4m ### Normal queries "
+           "starting... ### \33[0m' ");
+    
+    cout << "Utilizing the Hash Table to perform a query..." << endl;
+    sleep(1);
+    
+    cout << "Please enter the address type (from 1 to 7) to get all people with the address" << endl;
+    string queryType;
+    cin >> queryType;
+    hashMap.findAll(queryType);
+    system(
+           "echo '\33[32mSuccessfully utilized the Hash Table.\33[0m' ");
+    
+    cout << "Utilizing the B Tree to perform a display of all names in the database, in the order of first key in the B Tree (name)..." << endl;
+    sleep(2);
+    
+    bTree.print();
+    sleep(1);
+    
+    system(
+           "echo '\33[32mSuccessfully utilized the B Tree.\33[0m' ");
+    sleep(1);
     
     system(
            "echo '\033[41m\033[37m\033[1m\033[4m ### Query for Exercise 4 "
