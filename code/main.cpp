@@ -83,9 +83,9 @@ int main() {
 
   withdrawProm.LoadingDemoData(people);
   withdrawProm.PeopleWithdrawDemo(blackListRegister, people);
-  sleep(3);
 
   cout << "Forwarding to central queue." << endl;
+    sleep(1);
   forwardToCentralQueue(people, central_Queue);
   sleep(1);
 
