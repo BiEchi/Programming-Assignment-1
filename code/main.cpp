@@ -30,7 +30,7 @@
 #include "./assignment_queue.hpp"
 #include "./blackList.hpp"
 #include "./mainHelp.hpp"
-#include "./query.cpp"
+#include "./query.hpp"
 #include "./withdrawProcess.hpp"
 
 using namespace std;
@@ -109,6 +109,6 @@ int main() {
       "echo '\033[32m\033[37m\033[1m\033[4mThe programme ends with exit flag "
       "EXIT_SUCCESS\33[0m' ");
   sleep(1);
-  query();
+  query(hashMap);
   return EXIT_SUCCESS;
 }

@@ -1,8 +1,8 @@
 #include <unistd.h>
 #include <iostream>
 
-#include "BPlusTree.h"
-#include "block.h"
+#include "BPlusTree.hpp"
+#include "block.hpp"
 
 using namespace std;
 

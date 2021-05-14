@@ -2,8 +2,8 @@
 #define DATABASS_HPP
 
 #include "HashMap.hpp"
-#include "BPlusTree.h"
-#include "BTree.h"
+#include "BPlusTree.hpp"
+#include "BTree.hpp"
 using namespace std;
 
 class hospitalDatabase

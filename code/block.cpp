@@ -1,5 +1,5 @@
 #include <algorithm>
-#include "block.h"
+#include "block.hpp"
 
 /**
  * @brief Clear ALL the data in the block (incl. overflow data) by marking all tuples' tombstones.
