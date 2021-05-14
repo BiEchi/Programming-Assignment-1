@@ -70,7 +70,9 @@ int main() {
   // thread thread_readCSVEmergency();
   // for first one
 
-  readTheInputCSVIntoPeople(people, "RegistrationEmergency1.csv");
+    readTheInputCSVIntoPeople(people, "Emergency1.csv");
+    readTheInputCSVIntoPeople(people, "InBed2.csv");
+    readTheInputCSVIntoPeople(people, "Vaccine3.csv");
   sleep(1);
 
   system(

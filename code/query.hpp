@@ -65,17 +65,17 @@ void query(HashMap addressIndex) {
     }
   }
   vector<Person *> personList;
-  int treatmentType1 = 0;
-  int treatmentType2 = 0;
-  int treatmentType3 = 0;
+  float treatmentType1 = 0;
+  float treatmentType2 = 0;
+  float treatmentType3 = 0;
   for (vector<int>::iterator iter = nodeWithInThreshold1.begin();
        iter != nodeWithInThreshold1.end(); iter++) {
     int temp = *iter;
     personList = addressIndex.query(temp);
     for (auto iter = personList.begin(); iter != personList.end(); iter++) {
-      if ((*iter)->getTreatmentType() == 1) {
+      if ((*iter)->getTreatmentType() == '1') {
         treatmentType1++;
-      } else if ((*iter)->getTreatmentType() == 2) {
+      } else if ((*iter)->getTreatmentType() == '2') {
         treatmentType2++;
       } else {
         treatmentType3++;
@@ -92,13 +92,16 @@ void query(HashMap addressIndex) {
          << treatmentType3 / (treatmentType1 + treatmentType2 + treatmentType3)
          << endl;
   }
-  for (auto iter = nodeWithInThreshold2.begin();
+    treatmentType1 = 0;
+    treatmentType2 = 0;
+    treatmentType3 = 0;
+    for (auto iter = nodeWithInThreshold2.begin();
        iter != nodeWithInThreshold2.end(); iter++) {
     personList = addressIndex.query(*iter);
     for (auto iter = personList.begin(); iter != personList.end(); iter++) {
-      if ((*iter)->getTreatmentType() == 1) {
+      if ((*iter)->getTreatmentType() == '1') {
         treatmentType1++;
-      } else if ((*iter)->getTreatmentType() == 2) {
+      } else if ((*iter)->getTreatmentType() == '2') {
         treatmentType2++;
       } else {
         treatmentType3++;
@@ -115,13 +118,16 @@ void query(HashMap addressIndex) {
          << treatmentType3 / (treatmentType1 + treatmentType2 + treatmentType3)
          << endl;
   }
+    treatmentType1 = 0;
+    treatmentType2 = 0;
+    treatmentType3 = 0;
   for (auto iter = nodeWithInThreshold3.begin();
        iter != nodeWithInThreshold3.end(); iter++) {
     personList = addressIndex.query(*iter);
     for (auto iter = personList.begin(); iter != personList.end(); iter++) {
-      if ((*iter)->getTreatmentType() == 1) {
+      if ((*iter)->getTreatmentType() == '1') {
         treatmentType1++;
-      } else if ((*iter)->getTreatmentType() == 2) {
+      } else if ((*iter)->getTreatmentType() == '2') {
         treatmentType2++;
       } else {
         treatmentType3++;
