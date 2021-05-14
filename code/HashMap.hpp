@@ -25,7 +25,7 @@ private:
 public:
     void insert(Person* person);
     void del(Person* person);
-    void findAll(string profession);
+    void findAll(string address);
     void display(void);
     vector<Person *> query(int address);
     
