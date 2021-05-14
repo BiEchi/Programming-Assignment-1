@@ -82,13 +82,13 @@ void query(HashMap addressIndex) {
       }
     }
 
-    cout << "The percentage of vaccination with the first threshold is "
+    cout << "The percentage of patients of emergency cure with the first threshold is "
          << treatmentType1 / (treatmentType1 + treatmentType2 + treatmentType3)
          << endl;
-    cout << "The percentage of inhosipital with the first threshold is "
+    cout << "The percentage of patients in hospital bed with the first threshold is "
          << treatmentType2 / (treatmentType1 + treatmentType2 + treatmentType3)
          << endl;
-    cout << "The percentage of outhospital with the first threshold is "
+    cout << "The percentage of patients under vaccination with the first threshold is "
          << treatmentType3 / (treatmentType1 + treatmentType2 + treatmentType3)
          << endl;
   }
@@ -105,13 +105,13 @@ void query(HashMap addressIndex) {
       }
     }
 
-    cout << "The percentage of vaccination with the first threshold is "
+    cout << "The percentage of patients of emergency cure with the first threshold is "
          << treatmentType1 / (treatmentType1 + treatmentType2 + treatmentType3)
          << endl;
-    cout << "The percentage of inhosipital with the first threshold is "
+    cout << "The percentage of patients in hospital bed with the first threshold is "
          << treatmentType2 / (treatmentType1 + treatmentType2 + treatmentType3)
          << endl;
-    cout << "The percentage of outhospital with the first threshold is "
+    cout << "The percentage of patients under vaccination with the first threshold is "
          << treatmentType3 / (treatmentType1 + treatmentType2 + treatmentType3)
          << endl;
   }
@@ -128,13 +128,13 @@ void query(HashMap addressIndex) {
       }
     }
 
-    cout << "The percentage of vaccination with the first threshold is "
+    cout << "The percentage of patients of emergency cure with the first threshold is "
          << treatmentType1 / (treatmentType1 + treatmentType2 + treatmentType3)
          << endl;
-    cout << "The percentage of inhosipital with the first threshold is "
+    cout << "The percentage of patients in hospital bed with the first threshold is "
          << treatmentType2 / (treatmentType1 + treatmentType2 + treatmentType3)
          << endl;
-    cout << "The percentage of outhospital with the first threshold is "
+    cout << "The percentage of patients under vaccination with the first threshold is "
          << treatmentType3 / (treatmentType1 + treatmentType2 + treatmentType3)
          << endl;
   }

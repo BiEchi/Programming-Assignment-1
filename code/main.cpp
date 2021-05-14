@@ -19,6 +19,7 @@
 // #include "./BTree.cpp"
 // #include "./HashMap.cpp"
 // #include "./block.cpp"
+
 #include "./CSVInputManipulations.hpp"
 #include "./Database.hpp"
 #include "./DatabaseManipulation.hpp"
@@ -105,10 +106,11 @@ int main() {
                     localHospitals.assignment_list, blackListRegister);
   sleep(1);
 
+  query(hashMap);
+  sleep(1);
   system(
       "echo '\033[32m\033[37m\033[1m\033[4mThe programme ends with exit flag "
       "EXIT_SUCCESS\33[0m' ");
   sleep(1);
-  query(hashMap);
   return EXIT_SUCCESS;
 }
