@@ -143,14 +143,14 @@ void Reporting_weekly(unsigned int personType, unsigned int sortType,
 }
 
 void Reporting_monthly(vector<Person> treatedPeople,
-                       vector<Person> centralQueue,
+                       FibonacciPQ &centralQueue,
                        vector<Person> assignmentQueue, blackList blackList) {
   // output to file
   report.open("report.txt");
   report << "There are "
-       << treatedPeople.size() + centralQueue.size() + assignmentQueue.size()
+       << treatedPeople.size() + centralQueue.returnLength() + assignmentQueue.size()
        << " people have registered" << endl;
-  report << "There are " << centralQueue.size() + assignmentQueue.size()
+  report << "There are " << centralQueue.returnLength() + assignmentQueue.size()
        << " people are waiting" << endl;
   report << "There are " << treatedPeople.size() << " treatment have been made"
        << endl;

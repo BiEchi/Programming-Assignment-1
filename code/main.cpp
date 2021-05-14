@@ -52,7 +52,7 @@ int main() {
     
     system("echo '\33[32mGenerating monthly report to report.txt ...\33[0m' ");
     Reporting_monthly(localHospitals.treated_list,
-                      central_Queue.returnStorePeople(),
+                      central_Queue,
                       localHospitals.assignment_list, blackListRegister);
     sleep(1);
     system(
