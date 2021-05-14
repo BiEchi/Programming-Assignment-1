@@ -146,7 +146,7 @@ void Reporting_monthly(vector<Person> treatedPeople,
                        FibonacciPQ &centralQueue,
                        vector<Person> assignmentQueue, blackList blackList) {
   // output to file
-  report.open("report.txt");
+  report.open("../output/report.txt");
   report << "There are "
        << treatedPeople.size() + centralQueue.returnLength() + assignmentQueue.size()
        << " people have registered" << endl;

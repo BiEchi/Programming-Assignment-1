@@ -27,8 +27,8 @@ string Trim(string& str)
 
 void readTheInputCSVIntoPeople(PeopleLocalQueue& localpeople, string type)
 {
-    cout << "Opening database/" << type << endl;
-    ifstream inFile("database/Registration" + type);
+    cout << "Opening ../database/" << type << endl;
+    ifstream inFile("../database/Registration" + type);
     string line;
     
     cout << "Retrieving tuples in database into programme in 3 seconds..." << endl;

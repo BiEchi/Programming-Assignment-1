@@ -20,9 +20,9 @@ clear:
 	rm -f $(OBJECTIVES) $(TARGET)
 	rm -f *.dat
 	rm -f *.o
-	rm -f *.txt
+	rm -f ../output/*
 clean:
-	rm -f *.o
-	rm -f *.txt
+	rm -f ../output/*
+
 
 	

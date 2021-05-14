@@ -22,7 +22,7 @@ int main() {
     /* Introduction Part */
     
     sleep(1);
-    cout << "This is the presentation code for Computing Assignment 2, with "
+    cout << "This is the presentation for Computing Assignment 2, with "
     "authors Hao BAI, Liyang QIAN, Jiahao WEI and Yihong JIN."
     << endl;
     sleep(1);
@@ -31,7 +31,14 @@ int main() {
            "second... ### \33[0m' ");
     sleep(1);
     
-    /* Operation Routine for Treatment Type 1 */
+    cout << "Generating relation of Registration..." << endl;
+    sleep(1);
+    
+    system("cat ../database/RegistrationEmergency1.csv ../database/RegistrationInBed2.csv ../database/RegistrationVaccine3.csv > ../output/Registration.csv");
+    system(
+           "echo '\33[32mSuccessfully generated the Registration relation. "
+           "Go to ../output/Registration.csv to check.\33[0m' ");
+    sleep(1);
 
     system(
            "echo '\033[41m\033[37m\033[1m\033[4mReading the input CSV file into "
