@@ -73,9 +73,9 @@ void query(HashMap addressIndex) {
     int temp = *iter;
     personList = addressIndex.query(temp);
     for (auto iter = personList.begin(); iter != personList.end(); iter++) {
-      if ((*iter)->getTreatmentType() == '1') {
+      if ((*iter)->getTreatmentType() == 1) {
         treatmentType1++;
-      } else if ((*iter)->getTreatmentType() == '2') {
+      } else if ((*iter)->getTreatmentType() == 2) {
         treatmentType2++;
       } else {
         treatmentType3++;
@@ -99,9 +99,9 @@ void query(HashMap addressIndex) {
        iter != nodeWithInThreshold2.end(); iter++) {
     personList = addressIndex.query(*iter);
     for (auto iter = personList.begin(); iter != personList.end(); iter++) {
-      if ((*iter)->getTreatmentType() == '1') {
+      if ((*iter)->getTreatmentType() == 1) {
         treatmentType1++;
-      } else if ((*iter)->getTreatmentType() == '2') {
+      } else if ((*iter)->getTreatmentType() == 2) {
         treatmentType2++;
       } else {
         treatmentType3++;
@@ -125,9 +125,9 @@ void query(HashMap addressIndex) {
        iter != nodeWithInThreshold3.end(); iter++) {
     personList = addressIndex.query(*iter);
     for (auto iter = personList.begin(); iter != personList.end(); iter++) {
-      if ((*iter)->getTreatmentType() == '1') {
+      if ((*iter)->getTreatmentType() == 1) {
         treatmentType1++;
-      } else if ((*iter)->getTreatmentType() == '2') {
+      } else if ((*iter)->getTreatmentType() == 2) {
         treatmentType2++;
       } else {
         treatmentType3++;

@@ -31,9 +31,8 @@ void assignmentQueue::clear(vector<Person> *treated)
     {
         if (timeSlot[i])
         {
-            cout << i << " " << timeSlot[i] << endl;
             treated->push_back(*timeSlot[i]);
-            delete timeSlot[i];
+            // delete timeSlot[i];
         }
         timeSlot[i] = NULL;
     }
