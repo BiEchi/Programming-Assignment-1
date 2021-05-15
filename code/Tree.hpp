@@ -15,7 +15,7 @@ using namespace std;
 /// @brief define the universal arrays for storing the node infomation
 typedef struct CommonTreeNodes
 {
-    vector<Person*> labelArrayForBTree; // labels for B Tree
+    vector<string> labelArrayForBTree; // labels for B Tree
     vector<string> labelArrayForBPlusTree; // labels for B+ Tree
     vector<CommonTreeNodes*> ptrArray; // for non-leaf nodes
     vector<block*> BlockPtrarray; // for leaf nodes
