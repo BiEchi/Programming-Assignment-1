@@ -145,6 +145,7 @@ Person *block::find(string ID) {
     }
     indicator++;
   }
+  cout << "The person does not exist. " << endl;
   return NULL;
 }
 

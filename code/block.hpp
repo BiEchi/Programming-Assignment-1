@@ -5,16 +5,6 @@
 #include "Person.hpp"
 using namespace std;
 
-class Person {
- public:
-  void setID(string data) { ID = data; }
-  string getID(void) const { return ID; }
-  void setProfession(string data) { profession = data; }
-  string getProfession(void) const { return profession; }
-
- private:
-  string ID, profession;
-};
 
 // ---------------------------------
 /**
