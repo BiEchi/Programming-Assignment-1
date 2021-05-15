@@ -3,7 +3,6 @@
 #include <math.h>
 #include <stdio.h>
 
-#include <cstring>
 #include <ctime>
 #include <iostream>
 #include <list>

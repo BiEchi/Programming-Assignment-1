@@ -18,7 +18,7 @@ int main()
 {
     cout << "Initializing people data..." << endl;
 
-    int num = 40;
+    int num = 1321;
     block data;
     BPlusTree testBPlusTree = BPlusTree(&data);
     Person people[num];
@@ -26,8 +26,8 @@ int main()
 
     for (int i = 0; i < num; i++)
     {
-        people[i].setID(to_string(100 + i));
-        people[i].setName(to_string(100 + i));
+        people[i].setID(to_string(1000+i));
+        people[i].setName(to_string(1000+i));
     }
 
     cout << "Now we go into B+ Tree test in 1 second..." << endl;
@@ -51,14 +51,17 @@ int main()
     testBPlusTree.linear_print();
     testBtree.print();
 
-    cout << "waitting for 3 seconds to begin the second test" << endl;
-    sleep(3);
-
     cout << "Test for insert. " << endl;
     for (int i = 0; i < num; i++)
     {
         testBPlusTree.bPlustree_insert(testBPlusTree.returnRoot(), &people[i]);
         testBtree.insert(&people[i]);
+    }
+    cout << "test for finding" << endl;
+    for (int i = 0; i < num; i++)
+    { 
+        string ID = people[i].getID();
+        testBPlusTree.find(ID);  
     }
     testBPlusTree.linear_print();
     testBtree.print();

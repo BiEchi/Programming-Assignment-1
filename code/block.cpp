@@ -281,7 +281,7 @@ block *block::remove(string ID)
       toRemove->mark_tombstone();
       mainblock_occupied--;
       tombstones_number++;
-      if (this->mainblock_occupied < merge_threshold) 
+      if ((mainblock_occupied + overflow_occupied) < merge_threshold) 
       {
         return merge();
       }
@@ -347,7 +347,7 @@ block *block::merge(void)
   {
     return NULL;
   }
-  if (0 == neighbour->mainblock_occupied + neighbour->overflow_occupied)
+  if (0 == (neighbour->mainblock_occupied + neighbour->overflow_occupied))
   {
     // Disconnect block.
     if (neighbour->next)
@@ -414,6 +414,13 @@ block *block::merge(void)
     arr4tuples[index4arr++] = neighbour->overflow[i];
     indicator++;
   }
+
+
+
+
+
+
+
 
   std::sort(arr4tuples, arr4tuples + total_num_tuples, cmp4sort);
   this->clear();
