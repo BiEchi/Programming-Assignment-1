@@ -10,10 +10,10 @@ class BPlusTree : public Tree
 private:
 	block *begin = nullptr;
 	string dynamicIDForMaintain = "0";
-	 // personIndex is used to record the deleted person 
-    Person *personIndex = nullptr;
+	// personIndex is used to record the deleted person
+	Person *personIndex = nullptr;
 	// vector
-    
+
 protected:
 	virtual CommonTreeNode *btree_create();
 	virtual CommonTreeNode *btree_node_new();
@@ -34,10 +34,10 @@ public:
 
 	void linear_print();
 	CommonTreeNode *returnRoot();
-	
+
 	Person *bPlustree_delete(CommonTreeNode *root, const string target);
 	Person *bPlustree_insert(CommonTreeNode *root, Person *target);
-	Person *find(string ID);
+	Person *find(string &ID);
 };
 
 #endif /* BPLUSTREE_H */

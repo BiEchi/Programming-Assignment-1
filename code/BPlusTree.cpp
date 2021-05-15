@@ -511,7 +511,7 @@ BPlusTree::BPlusTree(block *doubleBlockHead)
 	begin = doubleBlockHead;
 }
 
-Person *BPlusTree::find(string ID)
+Person *BPlusTree::find(string &ID)
 {
 	CommonTreeNode *temp = roots;
 	while (temp->is_leaf != true)
