@@ -44,7 +44,7 @@ class Person {
   void setProfession(string data);
   void setRiskStatus(string data);
   void setCurrentStage(processStage data);
-    void setTreatmentType(string treatmentType);
+  void setTreatmentType(string treatmentType);
 
   void display();
 
@@ -65,7 +65,7 @@ class Person {
   int getReassigned(void) { return reassigned; }
   int getAssignedLocation(void) { return appointmentLocation; }
   tm getAssignedTime(void) { return appointmentTime; }
-    int getTreatmentType(void) { return treatmentType; }
+  int getTreatmentType(void) { return treatmentType; }
   // baihao
   bool init();
   // yi_hong

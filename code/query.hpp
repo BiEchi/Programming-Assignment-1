@@ -42,7 +42,7 @@ bool withInThreshold(int *address, int *center, int threshold) {
 }
 
 int *center = forwardtable.at(nodeNum);
-void query(HashMap addressIndex) {
+void query(HashMap addressIndex, BPlusTree primaryIndex) {
     vector<int> nodeWithInThreshold1;
     vector<int> nodeWithInThreshold2;
     vector<int> nodeWithInThreshold3;
@@ -75,7 +75,7 @@ void query(HashMap addressIndex) {
     for (vector<int>::iterator iter = nodeWithInThreshold1.begin();
          iter != nodeWithInThreshold1.end(); iter++) {
         int temp = *iter;
-        personList = addressIndex.query(temp);
+        personList = addressIndex.query(temp, primaryIndex);
         for (auto iter = personList.begin(); iter != personList.end(); iter++) {
             if ((*iter)->getTreatmentType() == 1) {
                 treatmentType1++;
@@ -106,7 +106,7 @@ void query(HashMap addressIndex) {
     treatmentType3 = 0;
     for (auto iter = nodeWithInThreshold2.begin();
          iter != nodeWithInThreshold2.end(); iter++) {
-        personList = addressIndex.query(*iter);
+        personList = addressIndex.query(*iter, primaryIndex);
         for (auto iter = personList.begin(); iter != personList.end(); iter++) {
             if ((*iter)->getTreatmentType() == 1) {
                 treatmentType1++;
@@ -137,7 +137,7 @@ void query(HashMap addressIndex) {
     treatmentType3 = 0;
     for (auto iter = nodeWithInThreshold3.begin();
          iter != nodeWithInThreshold3.end(); iter++) {
-        personList = addressIndex.query(*iter);
+        personList = addressIndex.query(*iter, primaryIndex);
         for (auto iter = personList.begin(); iter != personList.end(); iter++) {
             if ((*iter)->getTreatmentType() == 1) {
                 treatmentType1++;
