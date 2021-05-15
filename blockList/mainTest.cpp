@@ -27,13 +27,32 @@ int main()
     for (int i = 0; i < num; i++)
     {
         people[i].setID(to_string(100 + i));
-    }
-    for (int i = 0; i < num; i++)
-    {
-        people[i].setProfession(to_string(rand() % 9));
+        people[i].setName(to_string(100 + i));
     }
 
     cout << "Now we go into B+ Tree test in 1 second..." << endl;
+
+
+    cout << "Test for inverse insert. " << endl;
+    for (int i = num - 1; i >= 0; i--)
+    {
+        testBPlusTree.bPlustree_insert(testBPlusTree.returnRoot(), &people[i]);
+        testBtree.insert(&people[i]);
+    }
+    testBPlusTree.linear_print();
+    testBtree.print();
+
+    cout << "test for inverse delete." << endl;
+    for (int i = num - 1; i >= 0; i--)
+    {
+        testBtree.del(&people[i]);
+        testBPlusTree.bPlustree_delete(testBPlusTree.returnRoot(), people[i].getID());
+    }
+    testBPlusTree.linear_print();
+    testBtree.print();
+
+    cout << "waitting for 3 seconds to begin the second test" << endl;
+    sleep(3);
 
     cout << "Test for insert. " << endl;
     for (int i = 0; i < num; i++)
@@ -44,27 +63,16 @@ int main()
     testBPlusTree.linear_print();
     testBtree.print();
 
-    // cout << "Test for delete. " << endl;
-    // for (int i = 0; i < num; i++)
-    // {
-    //     testBPlusTree.bPlustree_delete(testBPlusTree.returnRoot(), people[i].getID());
-    // }
+    cout << "Test for delete. " << endl;
+    for (int i = 0; i < num; i++)
+    {
+        testBtree.del(&people[i]);
+        testBPlusTree.bPlustree_delete(testBPlusTree.returnRoot(), people[i].getID());
+    }
+    testBPlusTree.linear_print();
+    testBtree.print();
 
-    // testBPlusTree.linear_print();
-    // cout << "Test for inverse insert. " << endl;
-    // for (int i = num - 1; i >= 0; i--)
-    // {
-    //     testBPlusTree.bPlustree_insert(testBPlusTree.returnRoot(), &people[i]);
-    // }
-    // testBPlusTree.linear_print();
-
-    // cout << "test for inverse delete." << endl;
-    // sleep(1);
-    // for (int i = num - 1; i >= 0; i--)
-    // {
-    //     testBPlusTree.bPlustree_delete(testBPlusTree.returnRoot(), people[i].getID());
-    // }
-    // testBPlusTree.linear_print();
+    cout << "test for linear finding" << endl;
     cout << endl;
     cout << "Pass the B+ test successfully." << endl;
     cout << endl
