@@ -22,7 +22,7 @@ friend class block;
 friend bool cmp4sort(const record &record1, const record &record2);
 private:
     int tombstone;
-    Person* datum_ptr;
+    Person datum;
     string key;
 private:
     int mark_tombstone(void) {tombstone = 1; return 0;}
@@ -33,7 +33,7 @@ private:
      */
     record(): 
         tombstone{1},
-        datum_ptr{NULL}
+        datum()
     {};
     static string compute_key(Person *tuple) {return tuple->getID();}
     int get_tombstone(void) const {return tombstone;}

@@ -33,7 +33,7 @@ int block::clear()
 record& record::operator=(const record& src)
 {
     tombstone = src.tombstone;
-    datum_ptr = src.datum_ptr;
+    datum = src.datum;
     key = src.key;
     return *this;
 }
@@ -105,7 +105,7 @@ Person* block::find(string ID) {
         }
         if (shift > high) {continue;}
         if (mainblock[shift].get_key() == ID) {
-            return mainblock[shift].datum_ptr;
+            return &mainblock[shift].datum;
         }
         if (mainblock[shift].get_key() < ID)
         {
@@ -123,7 +123,7 @@ Person* block::find(string ID) {
     for (i = 0, indicator = 0; i < overflow_size && indicator < overflow_occupied; i++)
     {
         if (overflow[i].get_tombstone()) {continue;} // Ignore Person with marked tombstone.
-        if (overflow[i].get_key() == ID) {return overflow[i].datum_ptr;}
+        if (overflow[i].get_key() == ID) {return &overflow[i].datum;}
         indicator++;
     }
     return NULL;
@@ -143,8 +143,7 @@ block* block::insert(Person* tuple)
     {
         if (overflow[i].get_tombstone())
         {
-            overflow[i].datum_ptr = new Person;
-            *(overflow[i].datum_ptr) = *tuple;
+            overflow[i].datum = *tuple;
             overflow[i].key = record::compute_key(tuple);
             overflow[i].unmark_tombstone();
             break;
@@ -221,7 +220,6 @@ block* block::remove(string ID)
         {
             toRemove = mainblock + shift;
             toRemove->mark_tombstone();
-            delete toRemove->datum_ptr;
             mainblock_occupied--;
             tombstones_number++;
             if (this->mainblock_occupied < merge_threshold) {return merge();}
@@ -247,7 +245,6 @@ block* block::remove(string ID)
         if (toRemove->get_key() == ID) 
         {
             toRemove->mark_tombstone();
-            delete toRemove->datum_ptr;
             overflow_occupied--;
             return NULL;
         }
@@ -262,8 +259,7 @@ block* block::remove(string ID)
  * Important: the neighbouring block might be deleted. All the keys in both blocks are pairwise different. 
  * 
  * @param neighbour The pointer to the neighbouring block.  
- * @return The new seperation key such that all the tuples' key in this block are strickly less than the seperation key.
- * If the neighbouring block is deleted, return the maximum key after merge operation.
+ * @return The pointer to this block if merge happens, NULL otherwise. 
  */
 block* block::merge(void)
 {
@@ -322,6 +318,7 @@ block* block::merge(void)
         delete neighbour;
         return this;
     } else {
+        // The new seperation key such that all the tuples' key in this block are strickly less than the seperation key.
         seperate_key = arr4tuples[mid4seperate].get_key();
         for (i = 0; i < mid4seperate; i++)
         {
@@ -385,6 +382,7 @@ int block::display(void)
         cout << "   ID: " << temp->get_key() << endl;
         indicator++;
     }
-    cout << "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<" << endl << endl;
+    cout << "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<" << endl;
+    cout << endl;
     return 0;
 }

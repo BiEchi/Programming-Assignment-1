@@ -28,6 +28,7 @@ int test_insert(void)
     cout << "Insert tuple with ID 5." << endl;
     block0.insert(&people[5]);
     block0.display();
+    cout << endl;
     return 1;
 }
 
@@ -55,6 +56,7 @@ int test_remove(void)
     cout << block0.remove(to_string(6)) << endl;
     cout << "Block0 after remove. " << endl;
     block0.display();
+    cout << endl;
     return 1;  
 }
 
@@ -90,6 +92,7 @@ int test_find()
             cout << "Did not find the person with ID " << i << ". \n";
         }
     }
+    cout << endl;
     return 1;     
 }
 
@@ -116,6 +119,7 @@ int test_split()
     block0.display();
     cout << "Block1 after split block0. " << endl;
     if (block0.nextPointer()) {block0.nextPointer()->display();}
+    cout << endl;
     return 1;
 }
 
@@ -159,6 +163,7 @@ int test1_merge()
     cout << "Block0 after merge. " << endl;
     block0.display();
     cout << "The pointer to block1 after merge is " << block0.nextPointer() << endl;
+    cout << endl;
 
     return 1;
 }
@@ -195,6 +200,7 @@ int test2_merge()
     block0.display();
     cout << "Block1 after remove. " << endl;
     block0.nextPointer()->display();
+    cout << endl;
 
     return 1;
 }
@@ -233,6 +239,7 @@ int test3_merge()
     block0.remove(to_string(0));
     block0.display();
     if (NULL == block0.nextPointer()) cout << "Block1 has been removed. " << endl;
+    cout << endl;
 
     return 1;
 }
@@ -260,19 +267,20 @@ int test_maximum()
     cout << "Block0 after insertion and deletion. " << endl;
     block0.display();
     cout << "The maximum ID in the block is " << block0.maximum() << ". \n";
+    cout << endl;
 
     return 1;
 }
 
 int main() {
-    // test_insert();
-    // test_remove();
-    // test_find();
-    // test_split();
-    // test1_merge();
-    // test2_merge();
+    test_insert();
+    test_remove();
+    test_find();
+    test_split();
+    test1_merge();
+    test2_merge();
     test3_merge();
-    // test_maximum();
+    test_maximum();
 
     return 0;
 }
