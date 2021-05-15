@@ -8,29 +8,30 @@
 #ifndef HashMap_hpp
 #define HashMap_hpp
 
-#include <iostream>
-#include <unordered_map>
-#include <map>
 #include <cstring>
+#include <iostream>
+#include <map>
+#include <unordered_map>
 #include <vector>
-#include "block.hpp"
+#include "BPlusTree.hpp"
 #include "Person.hpp"
+#include "block.hpp"
+
 using namespace std;
 
-class HashMap
-{
-private:
-    unordered_multimap<string, Person*> hmap;
-    
-public:
-    void insert(Person* person);
-    void del(Person* person);
-    void findAll(string address);
-    void display(void);
-    vector<Person *> query(int address);
-    
-    HashMap(void);
-    ~HashMap(void);
+class HashMap {
+ private:
+  unordered_multimap<string, string> hmap;
+
+ public:
+  void insert(Person* person);
+  void del(Person* person);
+  void findAll(string address, BPlusTree primaryIndex);
+  void display(void);
+  vector<Person*> query(int address, BPlusTree primaryIndex);
+
+  HashMap(void);
+  ~HashMap(void);
 };
 
 #endif /* HashMap_hpp */
