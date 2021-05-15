@@ -26,9 +26,9 @@ class HashMap {
  public:
   void insert(Person* person);
   void del(Person* person);
-  void findAll(string address, BPlusTree primaryIndex);
+  void findAll(string address, BPlusTree &primaryIndex);
   void display(void);
-  vector<Person*> query(int address, BPlusTree primaryIndex);
+  vector<Person*> query(int address, BPlusTree &primaryIndex);
 
   HashMap(void);
   ~HashMap(void);
