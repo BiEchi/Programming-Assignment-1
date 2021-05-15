@@ -3,6 +3,8 @@
 
 /**
  * @brief Clear ALL the data in the block (incl. overflow data) by marking all tuples' tombstones.
+ * Set mainblock_occupied = 0, overflow_occupied = 0, tombstones_number = 0.
+ * 
  * @return 1 for indication
  */
 int block::clear()
@@ -26,7 +28,7 @@ int block::clear()
 record &record::operator=(const record &src)
 {
     tombstone = src.tombstone;
-    datum_ptr = src.datum_ptr;
+    datum = src.datum;
     key = src.key;
     return *this;
 }
@@ -128,7 +130,7 @@ Person *block::find(string ID)
         }
         if (mainblock[shift].get_key() == ID)
         {
-            return mainblock[shift].datum_ptr;
+            return &mainblock[shift].datum;
         }
         if (mainblock[shift].get_key() < ID)
         {
@@ -155,7 +157,7 @@ Person *block::find(string ID)
         } // Ignore Person with marked tombstone.
         if (overflow[i].get_key() == ID)
         {
-            return overflow[i].datum_ptr;
+            return &overflow[i].datum;
         }
         indicator++;
     }
@@ -175,8 +177,7 @@ block *block::insert(Person *tuple)
     for (int i = 0; i < overflow_size; i++)
         if (overflow[i].get_tombstone())
         {
-            overflow[i].datum_ptr = new Person;
-            *(overflow[i].datum_ptr) = *tuple;
+            overflow[i].datum = *tuple;
             overflow[i].key = record::compute_key(tuple);
             overflow[i].unmark_tombstone();
             break;
@@ -261,7 +262,6 @@ block *block::remove(string ID)
         {
             toRemove = mainblock + shift;
             toRemove->mark_tombstone();
-            delete toRemove->datum_ptr;
             mainblock_occupied--;
             tombstones_number++;
             if ((this->mainblock_occupied < merge_threshold) && (nullptr != this->nextPointer()) && (0 < this->nextPointer()->mainblock_occupied))
@@ -304,7 +304,6 @@ block *block::remove(string ID)
         if (toRemove->get_key() == ID)
         {
             toRemove->mark_tombstone();
-            delete toRemove->datum_ptr;
             overflow_occupied--;
             return NULL;
         }
@@ -318,15 +317,30 @@ block *block::remove(string ID)
  * This function will create a new separation key.
  * @note Assume that merge will be called only when the number of this block is less than the merge_threshold.
  * @WARNING the neighbouring block might be deleted. All the keys in both blocks are pairwise different.
- * @return The new seperation key such that all the tuples' key in this block are strictly less than the seperation key.
- * If the neighbouring block is deleted, return the maximum key after merge operation.
+ * @return The pointer to this block if merge happens, NULL otherwise. 
  */
 block *block::merge(void)
 {
     block *neighbour = this->next;
-    if (NULL == this->next)
+    if (NULL == neighbour)
     {
         return NULL;
+    }
+    if (0 == neighbour->mainblock_occupied + neighbour->overflow_occupied) 
+    {
+        // Disconnect block.
+        if (neighbour->next)
+        {
+            this->next = neighbour->next;
+            neighbour->next->prev = this;
+        }
+        else
+        {
+            this->next = NULL;
+        }
+        // Delete block.
+        delete neighbour;
+        return NULL;   
     }
     int total_num_tuples = this->mainblock_occupied + this->overflow_occupied + neighbour->mainblock_occupied + neighbour->overflow_occupied;
     int mid4seperate = total_num_tuples / 2;
