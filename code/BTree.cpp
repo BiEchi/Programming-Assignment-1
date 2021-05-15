@@ -354,7 +354,8 @@ void BTree::btree_inorder_print(CommonTreeNode *root)
 		btree_inorder_print(root->ptrArray[0]);
 		for (int i = 0; i < root->num; i++)
 		{
-			cout << database->find(root->labelArrayForBTree[i])->getName() << endl;
+			Person *temp = database->find(root->labelArrayForBTree[i]);
+			cout << temp->getID() << " name:" << temp->getName() << endl;
 			btree_inorder_print(root->ptrArray[i + 1]);
 		}
 	}
