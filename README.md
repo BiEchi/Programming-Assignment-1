@@ -1,6 +1,22 @@
-# CA2 1.0.0 Released
+# CS225 Computing Assignment Realease Notes
 
-## 1.0.0 Author. Jack BAI
+## Contribution Notes
+
+You are welcome to contribute code or ideas to this repo! There are still two details we can do to make this database system better:
+
+- Make the B Tree & hash table store keys of ID, not pointers to the `person` objects.
+- Refine the *Residual Increment* part as shown in the presentation, i.e., upgrade the information in the presentation.
+
+
+
+## 2.0.0 Release Notes
+
+- Forked the repo to private account and continue maintainess.
+- Uploaded `/presentation` folder, with illustrations and demonstrations.
+
+
+
+## 1.0.0 Release Notes
 
 -   Upgraded user interface.
 -   Refined project system.
@@ -12,12 +28,19 @@
 
 ## Prerequests.
 - Read (Google C++ Format)[http://www.cppblog.com/converse/archive/2010/05/29/116689.html] first.
+
 - Read the Schedule and hold on to it.
+
 - Keep communicating with each other.
+
+    
 
 ## Meetings.
 - Prepare for each meeting.
+
 - Give results for each meeting.
+
+    
 
 ## Notifications.
 
