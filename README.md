@@ -9,6 +9,18 @@ You are welcome to contribute code or ideas to this repo! There are still two de
 
 
 
+## Contribution Insight
+
+![image-20210527185738053](http://jacklovespictures.oss-cn-beijing.aliyuncs.com/2021-05-27-105738.png)
+
+
+
+## Commitment Insight
+
+![image-20210527185811504](http://jacklovespictures.oss-cn-beijing.aliyuncs.com/2021-05-27-105812.png)
+
+
+
 ## 2.0.0 Release Notes
 
 - Forked the repo to private account and continue maintainess.
